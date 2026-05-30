@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shaay & Co. | Modern Clothing Boutique</title>
+    <meta
+      name="description"
+      content="Shaay & Co. is a modern clothing boutique for elevated everyday pieces, curated edits, and confident personal style."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" id="top">
+      <a class="brand" href="#top" aria-label="Shaay and Co. home">Shaay &amp; Co.</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="#new">New In</a>
+        <a href="#collections">Collections</a>
+        <a href="#lookbook">Lookbook</a>
+        <a href="#visit">Visit</a>
+      </nav>
+      <button class="cart-button" type="button" aria-label="Open shopping bag">
+        Bag <span id="cart-count">0</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero" aria-label="Shaay and Co. boutique hero">
+        <img src="assets/shaay-hero.png" alt="Styled boutique clothing racks and premium garments" />
+        <div class="hero-copy">
+          <p class="eyebrow">Spring Edit 2026</p>
+          <h1>Shaay &amp; Co.</h1>
+          <p>
+            Clothing for the days you want to feel pulled together without trying too hard.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#new">Shop New Arrivals</a>
+            <a class="button secondary" href="#lookbook">View Looks</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="announcement" aria-label="Store highlights">
+        <span>Free styling notes with every order</span>
+        <span>Small-batch drops every Friday</span>
+        <span>Easy exchanges within 14 days</span>
+      </section>
+
+      <section class="section intro">
+        <div>
+          <p class="eyebrow">The Boutique</p>
+          <h2>Modern staples with a soft, confident finish.</h2>
+        </div>
+        <p>
+          Shaay &amp; Co. blends polished silhouettes, touchable fabrics, and outfit-ready
+          pieces for workdays, weekends, dinners, and everything in between.
+        </p>
+      </section>
+
+      <section class="section shop-section" id="new">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">New In</p>
+            <h2>Fresh From Shaay</h2>
+          </div>
+          <div class="filters" aria-label="Product filters">
+            <button class="filter-button active" type="button" data-filter="all">All</button>
+            <button class="filter-button" type="button" data-filter="women">Women</button>
+            <button class="filter-button" type="button" data-filter="unisex">Unisex</button>
+            <button class="filter-button" type="button" data-filter="accessories">Accessories</button>
+          </div>
+        </div>
+
+        <div class="product-grid" id="product-grid">
+          <article class="product-card" data-category="women">
+            <div class="product-media silk"></div>
+            <div class="product-info">
+              <div>
+                <h3>Willow Satin Blouse</h3>
+                <p>Ivory satin, relaxed drape</p>
+              </div>
+              <span>$68</span>
+            </div>
+            <button class="add-button" type="button" data-product="Willow Satin Blouse">Add to Bag</button>
+          </article>
+
+          <article class="product-card" data-category="unisex">
+            <div class="product-media denim"></div>
+            <div class="product-info">
+              <div>
+                <h3>Everyday Denim Jacket</h3>
+                <p>Soft structure, vintage wash</p>
+              </div>
+              <span>$94</span>
+            </div>
+            <button class="add-button" type="button" data-product="Everyday Denim Jacket">Add to Bag</button>
+          </article>
+
+          <article class="product-card" data-category="women">
+            <div class="product-media knit"></div>
+            <div class="product-info">
+              <div>
+                <h3>Rumi Knit Set</h3>
+                <p>Sage rib, top and skirt</p>
+              </div>
+              <span>$112</span>
+            </div>
+            <button class="add-button" type="button" data-product="Rumi Knit Set">Add to Bag</button>
+          </article>
+
+          <article class="product-card" data-category="accessories">
+            <div class="product-media tote"></div>
+            <div class="product-info">
+              <div>
+                <h3>Market Day Tote</h3>
+                <p>Canvas body, leather trim</p>
+              </div>
+              <span>$46</span>
+            </div>
+            <button class="add-button" type="button" data-product="Market Day Tote">Add to Bag</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="collections" id="collections">
+        <a class="collection-panel city" href="#new">
+          <span>01</span>
+          <h2>City Ease</h2>
+          <p>Tailored layers, crisp cotton, pieces that move from desk to dinner.</p>
+        </a>
+        <a class="collection-panel lounge" href="#new">
+          <span>02</span>
+          <h2>Soft Hours</h2>
+          <p>Quiet knits, fluid trousers, and off-duty favorites with polish.</p>
+        </a>
+        <a class="collection-panel evening" href="#new">
+          <span>03</span>
+          <h2>Afterglow</h2>
+          <p>Satin, sculptural accents, and the details that make a night feel styled.</p>
+        </a>
+      </section>
+
+      <section class="section lookbook" id="lookbook">
+        <div class="lookbook-copy">
+          <p class="eyebrow">Lookbook</p>
+          <h2>Build your closet around fewer, better moves.</h2>
+          <p>
+            Start with one hero piece, add texture, then finish with a clean accessory.
+            The result is practical, personal, and ready in minutes.
+          </p>
+        </div>
+        <div class="lookbook-steps" aria-label="Styling steps">
+          <div><span>1</span><strong>Choose a base</strong><p>Blouse, knit, tee, or dress.</p></div>
+          <div><span>2</span><strong>Add contrast</strong><p>Denim, satin, rib, or canvas.</p></div>
+          <div><span>3</span><strong>Finish clean</strong><p>Tote, belt, hoop, or heel.</p></div>
+        </div>
+      </section>
+
+      <section class="newsletter" id="visit">
+        <div>
+          <p class="eyebrow">Join The List</p>
+          <h2>Get first access to Shaay drops.</h2>
+        </div>
+        <form id="newsletter-form">
+          <label for="email">Email address</label>
+          <div class="input-row">
+            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+            <button class="button primary" type="submit">Sign Up</button>
+          </div>
+          <p class="form-message" id="form-message" role="status"></p>
+        </form>
+      </section>
+    </main>
+
+    <aside class="toast" id="toast" role="status" aria-live="polite"></aside>
+
+    <footer class="site-footer">
+      <strong>Shaay &amp; Co.</strong>
+      <span>Modern clothing boutique</span>
+      <a href="mailto:hello@shaayandco.com">hello@shaayandco.com</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
