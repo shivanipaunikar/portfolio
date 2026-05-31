@@ -67,28 +67,36 @@ const occasionEdits = {
 };
 
 function showToast(message) {
+  if (!toast) {
+    return;
+  }
+
   toast.textContent = message;
   toast.classList.add("show");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
 }
 
-menuToggle.addEventListener("click", () => {
-  const isOpen = nav.classList.toggle("open");
-  menuToggle.setAttribute("aria-expanded", String(isOpen));
-});
+if (menuToggle && nav) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = nav.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+}
 
 document.querySelectorAll(".site-nav a").forEach((link) => {
   link.addEventListener("click", () => {
-    nav.classList.remove("open");
-    menuToggle.setAttribute("aria-expanded", "false");
+    nav?.classList.remove("open");
+    menuToggle?.setAttribute("aria-expanded", "false");
   });
 });
 
 document.querySelectorAll(".add-button").forEach((button) => {
   button.addEventListener("click", () => {
     bagCount += 1;
-    cartCount.textContent = String(bagCount);
+    if (cartCount) {
+      cartCount.textContent = String(bagCount);
+    }
     showToast(`${button.dataset.product} added to your bag.`);
   });
 });
@@ -106,15 +114,21 @@ document.querySelectorAll(".choice-row").forEach((group) => {
   });
 });
 
-quizButton.addEventListener("click", () => {
-  const mood = document.querySelector('[data-choice-group="mood"] .choice.active').dataset.value;
-  const occasion = document.querySelector('[data-choice-group="occasion"] .choice.active').dataset.value;
-  const fit = document.querySelector('[data-choice-group="fit"] .choice.active').textContent;
-  const edit = wardrobeEdits[mood][occasion];
+if (quizButton && quizResult) {
+  quizButton.addEventListener("click", () => {
+    const mood = document.querySelector('[data-choice-group="mood"] .choice.active')?.dataset.value;
+    const occasion = document.querySelector('[data-choice-group="occasion"] .choice.active')?.dataset.value;
+    const fit = document.querySelector('[data-choice-group="fit"] .choice.active')?.textContent;
+    const edit = wardrobeEdits[mood]?.[occasion];
 
-  quizResult.innerHTML = `<strong>Your ${fit} Shaay edit</strong><p>${edit} Styling note: keep the color story tight and add one texture contrast.</p>`;
-  showToast("Your wardrobe edit is ready.");
-});
+    if (!edit) {
+      return;
+    }
+
+    quizResult.innerHTML = `<strong>Your ${fit} Shaay edit</strong><p>${edit} Styling note: keep the color story tight and add one texture contrast.</p>`;
+    showToast("Your wardrobe edit is ready.");
+  });
+}
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -134,6 +148,10 @@ occasionButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const edit = occasionEdits[button.dataset.occasion];
 
+    if (!occasionBoard || !edit) {
+      return;
+    }
+
     occasionButtons.forEach((item) => item.classList.remove("active"));
     button.classList.add("active");
     occasionBoard.innerHTML = `
@@ -147,61 +165,77 @@ occasionButtons.forEach((button) => {
 
     occasionBoard.querySelector(".add-button").addEventListener("click", () => {
       bagCount += 1;
-      cartCount.textContent = String(bagCount);
+      if (cartCount) {
+        cartCount.textContent = String(bagCount);
+      }
       showToast(`${edit.product} added to your bag.`);
     });
   });
 });
 
-addLookButton.addEventListener("click", () => {
-  bagCount += 4;
-  cartCount.textContent = String(bagCount);
-  showToast("Full Rumi look added to your bag.");
-});
+if (addLookButton) {
+  addLookButton.addEventListener("click", () => {
+    bagCount += 4;
+    if (cartCount) {
+      cartCount.textContent = String(bagCount);
+    }
+    showToast("Full Rumi look added to your bag.");
+  });
+}
 
-sizeForm.addEventListener("submit", (event) => {
-  event.preventDefault();
+if (sizeForm && sizeResult) {
+  sizeForm.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-  const form = new FormData(sizeForm);
-  const usualSize = form.get("usual-size");
-  const fitPreference = form.get("fit-preference");
-  const height = form.get("height");
-  const sizes = ["XS", "S", "M", "L", "XL"];
-  let index = sizes.indexOf(usualSize);
+    const form = new FormData(sizeForm);
+    const usualSize = form.get("usual-size");
+    const fitPreference = form.get("fit-preference");
+    const height = form.get("height");
+    const sizes = ["XS", "S", "M", "L", "XL"];
+    let index = sizes.indexOf(usualSize);
 
-  if (fitPreference === "relaxed" && index < sizes.length - 1) {
-    index += 1;
-  }
+    if (fitPreference === "relaxed" && index < sizes.length - 1) {
+      index += 1;
+    }
 
-  if (fitPreference === "snatched" && index > 0) {
-    index -= 1;
-  }
+    if (fitPreference === "snatched" && index > 0) {
+      index -= 1;
+    }
 
-  const lengthNote = height === "petite"
-    ? "Choose petite-friendly hems or crop the trouser length."
-    : height === "tall"
-      ? "Look for longer inseams and sleeves."
-      : "Standard length should work well.";
+    const lengthNote = height === "petite"
+      ? "Choose petite-friendly hems or crop the trouser length."
+      : height === "tall"
+        ? "Look for longer inseams and sleeves."
+        : "Standard length should work well.";
 
-  sizeResult.textContent = `Best size: ${sizes[index]}. ${lengthNote}`;
-});
+    sizeResult.textContent = `Best size: ${sizes[index]}. ${lengthNote}`;
+  });
+}
 
-waitlistForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const email = new FormData(waitlistForm).get("waitlist-email");
-  waitlistMessage.textContent = `Early access saved for ${email}.`;
-  waitlistForm.reset();
-});
+if (waitlistForm && waitlistMessage) {
+  waitlistForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const email = new FormData(waitlistForm).get("waitlist-email");
+    waitlistMessage.textContent = `Early access saved for ${email}.`;
+    waitlistForm.reset();
+  });
+}
 
-bundleButton.addEventListener("click", () => {
-  bagCount += 5;
-  cartCount.textContent = String(bagCount);
-  showToast("5 Office Looks capsule added to your bag.");
-});
+if (bundleButton) {
+  bundleButton.addEventListener("click", () => {
+    bagCount += 5;
+    if (cartCount) {
+      cartCount.textContent = String(bagCount);
+    }
+    showToast("5 Office Looks capsule added to your bag.");
+  });
+}
 
-newsletterForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const email = new FormData(newsletterForm).get("email");
-  formMessage.textContent = `You're on the list, ${email}.`;
-  newsletterForm.reset();
-});
+if (newsletterForm && formMessage) {
+  newsletterForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const email = new FormData(newsletterForm).get("email");
+    formMessage.textContent = `You're on the list, ${email}.`;
+    newsletterForm.reset();
+  });
+}

@@ -16,7 +16,7 @@
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body class="home-page">
     <header class="site-header" id="top">
       <a class="brand" href="#top" aria-label="Shaay and Co. home">Shaay &amp; Co.</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
@@ -24,12 +24,11 @@
         <span></span>
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-        <a href="#new">New In</a>
-        <a href="#style-quiz">Style Quiz</a>
-        <a href="#occasions">Occasions</a>
+        <a href="#new">Women</a>
         <a href="#collections">Collections</a>
-        <a href="#fit-studio">Fit Studio</a>
-        <a href="#visit">Visit</a>
+        <a href="#new">Accessories</a>
+        <a href="#sale">Sale</a>
+        <a href="features.html">Style Studio</a>
       </nav>
       <button class="cart-button" type="button" aria-label="Open shopping bag">
         Bag <span id="cart-count">0</span>
@@ -40,82 +39,81 @@
       <section class="hero" aria-label="Shaay and Co. boutique hero">
         <img src="assets/shaay-hero.png" alt="Styled boutique clothing racks and premium garments" />
         <div class="hero-copy">
-          <p class="eyebrow">Spring Edit 2026</p>
+          <p class="eyebrow">Summer 2026</p>
           <h1>Shaay &amp; Co.</h1>
           <p>
-            Clothing for the days you want to feel pulled together without trying too hard.
+            Soft luxury pieces for everyday plans, weekend nights, and everything in between.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#new">Shop New Arrivals</a>
-            <a class="button secondary" href="#style-quiz">Build My Wardrobe</a>
+            <a class="button primary" href="#new">Shop Now</a>
+            <a class="button secondary" href="#collections">View Collection</a>
           </div>
         </div>
       </section>
 
-      <section class="announcement" aria-label="Store highlights">
-        <span>Free styling notes with every order</span>
-        <span>Small-batch drops every Friday</span>
-        <span>Easy exchanges within 14 days</span>
+      <section class="home-category-nav" aria-label="Shop categories">
+        <a href="#new">Women</a>
+        <a href="#new">New In</a>
+        <a href="#collections">Premium Edit</a>
+        <a href="#new">Shoes & Bags</a>
+        <a href="features.html">Style Studio</a>
       </section>
 
-      <section class="section intro">
+      <section class="announcement" id="sale" aria-label="Store highlights">
+        <span>Members get 10% off first order</span>
+        <span>Free shipping over $75</span>
+        <span>New drop every Friday</span>
+      </section>
+
+      <section class="campaign-gallery" aria-label="Shaay campaign visuals">
+        <a class="campaign-tile large" href="#new">
+          <img
+            src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1400&q=85"
+            alt="Clothing rack with neutral fashion pieces"
+          />
+          <div>
+            <span>New Season</span>
+            <strong>Soft tailoring</strong>
+          </div>
+        </a>
+        <a class="campaign-tile" href="#collections">
+          <img
+            src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85"
+            alt="Editorial fashion model in a warm-toned outfit"
+          />
+          <div>
+            <span>Editorial</span>
+            <strong>After dark</strong>
+          </div>
+        </a>
+        <a class="campaign-tile" href="features.html">
+          <img
+            src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85"
+            alt="Fashion shopping bags and accessories"
+          />
+          <div>
+            <span>Style Studio</span>
+            <strong>Build your look</strong>
+          </div>
+        </a>
+      </section>
+
+      <section class="section intro campaign-copy">
         <div>
-          <p class="eyebrow">The Boutique</p>
-          <h2>Modern staples with a soft, confident finish.</h2>
+          <p class="eyebrow">Campaign</p>
+          <h2>Refined pieces. Easy prices. Strong first impressions.</h2>
         </div>
         <p>
-          Shaay &amp; Co. blends polished silhouettes, touchable fabrics, and outfit-ready
-          pieces for workdays, weekends, dinners, and everything in between.
+          A cleaner storefront inspired by modern fashion retail: clear categories, bold
+          seasonal edits, and simple paths into shopping.
         </p>
-      </section>
-
-      <section class="section quiz-section" id="style-quiz">
-        <div class="feature-copy">
-          <p class="eyebrow">AI Style Quiz</p>
-          <h2>Find your Shaay edit in under a minute.</h2>
-          <p>
-            Pick your mood, occasion, and fit preference. The app builds a mini wardrobe
-            with a hero piece, layer, accessory, and styling note.
-          </p>
-        </div>
-        <div class="quiz-card">
-          <div class="quiz-group">
-            <span>Style mood</span>
-            <div class="choice-row" data-choice-group="mood">
-              <button type="button" class="choice active" data-value="minimal">Minimal Luxury</button>
-              <button type="button" class="choice" data-value="bold">Bold & Polished</button>
-              <button type="button" class="choice" data-value="soft">Soft Girl</button>
-            </div>
-          </div>
-          <div class="quiz-group">
-            <span>Shopping for</span>
-            <div class="choice-row" data-choice-group="occasion">
-              <button type="button" class="choice active" data-value="office">Office</button>
-              <button type="button" class="choice" data-value="date">Date Night</button>
-              <button type="button" class="choice" data-value="vacation">Vacation</button>
-            </div>
-          </div>
-          <div class="quiz-group">
-            <span>Preferred fit</span>
-            <div class="choice-row" data-choice-group="fit">
-              <button type="button" class="choice active" data-value="relaxed">Relaxed</button>
-              <button type="button" class="choice" data-value="tailored">Tailored</button>
-              <button type="button" class="choice" data-value="curve">Curve Friendly</button>
-            </div>
-          </div>
-          <button class="button primary full-button" id="quiz-button" type="button">Build My Wardrobe</button>
-          <div class="quiz-result" id="quiz-result" aria-live="polite">
-            <strong>Your edit is ready.</strong>
-            <p>Choose your preferences, then tap build.</p>
-          </div>
-        </div>
       </section>
 
       <section class="section shop-section" id="new">
         <div class="section-heading">
           <div>
             <p class="eyebrow">New In</p>
-            <h2>Fresh From Shaay</h2>
+            <h2>Shop the latest edit.</h2>
           </div>
           <div class="filters" aria-label="Product filters">
             <button class="filter-button active" type="button" data-filter="all">All</button>
@@ -176,71 +174,6 @@
         </div>
       </section>
 
-      <section class="section occasions" id="occasions">
-        <div class="section-heading compact">
-          <div>
-            <p class="eyebrow">Occasion Shop</p>
-            <h2>Shop by where you are going.</h2>
-          </div>
-          <p>
-            Customers do not always know the item name. They know the moment.
-          </p>
-        </div>
-        <div class="occasion-tabs" aria-label="Occasion filters">
-          <button class="occasion-button active" type="button" data-occasion="wedding">Wedding Guest</button>
-          <button class="occasion-button" type="button" data-occasion="office">Office Wear</button>
-          <button class="occasion-button" type="button" data-occasion="airport">Airport Look</button>
-          <button class="occasion-button" type="button" data-occasion="college">College Fits</button>
-          <button class="occasion-button" type="button" data-occasion="vacation">Vacation</button>
-        </div>
-        <div class="occasion-board" id="occasion-board">
-          <div>
-            <span>Featured edit</span>
-            <h3>Pastel satin blouse + fluid trousers + gold hoops</h3>
-            <p>Elegant, easy to dance in, and polished enough for family photos.</p>
-          </div>
-          <button class="add-button" type="button" data-product="Wedding Guest Edit">Shop This Edit</button>
-        </div>
-      </section>
-
-      <section class="section complete-look" id="complete-look">
-        <div class="feature-copy">
-          <p class="eyebrow">Complete The Look</p>
-          <h2>Turn one piece into a full outfit.</h2>
-          <p>
-            Every product can suggest matching layers, shoes, bags, and accessories so
-            shoppers feel styled from the first click.
-          </p>
-        </div>
-        <div class="look-builder">
-          <article class="look-item hero-piece">
-            <span>Hero</span>
-            <strong>Rumi Knit Set</strong>
-            <p>Sage rib co-ord</p>
-          </article>
-          <article class="look-item">
-            <span>Layer</span>
-            <strong>Everyday Denim Jacket</strong>
-            <p>Soft vintage wash</p>
-          </article>
-          <article class="look-item">
-            <span>Accessory</span>
-            <strong>Market Day Tote</strong>
-            <p>Canvas and leather</p>
-          </article>
-          <article class="look-item">
-            <span>Finish</span>
-            <strong>Ivory Court Sneaker</strong>
-            <p>Clean walking shoe</p>
-          </article>
-          <div class="look-total">
-            <span>Full look</span>
-            <strong>$312</strong>
-            <button class="button primary" type="button" id="add-look-button">Add Full Look</button>
-          </div>
-        </div>
-      </section>
-
       <section class="collections" id="collections">
         <a class="collection-panel city" href="#new">
           <span>01</span>
@@ -259,123 +192,34 @@
         </a>
       </section>
 
-      <section class="section lookbook" id="lookbook">
-        <div class="lookbook-copy">
-          <p class="eyebrow">Lookbook</p>
-          <h2>Build your closet around fewer, better moves.</h2>
-          <p>
-            Start with one hero piece, add texture, then finish with a clean accessory.
-            The result is practical, personal, and ready in minutes.
-          </p>
+      <section class="video-shop" aria-label="Video shopping previews">
+        <div class="video-copy">
+          <p class="eyebrow">Watch & Shop</p>
+          <h2>Video-ready spaces for reels, try-ons, and launch edits.</h2>
         </div>
-        <div class="lookbook-steps" aria-label="Styling steps">
-          <div><span>1</span><strong>Choose a base</strong><p>Blouse, knit, tee, or dress.</p></div>
-          <div><span>2</span><strong>Add contrast</strong><p>Denim, satin, rib, or canvas.</p></div>
-          <div><span>3</span><strong>Finish clean</strong><p>Tote, belt, hoop, or heel.</p></div>
-        </div>
-      </section>
-
-      <section class="section fit-studio" id="fit-studio">
-        <div class="section-heading compact">
-          <div>
-            <p class="eyebrow">Fit Studio</p>
-            <h2>Size help that feels human.</h2>
-          </div>
-          <p>
-            A smart size recommendation and real customer fit photos help shoppers buy
-            with confidence.
-          </p>
-        </div>
-        <div class="fit-grid">
-          <form class="size-card" id="size-form">
-            <h3>Smart Size Finder</h3>
-            <label for="height">Height</label>
-            <select id="height" name="height">
-              <option value="petite">Under 5'3"</option>
-              <option value="regular" selected>5'3" - 5'7"</option>
-              <option value="tall">5'8" and above</option>
-            </select>
-            <label for="usual-size">Usual size</label>
-            <select id="usual-size" name="usual-size">
-              <option>XS</option>
-              <option>S</option>
-              <option selected>M</option>
-              <option>L</option>
-              <option>XL</option>
-            </select>
-            <label for="fit-preference">Fit preference</label>
-            <select id="fit-preference" name="fit-preference">
-              <option value="snatched">Close fit</option>
-              <option value="regular" selected>Regular fit</option>
-              <option value="relaxed">Relaxed fit</option>
-            </select>
-            <button class="button primary full-button" type="submit">Recommend Size</button>
-            <p class="size-result" id="size-result" role="status">Best size appears here.</p>
-          </form>
-          <div class="fit-photos">
-            <article>
-              <div class="fit-avatar blush-bg">SP</div>
-              <strong>Shreya, 5'2", size S</strong>
-              <p>Rumi set fit perfect at the waist with a relaxed top.</p>
-            </article>
-            <article>
-              <div class="fit-avatar sage-bg">AK</div>
-              <strong>Aarna, 5'6", size M</strong>
-              <p>Denim jacket is roomy enough for layering over knits.</p>
-            </article>
-            <article>
-              <div class="fit-avatar denim-bg">MR</div>
-              <strong>Mira, 5'9", size L</strong>
-              <p>Satin blouse drapes well and sleeves hit at the wrist.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section reels-section" id="reels">
-        <div class="section-heading compact">
-          <div>
-            <p class="eyebrow">Reel To Shop</p>
-            <h2>Short styling videos, shoppable in one tap.</h2>
-          </div>
-          <p>Perfect for drops, transitions, try-ons, and styling ideas.</p>
-        </div>
-        <div class="reel-grid">
-          <article class="reel-card">
-            <div class="reel-frame">3 Ways</div>
-            <h3>One blouse, three plans</h3>
-            <button class="add-button" type="button" data-product="3 Ways Satin Blouse Reel">Shop This Look</button>
+        <div class="video-grid">
+          <article class="video-card">
+            <img
+              src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=85"
+              alt="Editorial street style fashion look"
+            />
+            <button class="play-button" type="button" aria-label="Play soft tailoring reel">Play</button>
+            <div>
+              <span>00:18</span>
+              <strong>3 ways to style a blazer</strong>
+            </div>
           </article>
-          <article class="reel-card">
-            <div class="reel-frame sage-bg">Drop</div>
-            <h3>Friday knit set try-on</h3>
-            <button class="add-button" type="button" data-product="Friday Knit Set Reel">Shop This Look</button>
+          <article class="video-card">
+            <img
+              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=900&q=85"
+              alt="Clothing rack with colorful fashion pieces"
+            />
+            <button class="play-button" type="button" aria-label="Play Friday drop reel">Play</button>
+            <div>
+              <span>00:12</span>
+              <strong>Friday drop preview</strong>
+            </div>
           </article>
-          <article class="reel-card">
-            <div class="reel-frame denim-bg">Travel</div>
-            <h3>Airport capsule edit</h3>
-            <button class="add-button" type="button" data-product="Airport Capsule Reel">Shop This Look</button>
-          </article>
-        </div>
-      </section>
-
-      <section class="section drops-bundles" id="drops">
-        <div class="drop-card">
-          <p class="eyebrow">Waitlist Drop</p>
-          <h2>Friday Festive Drop</h2>
-          <p>Only 50 pieces. Early access opens Sunday at 7 PM.</p>
-          <form id="waitlist-form" class="mini-form">
-            <input name="waitlist-email" type="email" placeholder="Email for early access" required />
-            <button class="button primary" type="submit">Join Waitlist</button>
-          </form>
-          <p class="form-message" id="waitlist-message" role="status"></p>
-        </div>
-        <div class="bundle-card">
-          <p class="eyebrow">Capsule Bundle</p>
-          <h2>5 Office Looks</h2>
-          <p>Blouse, trouser, knit, denim layer, and tote styled into a full week.</p>
-          <strong>$299 bundle value</strong>
-          <button class="button secondary" type="button" id="bundle-button">Add Capsule</button>
         </div>
       </section>
 
