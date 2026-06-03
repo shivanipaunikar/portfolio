@@ -3,331 +3,347 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shaay & Co. | Modern Clothing Boutique</title>
+    <title>Shivani Paunikar | AI Data Mission Control</title>
     <meta
       name="description"
-      content="Shaay & Co. is a modern clothing boutique for elevated everyday pieces, curated edits, and confident personal style."
+      content="AI Data Mission Control portfolio for Shivani Paunikar: data engineering, AI systems, research, public-sector impact, patents, and collaboration."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body class="home-page">
-    <header class="site-header" id="top">
-      <a class="brand" href="#top" aria-label="Shaay and Co. home">Shaay &amp; Co.</a>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#launch" aria-label="AI Data Mission Control home">
+        <span>AI</span>
+        <strong>Data Mission Control</strong>
+      </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
         <span></span>
         <span></span>
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-        <a href="#new">Women</a>
-        <a href="#collections">Collections</a>
-        <a href="#new">Accessories</a>
-        <a href="#sale">Sale</a>
-        <a href="features.html">Style Studio</a>
+        <a href="#launch">Launch Dashboard</a>
+        <a href="#projects">Projects</a>
+        <a href="#ai-lab">AI Lab</a>
+        <a href="#research">Research</a>
+        <a href="#impact">Impact</a>
+        <a href="#signals">Signals</a>
+        <a href="#resume">Resume</a>
+        <a href="#personal">Personal</a>
+        <a href="#contact">Contact</a>
       </nav>
-      <button class="cart-button" type="button" aria-label="Open shopping bag">
-        Bag <span id="cart-count">0</span>
-      </button>
     </header>
 
-    <main>
-      <section class="hero" aria-label="Shaay and Co. boutique hero">
-        <img src="assets/shaay-hero.png" alt="Styled boutique clothing racks and premium garments" />
-        <div class="hero-copy">
-          <p class="eyebrow">Summer 2026</p>
-          <h1>Shaay &amp; Co.</h1>
-          <p>
-            Soft luxury pieces for everyday plans, weekend nights, and everything in between.
+    <main id="launch">
+      <section class="mission-hero">
+        <div class="hero-backdrop" aria-hidden="true"></div>
+        <div class="hero-content">
+          <div class="profile-chip">
+            <img src="assets/shivani-paunikar-headshot.jpeg" alt="Shivani Paunikar" />
+            <div>
+              <strong>Shivani Paunikar</strong>
+              <span>Data Solutions Engineer II at Axon</span>
+            </div>
+          </div>
+          <p class="eyebrow">AI Data Mission Control</p>
+          <h1>Welcome to Shivani's AI Data Mission Control.</h1>
+          <p class="hero-summary">
+            Explore the systems, research, and ideas I am building to make data pipelines smarter,
+            safer, and self-healing.
           </p>
-          <div class="hero-actions">
-            <a class="button primary" href="#new">Shop Now</a>
-            <a class="button secondary" href="#collections">View Collection</a>
+          <div class="hero-actions" aria-label="Mission launch actions">
+            <a class="button primary" href="#projects">Launch Dashboard</a>
+            <a class="button secondary" href="#ai-lab">Enter AI Lab</a>
+            <a class="button ghost" href="https://www.linkedin.com/in/shivani-paunikar/">LinkedIn</a>
           </div>
+        </div>
+        <aside class="mission-tile" aria-label="Current mission tile">
+          <img src="assets/axon-protect-life.png" alt="Axon Protect Life technology banner" />
+          <div>
+            <span>Current Signal</span>
+            <strong>Public safety technology, data solutions, and AI-ready systems.</strong>
+          </div>
+        </aside>
+      </section>
+
+      <section class="status-strip" aria-label="Mission status">
+        <article>
+          <span>Current Role</span>
+          <strong>Axon</strong>
+          <p>Data Solutions Engineer II</p>
+        </article>
+        <article>
+          <span>Past Mission</span>
+          <strong>TPD</strong>
+          <p>Former Data Engineer</p>
+        </article>
+        <article>
+          <span>Invention</span>
+          <strong>Patent</strong>
+          <p>Digital image forgery detection</p>
+        </article>
+        <article>
+          <span>Community</span>
+          <strong>Tempe</strong>
+          <p>Global AI Community organizer</p>
+        </article>
+      </section>
+
+      <section class="command-center" aria-label="Interactive mission console">
+        <div class="command-copy">
+          <p class="eyebrow">Command Console</p>
+          <h2>Choose a mission stream.</h2>
+          <p>
+            Each stream reveals a different part of my work: data engineering, AI tools, frontend
+            systems, or public-impact technology.
+          </p>
+        </div>
+        <div class="console-shell">
+          <div class="console-tabs" role="tablist" aria-label="Mission streams">
+            <button class="focus-button active" type="button" role="tab" aria-selected="true" data-focus="data">
+              <span>01</span>
+              Data Systems
+            </button>
+            <button class="focus-button" type="button" role="tab" aria-selected="false" data-focus="ai">
+              <span>02</span>
+              AI Tools
+            </button>
+            <button class="focus-button" type="button" role="tab" aria-selected="false" data-focus="frontend">
+              <span>03</span>
+              Frontend
+            </button>
+            <button class="focus-button" type="button" role="tab" aria-selected="false" data-focus="impact">
+              <span>04</span>
+              Public Impact
+            </button>
+          </div>
+          <article class="console-preview" aria-live="polite">
+            <img
+              id="focus-image"
+              src="assets/data-engineering-visual.png"
+              alt="Data engineering visual with connected analytics charts"
+            />
+            <div>
+              <span id="focus-kicker">Data Engineering</span>
+              <h3 id="focus-title">Smarter pipelines and decision-ready data</h3>
+              <p id="focus-text">
+                Designing ETL, SQL, validation checks, and data flows that help operational teams
+                trust information faster.
+              </p>
+            </div>
+          </article>
         </div>
       </section>
 
-      <section class="home-category-nav" aria-label="Shop categories">
-        <a href="#new">Women</a>
-        <a href="#new">New In</a>
-        <a href="#collections">Premium Edit</a>
-        <a href="#new">Shoes & Bags</a>
-        <a href="features.html">Style Studio</a>
-      </section>
-
-      <section class="announcement" id="sale" aria-label="Store highlights">
-        <span>Members get 10% off first order</span>
-        <span>Free shipping over $75</span>
-        <span>New drop every Friday</span>
-      </section>
-
-      <section class="campaign-gallery" aria-label="Shaay campaign visuals">
-        <a class="campaign-tile large" href="#new">
-          <img
-            src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1400&q=85"
-            alt="Clothing rack with neutral fashion pieces"
-          />
-          <div>
-            <span>New Season</span>
-            <strong>Soft tailoring</strong>
-          </div>
-        </a>
-        <a class="campaign-tile" href="#collections">
-          <img
-            src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85"
-            alt="Editorial fashion model in a warm-toned outfit"
-          />
-          <div>
-            <span>Editorial</span>
-            <strong>After dark</strong>
-          </div>
-        </a>
-        <a class="campaign-tile" href="features.html">
-          <img
-            src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85"
-            alt="Fashion shopping bags and accessories"
-          />
-          <div>
-            <span>Style Studio</span>
-            <strong>Build your look</strong>
-          </div>
-        </a>
-      </section>
-
-      <section class="section intro campaign-copy">
-        <div>
-          <p class="eyebrow">Campaign</p>
-          <h2>Refined pieces. Easy prices. Strong first impressions.</h2>
-        </div>
-        <p>
-          A cleaner storefront inspired by modern fashion retail: clear categories, bold
-          seasonal edits, and simple paths into shopping.
-        </p>
-      </section>
-
-      <section class="section shop-section" id="new">
+      <section class="browse-section" id="projects">
         <div class="section-heading">
+          <p class="eyebrow">Projects</p>
+          <h2>Launch Dashboard</h2>
+        </div>
+        <div class="mission-row">
+          <article class="mission-card large data-card">
+            <span>Data Engineering</span>
+            <h3>Mission-ready data pipelines</h3>
+            <p>ETL, SQL, validation frameworks, anomaly checks, and data quality signals.</p>
+          </article>
+          <article class="mission-card axon-card">
+            <span>Axon</span>
+            <h3>Data Solutions Engineer II</h3>
+            <p>Mission-driven data systems for public-safety technology.</p>
+          </article>
+          <article class="mission-card tpd-card">
+            <span>Past Experience</span>
+            <h3>Tucson Police Department</h3>
+            <p>Former Data Engineer supporting analytics and backend workflows.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="browse-section" id="ai-lab">
+        <div class="section-heading">
+          <p class="eyebrow">AI Lab</p>
+          <h2>Experiments in intelligence, automation, and trust.</h2>
+        </div>
+        <div class="mission-row">
+          <article class="mission-card ai-card">
+            <span>AI + LLMs</span>
+            <h3>Operational AI tools</h3>
+            <p>Interfaces and workflows that make AI useful inside real systems.</p>
+          </article>
+          <article class="mission-card vision-card">
+            <span>Computer Vision</span>
+            <h3>Digital image forensics</h3>
+            <p>Forgery detection ideas using machine learning and artificial intelligence.</p>
+          </article>
+          <article class="mission-card founder-card">
+            <span>Product Thinking</span>
+            <h3>Smarter data infrastructure</h3>
+            <p>Concepts for safer, more reliable systems that monitor quality and surface issues early.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="browse-section" id="research">
+        <div class="section-heading split">
           <div>
-            <p class="eyebrow">New In</p>
-            <h2>Shop the latest edit.</h2>
+            <p class="eyebrow">Research</p>
+            <h2>Research papers, patents, books, and academic visibility.</h2>
           </div>
-          <div class="filters" aria-label="Product filters">
-            <button class="filter-button active" type="button" data-filter="all">All</button>
-            <button class="filter-button" type="button" data-filter="women">Women</button>
-            <button class="filter-button" type="button" data-filter="unisex">Unisex</button>
-            <button class="filter-button" type="button" data-filter="accessories">Accessories</button>
+          <a class="text-link" href="https://scholar.google.com/citations?user=-39c6YwAAAAJ&hl=en">Google Scholar</a>
+        </div>
+        <div class="mission-row">
+          <article class="mission-card patent-card">
+            <span>Patent</span>
+            <h3>Digital image forgery detection</h3>
+            <p>Indian patent application number 202541055731.</p>
+          </article>
+          <article class="mission-card paper-card">
+            <span>Publication</span>
+            <h3>Innovations through Integration</h3>
+            <p>Publication and editorial work mentioned in press coverage.</p>
+          </article>
+          <article class="mission-card book-card">
+            <span>Books / Ebook</span>
+            <h3>ISBN portfolio</h3>
+            <p>978-93-7183-278-6 and 978-93-89476-76-7.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="browse-section" id="signals">
+        <div class="section-heading split">
+          <div>
+            <p class="eyebrow">Global Signals</p>
+            <h2>International IP, affiliations, media, and community links.</h2>
           </div>
+          <a class="text-link" href="https://www.linkedin.com/in/shivani-paunikar/">LinkedIn</a>
         </div>
-
-        <div class="product-grid" id="product-grid">
-          <article class="product-card" data-category="women">
-            <div class="product-media silk"></div>
-            <div class="product-info">
-              <div>
-                <h3>Willow Satin Blouse</h3>
-                <p>Ivory satin, relaxed drape</p>
-              </div>
-              <span>$68</span>
-            </div>
-            <button class="add-button" type="button" data-product="Willow Satin Blouse">Add to Bag</button>
+        <div class="mission-row signals-row">
+          <article class="mission-card canada-card">
+            <span>Canada</span>
+            <h3>Copyright Registration 1236755</h3>
+            <p>Canadian copyright registration certificate. Mentioned here as an international IP signal, not a downloadable PDF.</p>
           </article>
-
-          <article class="product-card" data-category="unisex">
-            <div class="product-media denim"></div>
-            <div class="product-info">
-              <div>
-                <h3>Everyday Denim Jacket</h3>
-                <p>Soft structure, vintage wash</p>
-              </div>
-              <span>$94</span>
-            </div>
-            <button class="add-button" type="button" data-product="Everyday Denim Jacket">Add to Bag</button>
+          <article class="mission-card uk-card">
+            <span>United Kingdom</span>
+            <h3>UK Intellectual Property Office</h3>
+            <p>Official UK IPO document included as part of international intellectual-property recognition.</p>
           </article>
-
-          <article class="product-card" data-category="women">
-            <div class="product-media knit"></div>
-            <div class="product-info">
-              <div>
-                <h3>Rumi Knit Set</h3>
-                <p>Sage rib, top and skirt</p>
-              </div>
-              <span>$112</span>
-            </div>
-            <button class="add-button" type="button" data-product="Rumi Knit Set">Add to Bag</button>
+          <article class="mission-card india-card">
+            <span>India</span>
+            <h3>Indian Patent Application 202541055731</h3>
+            <p>An Intelligent System for Digital Image Forgery Detection Using Machine Learning and Artificial Intelligence Techniques.</p>
           </article>
-
-          <article class="product-card" data-category="accessories">
-            <div class="product-media tote"></div>
-            <div class="product-info">
-              <div>
-                <h3>Market Day Tote</h3>
-                <p>Canvas body, leather trim</p>
-              </div>
-              <span>$46</span>
-            </div>
-            <button class="add-button" type="button" data-product="Market Day Tote">Add to Bag</button>
-          </article>
+        </div>
+        <div class="mission-row links-row">
+          <a class="mission-card scholar-card" href="https://scholar.google.com/citations?user=-39c6YwAAAAJ&hl=en">
+            <span>Academic</span>
+            <h3>Google Scholar</h3>
+            <p>Research profile for publications, citations, and academic visibility.</p>
+          </a>
+          <a class="mission-card bhaskar-card" href="https://epaper.bhaskarhindi.com/c/77640431">
+            <span>Press</span>
+            <h3>Dainik Bhaskar / Bhaskar Hindi</h3>
+            <p>ePaper feature and public media signal.</p>
+          </a>
+          <a class="mission-card cee-card" href="https://www.cee.org/newsevents/press-releases/cee-offers-webinar-teaching-ai">
+            <span>Teaching AI</span>
+            <h3>CEE Webinar</h3>
+            <p>External feature connected to AI education and outreach.</p>
+          </a>
+          <a class="mission-card globalai-card" href="https://globalai.community/chapters/tempe/">
+            <span>Community</span>
+            <h3>Global AI Community Tempe</h3>
+            <p>Chapter organizer signal for local AI community building.</p>
+          </a>
         </div>
       </section>
 
-      <section class="collections" id="collections">
-        <a class="collection-panel city" href="#new">
-          <span>01</span>
-          <h2>City Ease</h2>
-          <p>Tailored layers, crisp cotton, pieces that move from desk to dinner.</p>
-        </a>
-        <a class="collection-panel lounge" href="#new">
-          <span>02</span>
-          <h2>Soft Hours</h2>
-          <p>Quiet knits, fluid trousers, and off-duty favorites with polish.</p>
-        </a>
-        <a class="collection-panel evening" href="#new">
-          <span>03</span>
-          <h2>Afterglow</h2>
-          <p>Satin, sculptural accents, and the details that make a night feel styled.</p>
-        </a>
-      </section>
-
-      <section class="video-shop" aria-label="Video shopping previews">
-        <div class="video-copy">
-          <p class="eyebrow">Watch & Shop</p>
-          <h2>Video-ready spaces for reels, try-ons, and launch edits.</h2>
-        </div>
-        <div class="video-grid">
-          <article class="video-card">
-            <img
-              src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=85"
-              alt="Editorial street style fashion look"
-            />
-            <button class="play-button" type="button" aria-label="Play soft tailoring reel">Play</button>
-            <div>
-              <span>00:18</span>
-              <strong>3 ways to style a blazer</strong>
-            </div>
-          </article>
-          <article class="video-card">
-            <img
-              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=900&q=85"
-              alt="Clothing rack with colorful fashion pieces"
-            />
-            <button class="play-button" type="button" aria-label="Play Friday drop reel">Play</button>
-            <div>
-              <span>00:12</span>
-              <strong>Friday drop preview</strong>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="newsletter" id="visit">
+      <section class="impact-band" id="impact">
         <div>
-          <p class="eyebrow">Join The List</p>
-          <h2>Get first access to Shaay drops.</h2>
+          <p class="eyebrow">Impact</p>
+          <h2>Data systems for public-sector clarity.</h2>
+          <p>
+            My work has been featured for helping Tucson public safety teams use data more
+            effectively, connecting technical engineering with real operational impact.
+          </p>
+          <a class="button primary" href="https://timesofindia.indiatimes.com/city/nagpur/city-girl-shivanis-innovations-helping-tucson-usa-cops-crunch-data-criminals/articleshow/123289347.cms">
+            Read Times of India Feature
+          </a>
         </div>
-        <form id="newsletter-form">
-          <label for="email">Email address</label>
-          <div class="input-row">
-            <input id="email" name="email" type="email" placeholder="you@example.com" required />
-            <button class="button primary" type="submit">Sign Up</button>
+        <article class="press-panel">
+          <span>Press Signal</span>
+          <h3>City girl Shivani's innovations helping Tucson cops crunch data</h3>
+          <p>Times of India, Nagpur</p>
+        </article>
+      </section>
+
+      <section class="browse-section" id="resume">
+        <div class="section-heading split">
+          <div>
+            <p class="eyebrow">Resume</p>
+            <h2>Career stack, credentials, and leadership signals.</h2>
           </div>
-          <p class="form-message" id="form-message" role="status"></p>
-        </form>
+          <a class="text-link" href="https://www.linkedin.com/in/shivani-paunikar/">LinkedIn</a>
+        </div>
+        <div class="mission-row compact">
+          <article class="mission-card">
+            <span>Stack</span>
+            <h3>Snowflake / SQL / ETL / Python</h3>
+            <p>Data engineering, cloud automation, backend systems, ML, and LLM workflows.</p>
+          </article>
+          <article class="mission-card">
+            <span>Certifications</span>
+            <h3>AWS, Agile, Jira, DevOps, Analytics</h3>
+            <p>LinkedIn licenses and certifications plus DataCamp credentials.</p>
+          </article>
+          <article class="mission-card">
+            <span>Judging</span>
+            <h3>Hackathons and Technovation</h3>
+            <p>Opportunity Hack, ASU Fall Hackathon, Summer Global Hackathon, Silver Judge.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="browse-section personal-section" id="personal">
+        <div class="section-heading">
+          <p class="eyebrow">Personal</p>
+          <h2>Meet my companion Shaay.</h2>
+        </div>
+        <div class="mission-row personal-row">
+          <article class="mission-card dog-card large">
+            <span>Shaay</span>
+            <h3>Meet my companion Shaay</h3>
+            <p>The softest part of mission control: mountain air, quiet resets, and loyal company after intense engineering weeks.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="contact-panel" id="contact">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>Ready for the next mission.</h2>
+          <p>
+            Open to collaborating on missions where data, AI, public impact, and polished user
+            experience come together.
+          </p>
+        </div>
+        <div class="contact-actions">
+          <a class="button primary" href="https://www.linkedin.com/in/shivani-paunikar/">LinkedIn</a>
+          <a class="button secondary" href="https://scholar.google.com/citations?user=-39c6YwAAAAJ&hl=en">Scholar</a>
+          <a class="button ghost" href="https://github.com/">GitHub</a>
+        </div>
       </section>
     </main>
 
-    <aside class="toast" id="toast" role="status" aria-live="polite"></aside>
-
     <footer class="site-footer">
-      <div class="footer-grid">
-        <div class="footer-column">
-          <h3>Company Info</h3>
-          <a href="#">About Shaay</a>
-          <a href="#">Sustainability</a>
-          <a href="#">Fashion Blogger</a>
-          <a href="#">Supply Chain</a>
-          <a href="#">Careers</a>
-          <a href="#">Student Discount</a>
-        </div>
-        <div class="footer-column">
-          <h3>Help &amp; Support</h3>
-          <a href="#">Shipping Info</a>
-          <a href="#">Returns</a>
-          <a href="#">Refunds</a>
-          <a href="#">How To Order</a>
-          <a href="#">How To Track</a>
-          <a href="#">Size Guide</a>
-          <a href="features.html">Shaay VIP</a>
-        </div>
-        <div class="footer-column">
-          <h3>Customer Care</h3>
-          <a href="mailto:hello@shaayandco.com">Contact Us</a>
-          <a href="#">Payment &amp; Tax</a>
-          <a href="#">Bonus Point</a>
-          <a href="#">Product Recalls</a>
-          <a href="#">Coupon</a>
-          <a href="#">Shaay Gift Card</a>
-          <a href="#">FAQ</a>
-        </div>
-        <div class="footer-social">
-          <h3>Find Us On</h3>
-          <div class="social-row" aria-label="Social links">
-            <a href="#" aria-label="Facebook">f</a>
-            <a href="#" aria-label="Instagram">◎</a>
-            <a href="#" aria-label="X">𝕏</a>
-            <a href="#" aria-label="YouTube">▶</a>
-            <a href="#" aria-label="Pinterest">p</a>
-            <a href="#" aria-label="TikTok">♪</a>
-            <a href="#" aria-label="LinkedIn">in</a>
-          </div>
-          <h3>Download Shaay App To Save More</h3>
-          <div class="app-row" aria-label="App download">
-            <span>Apple</span>
-            <span>Android</span>
-          </div>
-          <form class="footer-signup">
-            <label for="footer-email">Sign Up For Shaay Style News</label>
-            <div>
-              <input id="footer-email" type="email" placeholder="Your Email Address" />
-              <button type="submit">Subscribe</button>
-            </div>
-            <div>
-              <input type="tel" placeholder="WhatsApp Account" />
-              <button type="submit">Subscribe</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="footer-payments">
-        <h3>We Accept</h3>
-        <div>
-          <span>Visa</span>
-          <span>Mastercard</span>
-          <span>Amex</span>
-          <span>Discover</span>
-          <span>PayPal</span>
-          <span>Afterpay</span>
-          <span>Klarna</span>
-          <span>Apple Pay</span>
-          <span>Google Pay</span>
-          <span>Venmo</span>
-        </div>
-      </div>
-      <div class="footer-legal">
-        <p>©2026 Shaay &amp; Co. All Rights Reserved</p>
-        <nav aria-label="Footer legal links">
-          <a href="#">Privacy Center</a>
-          <a href="#">Privacy &amp; Cookie Policy</a>
-          <a href="#">Manage Cookies</a>
-          <a href="#">Do Not Sell or Share My Personal Information</a>
-          <a href="#">Terms &amp; Conditions</a>
-          <a href="#">Accessibility</a>
-          <a href="#">United States</a>
-        </nav>
-      </div>
+      <p>(c) 2026 Shivani Paunikar. AI Data Mission Control.</p>
+      <a href="#launch">Back to launch</a>
     </footer>
 
     <script src="script.js"></script>
