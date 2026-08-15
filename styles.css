@@ -279,7 +279,7 @@ main {
 }
 
 .search-card {
-  width: min(780px, 100%);
+  width: min(640px, 100%);
   margin: 0 auto;
   padding: 14px;
   border: 1px solid rgba(22, 20, 22, 0.08);
@@ -334,8 +334,8 @@ main {
 
 .search-mode button {
   min-height: 42px;
-  min-width: 190px;
-  padding: 0 28px;
+  min-width: 168px;
+  padding: 0 24px;
   border: 0;
   border-radius: 999px;
   background: var(--black);
