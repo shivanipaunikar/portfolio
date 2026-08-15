@@ -1,62 +1,129 @@
 const menuToggle = document.querySelector(".menu-toggle");
 const nav = document.querySelector("#site-nav");
-const tabs = document.querySelectorAll(".builder-tab");
-const previewFile = document.querySelector("#preview-file");
-const previewKicker = document.querySelector("#preview-kicker");
-const previewTitle = document.querySelector("#preview-title");
-const previewText = document.querySelector("#preview-text");
-const previewCode = document.querySelector("#preview-code");
+const searchForm = document.querySelector("#portfolio-search");
+const searchInput = document.querySelector("#search-input");
+const searchResults = document.querySelector("#search-results");
+const promptButtons = document.querySelectorAll("[data-query]");
+const layerButtons = document.querySelectorAll(".builder-row");
+const layerUrl = document.querySelector("#layer-url");
+const layerNode = document.querySelector("#layer-node");
+const layerKicker = document.querySelector("#layer-kicker");
+const layerTitle = document.querySelector("#layer-title");
+const layerText = document.querySelector("#layer-text");
 
-const builds = {
+const portfolioItems = [
+  {
+    tag: "Current role",
+    title: "Data Solutions Engineer II at Axon",
+    text: "Building data solutions for public-safety technology and mission-driven teams.",
+    keywords: ["axon", "current", "role", "public safety", "data solutions", "engineer"]
+  },
+  {
+    tag: "Past experience",
+    title: "Data Engineer at Tucson Police Department",
+    text: "Former TPD data engineer supporting analytics and backend workflows for operational clarity.",
+    keywords: ["tpd", "tucson", "police", "department", "past", "experience", "data engineer"]
+  },
+  {
+    tag: "Patent",
+    title: "Indian Patent Application 202541055731",
+    text: "Digital image forgery detection using machine learning and artificial intelligence techniques.",
+    keywords: ["patent", "india", "image", "forgery", "machine learning", "ai", "computer vision"]
+  },
+  {
+    tag: "Research",
+    title: "Google Scholar and publications",
+    text: "Research profile, citations, ebook ISBNs, and publication visibility.",
+    keywords: ["google scholar", "research", "publication", "citations", "books", "isbn", "ebook"]
+  },
+  {
+    tag: "International IP",
+    title: "Canada and UK signals",
+    text: "Canadian Copyright Registration 1236755 and UK Intellectual Property Office recognition.",
+    keywords: ["canada", "copyright", "1236755", "uk", "ipo", "international", "ip"]
+  },
+  {
+    tag: "Press",
+    title: "Times of India and Dainik Bhaskar",
+    text: "Public media coverage for data innovation and community visibility.",
+    keywords: ["press", "times of india", "dainik", "bhaskar", "media", "news"]
+  },
+  {
+    tag: "Credentials",
+    title: "Certifications and judging",
+    text: "AWS, Agile, Jira, DevOps, Analytics, DataCamp, hackathon judging, and Technovation.",
+    keywords: ["certifications", "aws", "agile", "jira", "devops", "analytics", "datacamp", "judging", "hackathon", "technovation"]
+  },
+  {
+    tag: "Community",
+    title: "CEE and Global AI Community Tempe",
+    text: "AI education, webinar signal, chapter activity, and practical community work.",
+    keywords: ["cee", "global ai", "tempe", "community", "webinar", "teaching ai"]
+  },
+  {
+    tag: "Personal",
+    title: "Meet Shaay",
+    text: "Outside work: curious, creative, and very much a dog person.",
+    keywords: ["shaay", "dog", "personal", "outside work", "companion"]
+  }
+];
+
+const layers = {
   data: {
-    file: "pipeline.ts",
+    url: "shivani.dev/data-systems",
+    node: "Data",
     kicker: "Data Engineering",
-    title: "Trusted pipelines for serious teams.",
-    text:
-      "SQL, Snowflake, ETL, validation checks, and analytics layers designed for dependable operational decisions.",
-    code: `pipeline.deploy({
-  sources: ["operational_data", "case_signals"],
-  checks: ["freshness", "schema", "accuracy"],
-  output: "trusted_decision_layer"
-});`
+    title: "Trusted pipelines for mission-driven teams.",
+    text: "Data workflows that turn raw operational signals into accurate, decision-ready layers."
   },
   ai: {
-    file: "ai-lab.ts",
+    url: "shivani.dev/ai-lab",
+    node: "AI",
     kicker: "AI + LLM Workflows",
-    title: "AI that supports useful work.",
-    text:
-      "Practical machine learning, LLM workflows, and computer vision ideas connected to real user and data problems.",
-    code: `aiWorkflow.compose({
-  mode: "human_reviewed",
-  tasks: ["summarize", "detect", "explain"],
-  guardrails: ["traceable", "secure", "useful"]
-});`
-  },
-  research: {
-    file: "research.ts",
-    kicker: "Research + IP",
-    title: "Academic and IP signals in one place.",
-    text:
-      "Google Scholar, patent work, Canada registration, UK IPO recognition, and publication identifiers without document downloads.",
-    code: `research.signals({
-  patent: "202541055731",
-  copyright: "Canada 1236755",
-  isbn: ["978-93-7183-278-6", "978-93-89476-76-7"]
-});`
+    title: "Practical intelligence inside useful tools.",
+    text: "LLM workflows, machine learning concepts, and computer vision research tied to real user problems."
   },
   impact: {
-    file: "impact.ts",
+    url: "shivani.dev/public-impact",
+    node: "Impact",
     kicker: "Public Impact",
-    title: "Work that shows up outside the codebase.",
-    text:
-      "Press coverage, AI teaching, community involvement, and public-safety data work connected to real teams.",
-    code: `impact.publish({
-  press: ["Times of India", "Dainik Bhaskar"],
-  community: "Global AI Tempe",
-  mission: "data people can trust"
-});`
+    title: "Engineering that shows up beyond the codebase.",
+    text: "Axon, TPD, press coverage, AI education, and community work connected to real people."
+  },
+  research: {
+    url: "shivani.dev/research-ip",
+    node: "IP",
+    kicker: "Research + IP",
+    title: "Academic and intellectual-property signals.",
+    text: "Patent work, Google Scholar visibility, Canada registration, UK IPO recognition, and ISBN signals."
   }
 };
+
+function renderResults(query = "") {
+  if (!searchResults) {
+    return;
+  }
+
+  const normalized = query.trim().toLowerCase();
+  const matches = normalized
+    ? portfolioItems.filter((item) =>
+        [item.tag, item.title, item.text, ...item.keywords].some((value) =>
+          value.toLowerCase().includes(normalized)
+        )
+      )
+    : portfolioItems.slice(0, 3);
+
+  const visibleItems = (matches.length ? matches : portfolioItems).slice(0, 3);
+  searchResults.innerHTML = visibleItems
+    .map(
+      (item) => `<article>
+        <span>${item.tag}</span>
+        <h2>${item.title}</h2>
+        <p>${item.text}</p>
+      </article>`
+    )
+    .join("");
+}
 
 if (menuToggle && nav) {
   menuToggle.addEventListener("click", () => {
@@ -72,25 +139,49 @@ if (menuToggle && nav) {
   });
 }
 
-tabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    const build = builds[tab.dataset.build];
+if (searchForm && searchInput) {
+  searchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    renderResults(searchInput.value);
+  });
 
-    if (!build || !previewFile || !previewKicker || !previewTitle || !previewText || !previewCode) {
+  searchInput.addEventListener("input", () => {
+    renderResults(searchInput.value);
+  });
+}
+
+promptButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!searchInput) {
       return;
     }
 
-    tabs.forEach((item) => {
+    searchInput.value = button.dataset.query;
+    renderResults(searchInput.value);
+  });
+});
+
+layerButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const layer = layers[button.dataset.layer];
+
+    if (!layer || !layerUrl || !layerNode || !layerKicker || !layerTitle || !layerText) {
+      return;
+    }
+
+    layerButtons.forEach((item) => {
       item.classList.remove("active");
       item.setAttribute("aria-selected", "false");
     });
 
-    tab.classList.add("active");
-    tab.setAttribute("aria-selected", "true");
-    previewFile.textContent = build.file;
-    previewKicker.textContent = build.kicker;
-    previewTitle.textContent = build.title;
-    previewText.textContent = build.text;
-    previewCode.textContent = build.code;
+    button.classList.add("active");
+    button.setAttribute("aria-selected", "true");
+    layerUrl.textContent = layer.url;
+    layerNode.textContent = layer.node;
+    layerKicker.textContent = layer.kicker;
+    layerTitle.textContent = layer.title;
+    layerText.textContent = layer.text;
   });
 });
+
+renderResults();

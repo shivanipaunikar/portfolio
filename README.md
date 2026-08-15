@@ -1,9 +1,9 @@
 # Shivani Paunikar Portfolio
 
 Static GitHub Pages portfolio for Shivani Paunikar, redesigned as a colorful
-Lovable-inspired product-builder page with a Next.js-style component structure,
-interactive preview, gradient panels, proof strip, and polished developer
-portfolio sections.
+Lovable-inspired searchable portfolio with a large gradient hero, real portfolio
+search, product-style sections, research/IP cards, impact links, credentials,
+and a personal Shaay section.
 
 The page keeps the core portfolio information: Axon, past TPD experience,
 research, patents, international IP signals, press links, Google Scholar,
