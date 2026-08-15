@@ -1,43 +1,54 @@
 const menuToggle = document.querySelector(".menu-toggle");
 const nav = document.querySelector("#site-nav");
-const focusButtons = document.querySelectorAll(".focus-button");
-const focusImage = document.querySelector("#focus-image");
-const focusKicker = document.querySelector("#focus-kicker");
-const focusTitle = document.querySelector("#focus-title");
-const focusText = document.querySelector("#focus-text");
+const capabilityButtons = document.querySelectorAll(".capability");
+const panelFile = document.querySelector("#panel-file");
+const panelKicker = document.querySelector("#panel-kicker");
+const panelTitle = document.querySelector("#panel-title");
+const panelText = document.querySelector("#panel-text");
+const panelCode = document.querySelector("#panel-code");
 
-const focusPanels = {
+const panels = {
   data: {
-    image: "assets/data-engineering-visual.png",
-    alt: "Data engineering visual with connected analytics charts",
+    file: "pipeline.config.ts",
     kicker: "Data Engineering",
-    title: "Smarter pipelines and decision-ready data",
-    text:
-      "Designing ETL, SQL, validation checks, and data flows that help operational teams trust information faster."
+    title: "Decision-ready pipelines",
+    text: "Designing SQL, ETL, validation checks, and data flows that help teams trust information faster.",
+    code: `pipeline.validate({
+  source: "operational_data",
+  checks: ["freshness", "schema", "accuracy"],
+  output: "trusted_decision_layer"
+});`
   },
   ai: {
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=85",
-    alt: "Artificial intelligence visualization on a screen",
-    kicker: "AI + LLMs",
-    title: "AI tools that turn signals into action",
-    text:
-      "Exploring LLMs, machine learning, and computer vision systems that make workflows more intelligent and easier to operate."
+    file: "ai-workflow.ts",
+    kicker: "AI + LLM Workflows",
+    title: "Practical intelligence inside useful tools",
+    text: "Exploring LLMs, machine learning, and computer vision concepts where AI supports workflow quality instead of becoming visual noise.",
+    code: `assistantWorkflow.run({
+  context: "data_quality_review",
+  guardrails: ["traceable", "human_reviewed"],
+  result: "actionable_summary"
+});`
   },
   frontend: {
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85",
-    alt: "Laptop showing a modern software interface",
-    kicker: "Frontend Systems",
-    title: "Interfaces for complex technical systems",
-    text:
-      "Building responsive, polished portfolio and product interfaces with clear hierarchy, interaction states, and user-centered structure."
+    file: "interface.tsx",
+    kicker: "Frontend Quality",
+    title: "Interfaces that make systems feel clear",
+    text: "Building responsive pages with clean hierarchy, accessible controls, and interaction states that feel polished on desktop and mobile.",
+    code: `<Section title="Developer Portfolio">
+  <SignalGrid density="scannable" />
+  <CodePreview language="ts" />
+</Section>`
   },
   impact: {
-    image: "assets/axon-protect-life.png",
-    alt: "Axon Protect Life public safety technology",
+    file: "public-impact.sql",
     kicker: "Public Impact",
-    title: "Data systems for mission-driven teams",
-    text:
-      "Connecting backend architecture, validation frameworks, and public-sector data products to work that affects real people."
+    title: "Engineering with operational stakes",
+    text: "Connecting backend architecture, validation frameworks, and public-sector data products to work that affects real people.",
+    code: `select mission, signal, confidence
+from public_safety_metrics
+where status = 'decision_ready'
+order by updated_at desc;`
   }
 };
 
@@ -55,25 +66,25 @@ if (menuToggle && nav) {
   });
 }
 
-focusButtons.forEach((button) => {
+capabilityButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const panel = focusPanels[button.dataset.focus];
+    const panel = panels[button.dataset.panel];
 
-    if (!panel || !focusImage || !focusKicker || !focusTitle || !focusText) {
+    if (!panel || !panelFile || !panelKicker || !panelTitle || !panelText || !panelCode) {
       return;
     }
 
-    focusButtons.forEach((item) => {
+    capabilityButtons.forEach((item) => {
       item.classList.remove("active");
       item.setAttribute("aria-selected", "false");
     });
 
     button.classList.add("active");
     button.setAttribute("aria-selected", "true");
-    focusImage.src = panel.image;
-    focusImage.alt = panel.alt;
-    focusKicker.textContent = panel.kicker;
-    focusTitle.textContent = panel.title;
-    focusText.textContent = panel.text;
+    panelFile.textContent = panel.file;
+    panelKicker.textContent = panel.kicker;
+    panelTitle.textContent = panel.title;
+    panelText.textContent = panel.text;
+    panelCode.textContent = panel.code;
   });
 });

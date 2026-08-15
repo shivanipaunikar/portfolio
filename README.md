@@ -1,17 +1,16 @@
 # Shivani Paunikar Portfolio
 
-Static GitHub Pages portfolio for Shivani Paunikar, focused on data engineering,
-AI, public-safety technology, media features, research, and community work.
+Static GitHub Pages portfolio for Shivani Paunikar, designed as a clean
+developer/coding page inspired by modern Next.js-style documentation surfaces.
+
+The page keeps the core portfolio information: Axon, past TPD experience,
+research, patents, international IP signals, press links, Google Scholar,
+credentials, judging, community work, and a personal Shaay section.
 
 ## Publish on GitHub Pages
 
-1. Create a GitHub repository named `shivani-paunikar.github.io` or any portfolio repo.
-2. Push these files to the repository.
-3. In GitHub, open **Settings > Pages**.
-4. Choose **Deploy from a branch**, select `main`, and use the root folder.
-5. Open the published GitHub Pages URL.
-
-## Update links
-
-Edit `index.html` to replace the placeholder GitHub contact link with your exact
-GitHub, LinkedIn, and email URLs when you are ready to publish them.
+1. Open the repository on GitHub.
+2. Go to **Settings > Pages**.
+3. Choose **Deploy from a branch**.
+4. Select `main` and `/root`.
+5. Visit `https://shivanipaunikar.github.io/portfolio/`.
