@@ -53,12 +53,13 @@ p {
 }
 
 h1 {
-  max-width: 880px;
+  max-width: 980px;
   margin: 0 auto 12px;
-  font-size: clamp(3rem, 7vw, 6.4rem);
+  font-size: clamp(2.7rem, 5.4vw, 4.9rem);
   font-weight: 900;
-  letter-spacing: -0.052em;
-  line-height: 0.92;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  white-space: nowrap;
 }
 
 h2 {
@@ -868,7 +869,8 @@ main {
   }
 
   h1 {
-    font-size: clamp(2.7rem, 14vw, 4.4rem);
+    font-size: clamp(2.4rem, 11vw, 3.4rem);
+    white-space: normal;
   }
 
   h2 {
