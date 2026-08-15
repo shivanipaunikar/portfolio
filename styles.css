@@ -279,7 +279,7 @@ main {
 }
 
 .search-card {
-  width: min(720px, 100%);
+  width: min(780px, 100%);
   margin: 0 auto;
   padding: 14px;
   border: 1px solid rgba(22, 20, 22, 0.08);
@@ -310,7 +310,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
+  gap: 18px;
 }
 
 .add-button {
@@ -327,15 +327,15 @@ main {
 .search-mode {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 18px;
   color: #827b82;
   font-weight: 700;
 }
 
 .search-mode button {
   min-height: 42px;
-  min-width: 152px;
-  padding: 0 22px;
+  min-width: 190px;
+  padding: 0 28px;
   border: 0;
   border-radius: 999px;
   background: var(--black);
