@@ -3,43 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shivani Paunikar | Data Engineer & Software Developer</title>
+    <title>Shivani Paunikar | Data Product Builder</title>
     <meta
       name="description"
-      content="Developer portfolio for Shivani Paunikar: data engineering, software development, AI systems, research, public-impact technology, patents, and community work."
+      content="Shivani Paunikar's portfolio: data engineering, AI tools, public-safety technology, research, patents, credentials, and impact."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#overview" aria-label="Shivani Paunikar portfolio home">
+      <a class="brand" href="#home" aria-label="Shivani Paunikar portfolio home">
         <span>SP</span>
-        <strong>shivani.dev</strong>
+        <strong>Shivani</strong>
       </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
         <span></span>
         <span></span>
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-        <a href="#experience">Experience</a>
+        <a href="#builder">Builder</a>
         <a href="#systems">Systems</a>
         <a href="#research">Research</a>
         <a href="#impact">Impact</a>
         <a href="#credentials">Credentials</a>
-        <a href="#personal">Personal</a>
-        <a href="#contact">Contact</a>
+        <a href="#personal">Shaay</a>
       </nav>
+      <a class="header-cta" href="https://www.linkedin.com/in/shivani-paunikar/">Let's build</a>
     </header>
 
-    <main id="overview">
+    <main id="home">
       <section class="hero">
-        <div class="hero-copy">
+        <div class="hero-orb one"></div>
+        <div class="hero-orb two"></div>
+        <div class="hero-content">
+          <a class="announcement" href="https://timesofindia.indiatimes.com/city/nagpur/city-girl-shivanis-innovations-helping-tucson-usa-cops-crunch-data-criminals/articleshow/123289347.cms">
+            <span>Featured</span>
+            Public-safety data innovation in Times of India
+          </a>
           <div class="profile-chip">
             <img src="assets/shivani-paunikar-headshot.jpeg" alt="Shivani Paunikar" />
             <div>
@@ -47,236 +53,218 @@
               <span>Data Solutions Engineer II at Axon</span>
             </div>
           </div>
-          <p class="eyebrow">Data engineering / software development / public impact</p>
-          <h1>Building reliable data systems and polished tools for real-world missions.</h1>
-          <p class="hero-summary">
-            I work across SQL, ETL, Snowflake, Python, cloud automation, AI-assisted workflows,
-            and frontend experiences that make complex systems easier to use.
+          <h1>Build data products people can trust.</h1>
+          <p>
+            A portfolio for data engineering, AI-assisted workflows, public-safety technology,
+            patents, research, and polished product experiences.
           </p>
+          <div class="prompt-composer" aria-label="Portfolio builder prompt">
+            <div class="prompt-input">
+              <span>Build</span>
+              <p>a mission-ready data platform with SQL, Snowflake, AI tools, research, and public impact.</p>
+            </div>
+            <a href="#builder">Generate portfolio</a>
+          </div>
           <div class="hero-actions">
-            <a class="button primary" href="#experience">View Experience</a>
-            <a class="button secondary" href="https://www.linkedin.com/in/shivani-paunikar/">LinkedIn</a>
-            <a class="button ghost" href="https://scholar.google.com/citations?user=-39c6YwAAAAJ&hl=en">Google Scholar</a>
+            <a class="button primary" href="#systems">Explore systems</a>
+            <a class="button secondary" href="https://scholar.google.com/citations?user=-39c6YwAAAAJ&hl=en">Google Scholar</a>
+            <a class="button ghost" href="https://github.com/shivanipaunikar/portfolio">GitHub</a>
           </div>
-        </div>
-
-        <aside class="code-card" aria-label="Developer profile code preview">
-          <div class="window-bar">
-            <span></span>
-            <span></span>
-            <span></span>
-            <strong>profile.ts</strong>
-          </div>
-          <pre><code>export const shivani = {
-  current: "Data Solutions Engineer II @ Axon",
-  previous: "Data Engineer @ Tucson Police Department",
-  stack: ["SQL", "Snowflake", "ETL", "Python", "Frontend"],
-  focus: ["AI tools", "public safety", "research", "data quality"],
-  patent: "Indian Patent Application 202541055731",
-  community: "Global AI Community - Tempe"
-};</code></pre>
-        </aside>
-      </section>
-
-      <section class="metric-strip" aria-label="Portfolio highlights">
-        <article>
-          <span>Current</span>
-          <strong>Axon</strong>
-          <p>Data Solutions Engineer II</p>
-        </article>
-        <article>
-          <span>Past</span>
-          <strong>TPD</strong>
-          <p>Former Data Engineer</p>
-        </article>
-        <article>
-          <span>IP</span>
-          <strong>Patent</strong>
-          <p>Digital image forgery detection</p>
-        </article>
-        <article>
-          <span>Community</span>
-          <strong>Tempe</strong>
-          <p>Global AI chapter involvement</p>
-        </article>
-      </section>
-
-      <section class="section" id="experience">
-        <div class="section-heading">
-          <p class="eyebrow">Experience</p>
-          <h2>Engineering work with production context.</h2>
-        </div>
-        <div class="timeline">
-          <article class="timeline-item">
-            <div>
-              <span class="tag">Current role</span>
-              <h3>Data Solutions Engineer II, Axon</h3>
-            </div>
-            <p>
-              Building data solutions for mission-driven public-safety technology, with emphasis on
-              trustworthy pipelines, operational reporting, and scalable data workflows.
-            </p>
-          </article>
-          <article class="timeline-item">
-            <div>
-              <span class="tag muted">Past experience</span>
-              <h3>Data Engineer, Tucson Police Department</h3>
-            </div>
-            <p>
-              Supported analytics and backend workflows for public-sector teams, connecting data
-              engineering with decisions that affect real operational work.
-            </p>
-          </article>
         </div>
       </section>
 
-      <section class="section lab-section" id="systems">
-        <div class="section-heading split">
-          <div>
-            <p class="eyebrow">Systems</p>
-            <h2>Click a capability to inspect the build mindset.</h2>
+      <section class="builder-stage" id="builder" aria-label="Interactive portfolio builder">
+        <div class="builder-copy">
+          <p class="eyebrow">Live Portfolio Builder</p>
+          <h2>Click a layer and watch the story rebuild.</h2>
+          <p>
+            The page behaves like a product demo: choose a capability, and the preview updates with
+            the engineering signal behind it.
+          </p>
+          <div class="builder-tabs" role="tablist" aria-label="Portfolio capability tabs">
+            <button class="builder-tab active" type="button" role="tab" aria-selected="true" data-build="data">
+              Data Pipeline
+            </button>
+            <button class="builder-tab" type="button" role="tab" aria-selected="false" data-build="ai">
+              AI Lab
+            </button>
+            <button class="builder-tab" type="button" role="tab" aria-selected="false" data-build="research">
+              Research
+            </button>
+            <button class="builder-tab" type="button" role="tab" aria-selected="false" data-build="impact">
+              Impact
+            </button>
           </div>
-          <span class="terminal-label">Interactive console</span>
         </div>
-
-        <div class="lab-grid">
-          <div class="capability-list" role="tablist" aria-label="Capability selector">
-            <button class="capability active" type="button" role="tab" aria-selected="true" data-panel="data">
-              <span>01</span>
-              Data Engineering
-            </button>
-            <button class="capability" type="button" role="tab" aria-selected="false" data-panel="ai">
-              <span>02</span>
-              AI + LLM Workflows
-            </button>
-            <button class="capability" type="button" role="tab" aria-selected="false" data-panel="frontend">
-              <span>03</span>
-              Frontend Quality
-            </button>
-            <button class="capability" type="button" role="tab" aria-selected="false" data-panel="impact">
-              <span>04</span>
-              Public Impact
-            </button>
+        <article class="app-preview" aria-live="polite">
+          <div class="preview-header">
+            <span></span>
+            <span></span>
+            <span></span>
+            <strong id="preview-file">pipeline.ts</strong>
           </div>
-          <article class="terminal" aria-live="polite">
-            <div class="window-bar">
-              <span></span>
-              <span></span>
-              <span></span>
-              <strong id="panel-file">pipeline.config.ts</strong>
-            </div>
-            <p class="terminal-kicker" id="panel-kicker">Data Engineering</p>
-            <h3 id="panel-title">Decision-ready pipelines</h3>
-            <p id="panel-text">
-              Designing SQL, ETL, validation checks, and data flows that help teams trust information faster.
-            </p>
-            <pre><code id="panel-code">pipeline.validate({
-  source: "operational_data",
+          <div class="preview-body">
+            <div class="preview-main">
+              <p id="preview-kicker">Data Engineering</p>
+              <h3 id="preview-title">Trusted pipelines for serious teams.</h3>
+              <p id="preview-text">
+                SQL, Snowflake, ETL, validation checks, and analytics layers designed for dependable
+                operational decisions.
+              </p>
+              <pre><code id="preview-code">pipeline.deploy({
+  sources: ["operational_data", "case_signals"],
   checks: ["freshness", "schema", "accuracy"],
   output: "trusted_decision_layer"
 });</code></pre>
+            </div>
+            <aside class="preview-sidebar">
+              <div>
+                <span>Current</span>
+                <strong>Axon</strong>
+              </div>
+              <div>
+                <span>Past</span>
+                <strong>TPD</strong>
+              </div>
+              <div>
+                <span>Patent</span>
+                <strong>202541055731</strong>
+              </div>
+            </aside>
+          </div>
+        </article>
+      </section>
+
+      <section class="logo-cloud" aria-label="Portfolio proof points">
+        <span>Axon</span>
+        <span>Tucson Police Department</span>
+        <span>Google Scholar</span>
+        <span>Indian Patent</span>
+        <span>Global AI Tempe</span>
+        <span>CEE</span>
+      </section>
+
+      <section class="section" id="systems">
+        <div class="section-heading">
+          <p class="eyebrow">One platform. Many signals.</p>
+          <h2>Everything in one high-signal developer portfolio.</h2>
+        </div>
+        <div class="possibility-grid">
+          <article class="possibility-card wide gradient-card">
+            <span>Data Engineering</span>
+            <h3>Mission-ready data pipelines</h3>
+            <p>Snowflake, SQL, ETL, validation frameworks, analytics layers, and data quality systems.</p>
+          </article>
+          <article class="possibility-card">
+            <span>AI + LLMs</span>
+            <h3>Useful automation</h3>
+            <p>AI-assisted workflows, machine learning concepts, and computer vision research.</p>
+          </article>
+          <article class="possibility-card">
+            <span>Frontend</span>
+            <h3>Polished interfaces</h3>
+            <p>Responsive sections, crisp visual hierarchy, and product-grade interaction states.</p>
+          </article>
+          <article class="possibility-card dark-card">
+            <span>Current role</span>
+            <h3>Data Solutions Engineer II, Axon</h3>
+            <p>Building data solutions for public-safety technology and mission-driven teams.</p>
+          </article>
+          <article class="possibility-card">
+            <span>Past experience</span>
+            <h3>Data Engineer, Tucson Police Department</h3>
+            <p>Analytics and backend workflows for public-sector operational clarity.</p>
+          </article>
+          <article class="possibility-card wide warm-card">
+            <span>Collaboration</span>
+            <h3>Open to meaningful missions</h3>
+            <p>Data systems, AI products, public-impact technology, and refined user experiences.</p>
           </article>
         </div>
       </section>
 
-      <section class="section" id="research">
+      <section class="section research-section" id="research">
         <div class="section-heading split">
           <div>
             <p class="eyebrow">Research & IP</p>
-            <h2>Research, patents, publications, and international IP signals.</h2>
+            <h2>Credibility that travels across countries and contexts.</h2>
           </div>
-          <a class="text-link" href="https://scholar.google.com/citations?user=-39c6YwAAAAJ&hl=en">Google Scholar</a>
+          <a class="button secondary" href="https://scholar.google.com/citations?user=-39c6YwAAAAJ&hl=en">Open Scholar</a>
         </div>
-        <div class="card-grid">
-          <article class="info-card">
-            <span class="tag">Patent</span>
-            <h3>Digital image forgery detection</h3>
+        <div class="document-grid">
+          <article>
+            <span>India</span>
+            <h3>Indian Patent Application 202541055731</h3>
             <p>
-              Indian Patent Application 202541055731: An Intelligent System for Digital Image Forgery
-              Detection Using Machine Learning and Artificial Intelligence Techniques.
+              An Intelligent System for Digital Image Forgery Detection Using Machine Learning and
+              Artificial Intelligence Techniques.
             </p>
           </article>
-          <article class="info-card">
-            <span class="tag">Canada</span>
+          <article>
+            <span>Canada</span>
             <h3>Copyright Registration 1236755</h3>
-            <p>
-              Canadian copyright registration mentioned as an international intellectual-property
-              signal. No document downloads included.
-            </p>
+            <p>Canadian registration included as an international IP signal, without document downloads.</p>
           </article>
-          <article class="info-card">
-            <span class="tag">United Kingdom</span>
+          <article>
+            <span>United Kingdom</span>
             <h3>UK Intellectual Property Office</h3>
-            <p>
-              UK IPO recognition included as part of the portfolio's international affiliations and
-              IP footprint.
-            </p>
+            <p>UK IPO recognition included as part of international intellectual-property affiliations.</p>
           </article>
-          <article class="info-card">
-            <span class="tag">Publication</span>
-            <h3>Innovations through Integration</h3>
-            <p>Publication and editorial work connected to press coverage and research visibility.</p>
-          </article>
-          <article class="info-card">
-            <span class="tag">Books / Ebook</span>
-            <h3>ISBN portfolio</h3>
-            <p>Published ebook signals including ISBN 978-93-7183-278-6 and 978-93-89476-76-7.</p>
-          </article>
-          <article class="info-card">
-            <span class="tag">Scholar</span>
-            <h3>Academic profile</h3>
-            <p>Google Scholar profile for publications, citations, and academic visibility.</p>
+          <article>
+            <span>Publications</span>
+            <h3>Books and editorial work</h3>
+            <p>ISBN signals 978-93-7183-278-6 and 978-93-89476-76-7, plus Innovations through Integration.</p>
           </article>
         </div>
       </section>
 
       <section class="section impact-section" id="impact">
-        <div class="impact-copy">
-          <p class="eyebrow">Impact</p>
-          <h2>Engineering connected to public-safety outcomes.</h2>
+        <div class="impact-card">
+          <p class="eyebrow">Proof in public</p>
+          <h2>Featured, taught, organized, and built.</h2>
           <p>
-            My work has been featured for helping Tucson public safety teams use data more
-            effectively, connecting technical engineering with operational clarity.
+            These links show the external signal behind the work: public safety press, AI education,
+            community leadership, and media visibility.
           </p>
         </div>
-        <div class="link-stack">
+        <div class="story-grid">
           <a href="https://timesofindia.indiatimes.com/city/nagpur/city-girl-shivanis-innovations-helping-tucson-usa-cops-crunch-data-criminals/articleshow/123289347.cms">
             <span>Press</span>
-            Times of India feature
+            <strong>Times of India feature</strong>
           </a>
           <a href="https://epaper.bhaskarhindi.com/c/77640431">
-            <span>Press</span>
-            Dainik Bhaskar / Bhaskar Hindi ePaper
+            <span>Media</span>
+            <strong>Dainik Bhaskar / Bhaskar Hindi ePaper</strong>
           </a>
           <a href="https://www.cee.org/newsevents/press-releases/cee-offers-webinar-teaching-ai">
-            <span>Teaching AI</span>
-            CEE webinar feature
+            <span>Teaching</span>
+            <strong>CEE webinar on teaching AI</strong>
           </a>
           <a href="https://globalai.community/chapters/tempe/">
             <span>Community</span>
-            Global AI Community Tempe
+            <strong>Global AI Community Tempe</strong>
           </a>
         </div>
       </section>
 
-      <section class="section" id="credentials">
+      <section class="section credentials-section" id="credentials">
         <div class="section-heading">
-          <p class="eyebrow">Credentials</p>
+          <p class="eyebrow">For building and beyond</p>
           <h2>Certifications, judging, and leadership signals.</h2>
         </div>
-        <div class="card-grid compact">
-          <article class="info-card">
-            <span class="tag">Certifications</span>
+        <div class="credential-row">
+          <article>
+            <span>Licenses</span>
             <h3>AWS, Agile, Jira, DevOps, Analytics</h3>
-            <p>LinkedIn licenses and certifications plus DataCamp credentials.</p>
+            <p>LinkedIn certifications plus DataCamp credentials.</p>
           </article>
-          <article class="info-card">
-            <span class="tag">Judging</span>
+          <article>
+            <span>Judging</span>
             <h3>Hackathons and Technovation</h3>
             <p>Opportunity Hack, ASU Fall Hackathon, Summer Global Hackathon, and Silver Judge.</p>
           </article>
-          <article class="info-card">
-            <span class="tag">Community</span>
+          <article>
+            <span>Community</span>
             <h3>AI education and ecosystem work</h3>
             <p>Webinars, chapter activity, and support for practical AI learning communities.</p>
           </article>
@@ -284,33 +272,23 @@
       </section>
 
       <section class="section personal-section" id="personal">
-        <div class="section-heading">
-          <p class="eyebrow">Personal</p>
-          <h2>Meet my companion Shaay.</h2>
-        </div>
-        <article class="personal-card">
-          <img src="assets/dog.jpeg" alt="Shaay, Shivani Paunikar's dog, resting in the snow" />
+        <div class="personal-card">
           <div>
-            <span class="tag">Outside work</span>
-            <h3>Curious, creative, and very much a dog person.</h3>
+            <p class="eyebrow">Personal life</p>
+            <h2>Meet my companion Shaay.</h2>
             <p>
-              Shaay is the softer part of the portfolio: mountain air, quiet resets, and loyal
-              company after intense engineering weeks.
+              Outside work: curious, creative, and very much a dog person. Shaay brings the mountain
+              air, reset energy, and loyal company after intense engineering weeks.
             </p>
           </div>
-        </article>
+          <img src="assets/dog.jpeg" alt="Shaay, Shivani Paunikar's dog, resting in the snow" />
+        </div>
       </section>
 
-      <section class="section contact-panel" id="contact">
-        <div>
-          <p class="eyebrow">Contact</p>
-          <h2>Open to collaborate on meaningful missions.</h2>
-          <p>
-            Data systems, AI products, public-impact technology, and polished user experiences are
-            the spaces where I like to build.
-          </p>
-        </div>
-        <div class="contact-actions">
+      <section class="section final-cta" id="contact">
+        <p class="eyebrow">Ready to collaborate?</p>
+        <h2>Let's build useful systems with real-world signal.</h2>
+        <div class="hero-actions">
           <a class="button primary" href="https://www.linkedin.com/in/shivani-paunikar/">LinkedIn</a>
           <a class="button secondary" href="https://scholar.google.com/citations?user=-39c6YwAAAAJ&hl=en">Scholar</a>
           <a class="button ghost" href="https://github.com/shivanipaunikar/portfolio">GitHub</a>
@@ -319,8 +297,8 @@
     </main>
 
     <footer class="site-footer">
-      <p>(c) 2026 Shivani Paunikar. Built as a clean developer portfolio for GitHub Pages.</p>
-      <a href="#overview">Back to top</a>
+      <p>Built as a colorful Next.js-inspired static portfolio for GitHub Pages.</p>
+      <a href="#home">Back to top</a>
     </footer>
 
     <script src="script.js"></script>

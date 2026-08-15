@@ -1,54 +1,60 @@
 const menuToggle = document.querySelector(".menu-toggle");
 const nav = document.querySelector("#site-nav");
-const capabilityButtons = document.querySelectorAll(".capability");
-const panelFile = document.querySelector("#panel-file");
-const panelKicker = document.querySelector("#panel-kicker");
-const panelTitle = document.querySelector("#panel-title");
-const panelText = document.querySelector("#panel-text");
-const panelCode = document.querySelector("#panel-code");
+const tabs = document.querySelectorAll(".builder-tab");
+const previewFile = document.querySelector("#preview-file");
+const previewKicker = document.querySelector("#preview-kicker");
+const previewTitle = document.querySelector("#preview-title");
+const previewText = document.querySelector("#preview-text");
+const previewCode = document.querySelector("#preview-code");
 
-const panels = {
+const builds = {
   data: {
-    file: "pipeline.config.ts",
+    file: "pipeline.ts",
     kicker: "Data Engineering",
-    title: "Decision-ready pipelines",
-    text: "Designing SQL, ETL, validation checks, and data flows that help teams trust information faster.",
-    code: `pipeline.validate({
-  source: "operational_data",
+    title: "Trusted pipelines for serious teams.",
+    text:
+      "SQL, Snowflake, ETL, validation checks, and analytics layers designed for dependable operational decisions.",
+    code: `pipeline.deploy({
+  sources: ["operational_data", "case_signals"],
   checks: ["freshness", "schema", "accuracy"],
   output: "trusted_decision_layer"
 });`
   },
   ai: {
-    file: "ai-workflow.ts",
+    file: "ai-lab.ts",
     kicker: "AI + LLM Workflows",
-    title: "Practical intelligence inside useful tools",
-    text: "Exploring LLMs, machine learning, and computer vision concepts where AI supports workflow quality instead of becoming visual noise.",
-    code: `assistantWorkflow.run({
-  context: "data_quality_review",
-  guardrails: ["traceable", "human_reviewed"],
-  result: "actionable_summary"
+    title: "AI that supports useful work.",
+    text:
+      "Practical machine learning, LLM workflows, and computer vision ideas connected to real user and data problems.",
+    code: `aiWorkflow.compose({
+  mode: "human_reviewed",
+  tasks: ["summarize", "detect", "explain"],
+  guardrails: ["traceable", "secure", "useful"]
 });`
   },
-  frontend: {
-    file: "interface.tsx",
-    kicker: "Frontend Quality",
-    title: "Interfaces that make systems feel clear",
-    text: "Building responsive pages with clean hierarchy, accessible controls, and interaction states that feel polished on desktop and mobile.",
-    code: `<Section title="Developer Portfolio">
-  <SignalGrid density="scannable" />
-  <CodePreview language="ts" />
-</Section>`
+  research: {
+    file: "research.ts",
+    kicker: "Research + IP",
+    title: "Academic and IP signals in one place.",
+    text:
+      "Google Scholar, patent work, Canada registration, UK IPO recognition, and publication identifiers without document downloads.",
+    code: `research.signals({
+  patent: "202541055731",
+  copyright: "Canada 1236755",
+  isbn: ["978-93-7183-278-6", "978-93-89476-76-7"]
+});`
   },
   impact: {
-    file: "public-impact.sql",
+    file: "impact.ts",
     kicker: "Public Impact",
-    title: "Engineering with operational stakes",
-    text: "Connecting backend architecture, validation frameworks, and public-sector data products to work that affects real people.",
-    code: `select mission, signal, confidence
-from public_safety_metrics
-where status = 'decision_ready'
-order by updated_at desc;`
+    title: "Work that shows up outside the codebase.",
+    text:
+      "Press coverage, AI teaching, community involvement, and public-safety data work connected to real teams.",
+    code: `impact.publish({
+  press: ["Times of India", "Dainik Bhaskar"],
+  community: "Global AI Tempe",
+  mission: "data people can trust"
+});`
   }
 };
 
@@ -66,25 +72,25 @@ if (menuToggle && nav) {
   });
 }
 
-capabilityButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const panel = panels[button.dataset.panel];
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const build = builds[tab.dataset.build];
 
-    if (!panel || !panelFile || !panelKicker || !panelTitle || !panelText || !panelCode) {
+    if (!build || !previewFile || !previewKicker || !previewTitle || !previewText || !previewCode) {
       return;
     }
 
-    capabilityButtons.forEach((item) => {
+    tabs.forEach((item) => {
       item.classList.remove("active");
       item.setAttribute("aria-selected", "false");
     });
 
-    button.classList.add("active");
-    button.setAttribute("aria-selected", "true");
-    panelFile.textContent = panel.file;
-    panelKicker.textContent = panel.kicker;
-    panelTitle.textContent = panel.title;
-    panelText.textContent = panel.text;
-    panelCode.textContent = panel.code;
+    tab.classList.add("active");
+    tab.setAttribute("aria-selected", "true");
+    previewFile.textContent = build.file;
+    previewKicker.textContent = build.kicker;
+    previewTitle.textContent = build.title;
+    previewText.textContent = build.text;
+    previewCode.textContent = build.code;
   });
 });
