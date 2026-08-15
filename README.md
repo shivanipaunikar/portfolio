@@ -1,8 +1,8 @@
 # Shivani Paunikar Portfolio
 
-Static GitHub Pages portfolio for Shivani Paunikar, redesigned as a colorful
-Lovable-inspired searchable portfolio with a large gradient hero, real portfolio
-search, product-style sections, research/IP cards, impact links, credentials,
+Static GitHub Pages portfolio for Shivani Paunikar, designed as a colorful
+searchable personal portfolio with a polished gradient hero, portfolio search,
+organized experience sections, research/IP cards, impact links, credentials,
 and a personal Shaay section.
 
 The page keeps the core portfolio information: Axon, past TPD experience,

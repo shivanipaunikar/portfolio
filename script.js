@@ -15,7 +15,7 @@ const portfolioItems = [
   {
     tag: "Current role",
     title: "Data Solutions Engineer II at Axon",
-    text: "Building data solutions for public-safety technology and mission-driven teams.",
+    text: "Data solutions for public-safety technology, operational reporting, and trusted workflows.",
     keywords: ["axon", "current", "role", "public safety", "data solutions", "engineer"]
   },
   {
@@ -73,22 +73,22 @@ const layers = {
     url: "shivani.dev/data-systems",
     node: "Data",
     kicker: "Data Engineering",
-    title: "Trusted pipelines for mission-driven teams.",
-    text: "Data workflows that turn raw operational signals into accurate, decision-ready layers."
+    title: "Reliable pipelines and decision-ready data.",
+    text: "SQL, Snowflake, ETL, validation, and analytics layers for dependable operational workflows."
   },
   ai: {
     url: "shivani.dev/ai-lab",
     node: "AI",
     kicker: "AI + LLM Workflows",
-    title: "Practical intelligence inside useful tools.",
-    text: "LLM workflows, machine learning concepts, and computer vision research tied to real user problems."
+    title: "AI workflows with practical purpose.",
+    text: "LLM workflows, machine learning concepts, and computer vision research tied to real user needs."
   },
   impact: {
     url: "shivani.dev/public-impact",
     node: "Impact",
     kicker: "Public Impact",
-    title: "Engineering that shows up beyond the codebase.",
-    text: "Axon, TPD, press coverage, AI education, and community work connected to real people."
+    title: "Public-safety and community impact.",
+    text: "Axon, TPD, press coverage, AI education, and community work connected to public-facing outcomes."
   },
   research: {
     url: "shivani.dev/research-ip",

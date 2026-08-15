@@ -53,28 +53,28 @@ p {
 }
 
 h1 {
-  max-width: 920px;
+  max-width: 880px;
   margin: 0 auto 12px;
-  font-size: clamp(3.1rem, 7.7vw, 7.1rem);
+  font-size: clamp(3rem, 7vw, 6.4rem);
   font-weight: 900;
-  letter-spacing: -0.06em;
-  line-height: 0.9;
+  letter-spacing: -0.052em;
+  line-height: 0.92;
 }
 
 h2 {
   margin-bottom: 14px;
-  font-size: clamp(2.1rem, 4.7vw, 4.8rem);
-  font-weight: 850;
-  letter-spacing: -0.055em;
-  line-height: 0.96;
+  font-size: clamp(1.9rem, 3.6vw, 3.55rem);
+  font-weight: 820;
+  letter-spacing: -0.038em;
+  line-height: 1.04;
 }
 
 h3 {
   margin-bottom: 10px;
-  font-size: 1.3rem;
-  font-weight: 820;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
+  font-size: 1.18rem;
+  font-weight: 780;
+  letter-spacing: -0.018em;
+  line-height: 1.25;
 }
 
 p {
@@ -231,7 +231,7 @@ main {
 
 .hero-center {
   width: min(920px, 100%);
-  margin-top: clamp(70px, 12vh, 160px);
+  margin-top: clamp(58px, 10vh, 128px);
 }
 
 .profile-chip {
@@ -273,7 +273,7 @@ main {
 
 .hero-subtitle {
   max-width: 720px;
-  margin: 0 auto 36px;
+  margin: 0 auto 30px;
   color: #6c666c;
   font-size: clamp(1.08rem, 1.8vw, 1.32rem);
 }
@@ -281,7 +281,7 @@ main {
 .search-card {
   width: min(760px, 100%);
   margin: 0 auto;
-  padding: 18px;
+  padding: 16px;
   border: 1px solid rgba(22, 20, 22, 0.08);
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.92);
@@ -291,7 +291,7 @@ main {
 
 .search-card textarea {
   width: 100%;
-  min-height: 86px;
+  min-height: 78px;
   resize: none;
   border: 0;
   outline: 0;
@@ -430,7 +430,7 @@ main {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 10px;
-  padding: clamp(42px, 6vw, 72px) 0;
+  padding: clamp(34px, 5vw, 58px) 0;
 }
 
 .proof-strip span {
@@ -450,10 +450,10 @@ main {
 
 .builder-section {
   display: grid;
-  grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr);
-  gap: clamp(30px, 6vw, 86px);
+  grid-template-columns: minmax(300px, 0.38fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 64px);
   align-items: center;
-  padding: clamp(54px, 7vw, 90px);
+  padding: clamp(44px, 6vw, 74px);
   border-radius: 0;
   background: #1c1c1b;
   color: #fff;
@@ -473,18 +473,21 @@ main {
 
 .builder-copy h2 {
   color: #fff;
-  font-size: clamp(2.2rem, 4vw, 4.4rem);
+  max-width: 520px;
+  font-size: clamp(2rem, 3.2vw, 3.15rem);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
 }
 
 .builder-list {
   display: grid;
-  margin-top: 52px;
+  margin-top: 32px;
 }
 
 .builder-row {
   display: grid;
-  gap: 8px;
-  padding: 20px 0;
+  gap: 7px;
+  padding: 16px 0;
   border: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   background: transparent;
@@ -497,7 +500,7 @@ main {
 }
 
 .builder-row strong {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .builder-row span {
@@ -517,7 +520,7 @@ main {
 .builder-visual {
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 18px;
+  border-radius: 24px;
   background:
     radial-gradient(circle at 50% 72%, rgba(255, 63, 157, 0.18), transparent 20rem),
     #202027;
@@ -525,7 +528,7 @@ main {
 }
 
 .visual-browser {
-  padding: clamp(24px, 4vw, 44px);
+  padding: clamp(22px, 3vw, 34px);
 }
 
 .browser-top {
@@ -559,7 +562,7 @@ main {
 
 .visual-canvas {
   position: relative;
-  min-height: 350px;
+  min-height: 280px;
   width: min(520px, 100%);
   margin: 0 auto;
   border: 2px solid transparent;
@@ -590,8 +593,8 @@ main {
 .node {
   position: absolute;
   display: grid;
-  width: 76px;
-  height: 76px;
+  width: 66px;
+  height: 66px;
   place-items: center;
   border-radius: 50%;
   background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.44), rgba(92, 93, 106, 0.8));
@@ -603,19 +606,19 @@ main {
 
 .node-left {
   top: 42%;
-  left: -38px;
+  left: -26px;
 }
 
 .node-center {
   top: 44%;
   left: calc(50% - 38px);
-  width: 88px;
-  height: 88px;
+  width: 76px;
+  height: 76px;
 }
 
 .node-right {
   top: 42%;
-  right: -38px;
+  right: -26px;
 }
 
 .mini-card {
@@ -636,7 +639,7 @@ main {
 }
 
 .visual-copy {
-  padding: 0 clamp(24px, 4vw, 44px) clamp(26px, 4vw, 42px);
+  padding: 0 clamp(22px, 3vw, 34px) clamp(24px, 3vw, 34px);
 }
 
 .visual-copy span {
@@ -649,17 +652,20 @@ main {
 .visual-copy h3 {
   margin-top: 12px;
   color: #fff;
-  font-size: clamp(1.7rem, 3vw, 3rem);
+  max-width: 560px;
+  font-size: clamp(1.55rem, 2.4vw, 2.35rem);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
 }
 
 .section {
-  padding: clamp(58px, 9vw, 116px) 0;
+  padding: clamp(50px, 7vw, 90px) 0;
   scroll-margin-top: 92px;
 }
 
 .section-heading {
   max-width: 850px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .section-heading.split {
@@ -676,15 +682,15 @@ main {
 .impact-links {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+  gap: 12px;
 }
 
 .signal-card,
 .document-grid article,
 .impact-links a,
 .credential-row article {
-  min-height: 255px;
-  padding: 24px;
+  min-height: 220px;
+  padding: 22px;
   border: 1px solid rgba(22, 20, 22, 0.1);
   border-radius: 26px;
   background: rgba(255, 255, 255, 0.82);
@@ -726,7 +732,7 @@ main {
 .impact-section {
   display: grid;
   grid-template-columns: minmax(280px, 0.5fr) minmax(0, 1fr);
-  gap: clamp(26px, 6vw, 76px);
+  gap: clamp(24px, 5vw, 58px);
   align-items: start;
 }
 
@@ -748,7 +754,7 @@ main {
 .impact-links strong {
   display: block;
   margin-bottom: 8px;
-  font-size: 1.3rem;
+  font-size: 1.16rem;
 }
 
 .personal-card {
@@ -756,7 +762,7 @@ main {
   grid-template-columns: minmax(0, 0.9fr) minmax(310px, 0.7fr);
   gap: clamp(28px, 6vw, 76px);
   align-items: center;
-  padding: clamp(28px, 5vw, 58px);
+  padding: clamp(26px, 4vw, 46px);
   border-radius: 34px;
   background:
     radial-gradient(circle at 18% 0%, rgba(255, 63, 157, 0.15), transparent 20rem),
@@ -855,11 +861,11 @@ main {
   }
 
   h1 {
-    font-size: clamp(3.2rem, 17vw, 5.4rem);
+    font-size: clamp(2.7rem, 14vw, 4.4rem);
   }
 
   h2 {
-    font-size: clamp(2.2rem, 12vw, 3.9rem);
+    font-size: clamp(1.85rem, 9vw, 3rem);
   }
 
   .site-header {
