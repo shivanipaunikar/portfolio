@@ -279,9 +279,9 @@ main {
 }
 
 .search-card {
-  width: min(760px, 100%);
+  width: min(720px, 100%);
   margin: 0 auto;
-  padding: 16px;
+  padding: 14px;
   border: 1px solid rgba(22, 20, 22, 0.08);
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.92);
@@ -291,13 +291,13 @@ main {
 
 .search-card textarea {
   width: 100%;
-  min-height: 78px;
+  min-height: 64px;
   resize: none;
   border: 0;
   outline: 0;
   background: transparent;
   color: var(--ink);
-  font-size: 1.08rem;
+  font-size: 1rem;
   font-weight: 650;
   line-height: 1.5;
 }
@@ -327,14 +327,15 @@ main {
 .search-mode {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   color: #827b82;
   font-weight: 700;
 }
 
 .search-mode button {
   min-height: 42px;
-  padding: 0 18px;
+  min-width: 152px;
+  padding: 0 22px;
   border: 0;
   border-radius: 999px;
   background: var(--black);
@@ -473,8 +474,8 @@ main {
 
 .builder-copy h2 {
   color: #fff;
-  max-width: 520px;
-  font-size: clamp(2rem, 3.2vw, 3.15rem);
+  max-width: 620px;
+  font-size: clamp(2rem, 3vw, 2.85rem);
   letter-spacing: -0.035em;
   line-height: 1.05;
 }
@@ -689,7 +690,7 @@ main {
 .document-grid article,
 .impact-links a,
 .credential-row article {
-  min-height: 220px;
+  min-height: 210px;
   padding: 22px;
   border: 1px solid rgba(22, 20, 22, 0.1);
   border-radius: 26px;
@@ -697,8 +698,12 @@ main {
   box-shadow: 0 18px 54px rgba(55, 43, 73, 0.08);
 }
 
+.signal-card {
+  grid-column: span 1;
+}
+
 .feature-card {
-  grid-column: span 2;
+  grid-column: span 1;
   background:
     radial-gradient(circle at 82% 8%, rgba(255, 255, 255, 0.52), transparent 12rem),
     linear-gradient(135deg, #775cff, #ff3f9d 54%, #ff7a3d);
@@ -720,9 +725,11 @@ main {
 }
 
 .pill-link {
+  min-width: max-content;
   padding: 0 17px;
   border: 1px solid rgba(22, 20, 22, 0.12);
   background: #fff;
+  white-space: nowrap;
 }
 
 .document-grid {
