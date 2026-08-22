@@ -132,6 +132,10 @@ p {
   font-weight: 700;
 }
 
+.nav-label {
+  display: none;
+}
+
 .site-nav a {
   padding: 8px 0;
 }
@@ -904,29 +908,59 @@ main {
 
   .menu-toggle {
     display: grid;
+    position: relative;
+    z-index: 51;
   }
 
   .site-nav {
-    position: absolute;
-    top: 64px;
-    right: 16px;
-    left: 16px;
-    display: none;
+    position: fixed;
+    top: 74px;
+    right: 14px;
+    left: auto;
+    z-index: 50;
+    display: flex;
     flex-direction: column;
-    gap: 0;
-    padding: 8px;
+    gap: 8px;
+    width: min(280px, calc(100vw - 28px));
+    padding: 14px;
     border: 1px solid var(--line);
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.96);
+    border-radius: 24px;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(255, 63, 157, 0.13), transparent 9rem),
+      rgba(255, 255, 255, 0.96);
     box-shadow: var(--shadow);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(12px) scale(0.98);
+    transition: opacity 160ms ease, transform 160ms ease;
   }
 
   .site-nav.open {
-    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0) scale(1);
+  }
+
+  .nav-label {
+    display: block;
+    padding: 6px 8px 4px;
+    color: var(--pink);
+    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.68rem;
+    font-weight: 850;
+    text-transform: uppercase;
   }
 
   .site-nav a {
-    padding: 14px 12px;
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    padding: 0 13px;
+    border: 1px solid rgba(22, 20, 22, 0.08);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.68);
+    box-shadow: 0 8px 24px rgba(55, 43, 73, 0.05);
+    font-size: 0.92rem;
   }
 
   .hero {
