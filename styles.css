@@ -257,7 +257,7 @@ main {
   height: 52px;
   border-radius: 50%;
   object-fit: cover;
-  object-position: center 20%;
+  object-position: center;
 }
 
 .profile-chip strong,
