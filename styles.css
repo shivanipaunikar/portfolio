@@ -189,6 +189,42 @@ input:focus-visible {
   inset: var(--header-h) 0 var(--hud-h);
   overflow: hidden;
   touch-action: pan-y pinch-zoom;
+  perspective: 1800px;
+  perspective-origin: 50% 50%;
+  isolation: isolate;
+}
+
+.viewport::before,
+.viewport::after {
+  position: absolute;
+  z-index: 30;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.viewport::before {
+  width: 34%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(3, 7, 18, 0.34) 48%, rgba(255, 255, 255, 0.18) 51%, transparent);
+  filter: blur(1px);
+}
+
+.viewport::after {
+  background: rgba(6, 10, 20, 0.12);
+}
+
+.viewport.scene-turning::after {
+  animation: pageFlash 940ms ease-out both;
+}
+
+.viewport.scene-turning.turn-next::before {
+  animation: foldSpineNext 940ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+}
+
+.viewport.scene-turning.turn-previous::before {
+  animation: foldSpinePrevious 940ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
 }
 
 body.is-swiping .viewport {
@@ -203,40 +239,88 @@ body.is-swiping .viewport {
   width: 300vw;
   height: 200%;
   transform: translate3d(0, 0, 0);
-  transition: transform 780ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 940ms cubic-bezier(0.2, 0.76, 0.18, 1);
+  transform-style: preserve-3d;
   will-change: transform;
 }
 
-.scene-shell.swipe-out-next,
-.scene-shell.swipe-out-previous,
-.scene-shell.swipe-in-next,
-.scene-shell.swipe-in-previous {
-  will-change: transform, opacity;
+.scene.page-out-next .scene-shell,
+.scene.page-out-previous .scene-shell,
+.scene.page-in-next .scene-shell,
+.scene.page-in-previous .scene-shell,
+.scene.gesture-preview .scene-shell {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform, filter, opacity;
 }
 
-.scene-shell.swipe-out-next { animation: sceneOutNext 680ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-.scene-shell.swipe-out-previous { animation: sceneOutPrevious 680ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-.scene-shell.swipe-in-next { animation: sceneInNext 760ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-.scene-shell.swipe-in-previous { animation: sceneInPrevious 760ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-
-@keyframes sceneOutNext {
-  from { opacity: 1; transform: translateX(0) scale(1); }
-  to { opacity: 0.45; transform: translateX(-46px) scale(0.975); }
+.scene.page-out-next .scene-shell {
+  transform-origin: left center;
+  animation: pageOutNext 940ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
 }
 
-@keyframes sceneOutPrevious {
-  from { opacity: 1; transform: translateX(0) scale(1); }
-  to { opacity: 0.45; transform: translateX(46px) scale(0.975); }
+.scene.page-out-previous .scene-shell {
+  transform-origin: right center;
+  animation: pageOutPrevious 940ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
 }
 
-@keyframes sceneInNext {
-  from { opacity: 0.35; transform: translateX(58px) scale(0.97); }
-  to { opacity: 1; transform: translateX(0) scale(1); }
+.scene.page-in-next .scene-shell {
+  transform-origin: right center;
+  animation: pageInNext 940ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
 }
 
-@keyframes sceneInPrevious {
-  from { opacity: 0.35; transform: translateX(-58px) scale(0.97); }
-  to { opacity: 1; transform: translateX(0) scale(1); }
+.scene.page-in-previous .scene-shell {
+  transform-origin: left center;
+  animation: pageInPrevious 940ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+}
+
+.scene.gesture-preview .scene-shell {
+  transition: none;
+  transform: translate3d(var(--gesture-shift), 0, var(--gesture-depth)) rotateY(var(--gesture-rotate));
+}
+
+.scene.gesture-next .scene-shell { transform-origin: left center; }
+.scene.gesture-previous .scene-shell { transform-origin: right center; }
+
+@keyframes pageOutNext {
+  0% { opacity: 1; filter: brightness(1); transform: translate3d(0, 0, 0) rotateY(0) scale(1); }
+  48% { opacity: 0.92; filter: brightness(0.88); transform: translate3d(-2.5%, 0, -80px) rotateY(-9deg) scale(0.988); }
+  100% { opacity: 0.46; filter: brightness(0.68); transform: translate3d(-7%, 0, -160px) rotateY(-19deg) scale(0.96); }
+}
+
+@keyframes pageOutPrevious {
+  0% { opacity: 1; filter: brightness(1); transform: translate3d(0, 0, 0) rotateY(0) scale(1); }
+  48% { opacity: 0.92; filter: brightness(0.88); transform: translate3d(2.5%, 0, -80px) rotateY(9deg) scale(0.988); }
+  100% { opacity: 0.46; filter: brightness(0.68); transform: translate3d(7%, 0, -160px) rotateY(19deg) scale(0.96); }
+}
+
+@keyframes pageInNext {
+  0% { opacity: 0.4; filter: brightness(0.7); transform: translate3d(8%, 0, -180px) rotateY(22deg) scale(0.95); }
+  55% { opacity: 0.94; filter: brightness(0.96); transform: translate3d(1.5%, 0, -34px) rotateY(5deg) scale(0.992); }
+  100% { opacity: 1; filter: brightness(1); transform: translate3d(0, 0, 0) rotateY(0) scale(1); }
+}
+
+@keyframes pageInPrevious {
+  0% { opacity: 0.4; filter: brightness(0.7); transform: translate3d(-8%, 0, -180px) rotateY(-22deg) scale(0.95); }
+  55% { opacity: 0.94; filter: brightness(0.96); transform: translate3d(-1.5%, 0, -34px) rotateY(-5deg) scale(0.992); }
+  100% { opacity: 1; filter: brightness(1); transform: translate3d(0, 0, 0) rotateY(0) scale(1); }
+}
+
+@keyframes foldSpineNext {
+  0% { opacity: 0; transform: translateX(250%) skewX(-10deg); }
+  24% { opacity: 0.72; }
+  100% { opacity: 0; transform: translateX(-110%) skewX(8deg); }
+}
+
+@keyframes foldSpinePrevious {
+  0% { opacity: 0; transform: translateX(-110%) skewX(10deg); }
+  24% { opacity: 0.72; }
+  100% { opacity: 0; transform: translateX(250%) skewX(-8deg); }
+}
+
+@keyframes pageFlash {
+  0%, 100% { opacity: 0; }
+  38% { opacity: 0.32; }
 }
 
 .scene {
@@ -246,6 +330,8 @@ body.is-swiping .viewport {
   min-height: 0;
   overflow: hidden;
   background: var(--paper);
+  perspective: 1800px;
+  transform-style: preserve-3d;
 }
 
 .scene[data-col="0"] { left: 0; }
@@ -297,6 +383,8 @@ body.dark .float-canvas {
   width: 100%;
   height: 100%;
   padding: clamp(24px, 4vw, 62px);
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .mono-label {
@@ -1572,6 +1660,45 @@ noscript {
   .scene {
     overflow-y: auto;
     overscroll-behavior: contain;
+    perspective: 1100px;
+  }
+
+  .viewport {
+    perspective: 1100px;
+  }
+
+  .world {
+    transition-duration: 780ms;
+  }
+
+  .viewport::before {
+    width: 48%;
+  }
+
+  .viewport.scene-turning::after,
+  .viewport.scene-turning.turn-next::before,
+  .viewport.scene-turning.turn-previous::before {
+    animation-duration: 780ms;
+  }
+
+  .scene.page-out-next .scene-shell {
+    animation: pageOutNextMobile 780ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+  }
+
+  .scene.page-out-previous .scene-shell {
+    animation: pageOutPreviousMobile 780ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+  }
+
+  .scene.page-in-next .scene-shell {
+    animation: pageInNextMobile 780ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+  }
+
+  .scene.page-in-previous .scene-shell {
+    animation: pageInPreviousMobile 780ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+  }
+
+  .scene.gesture-preview .scene-shell {
+    transform: translate3d(var(--gesture-shift), 0, var(--gesture-depth)) rotateY(calc(var(--gesture-rotate) * 0.68));
   }
 
   .scene-grid {
@@ -1880,6 +2007,26 @@ noscript {
     justify-self: end;
     padding: 0;
   }
+}
+
+@keyframes pageOutNextMobile {
+  from { opacity: 1; transform: translate3d(0, 0, 0) rotateY(0) scale(1); }
+  to { opacity: 0.55; transform: translate3d(-5%, 0, -88px) rotateY(-11deg) scale(0.975); }
+}
+
+@keyframes pageOutPreviousMobile {
+  from { opacity: 1; transform: translate3d(0, 0, 0) rotateY(0) scale(1); }
+  to { opacity: 0.55; transform: translate3d(5%, 0, -88px) rotateY(11deg) scale(0.975); }
+}
+
+@keyframes pageInNextMobile {
+  from { opacity: 0.48; transform: translate3d(7%, 0, -100px) rotateY(13deg) scale(0.97); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) rotateY(0) scale(1); }
+}
+
+@keyframes pageInPreviousMobile {
+  from { opacity: 0.48; transform: translate3d(-7%, 0, -100px) rotateY(-13deg) scale(0.97); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) rotateY(0) scale(1); }
 }
 
 @keyframes gelLetterFloatMobile {

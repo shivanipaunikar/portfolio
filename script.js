@@ -106,6 +106,37 @@ let wheelLocked = false;
 let wheelResetTimer;
 let sceneTransitionTimer;
 
+const pageTransitionClasses = [
+  "page-out-next",
+  "page-out-previous",
+  "page-in-next",
+  "page-in-previous"
+];
+
+function clearGesturePreview() {
+  document.body.classList.remove("is-swiping");
+  scenes.forEach((scene) => {
+    scene.classList.remove("gesture-preview", "gesture-next", "gesture-previous");
+    scene.style.removeProperty("--gesture-shift");
+    scene.style.removeProperty("--gesture-rotate");
+    scene.style.removeProperty("--gesture-depth");
+  });
+}
+
+function showGesturePreview(deltaX) {
+  const scene = document.getElementById(activeScene);
+  if (!scene || !viewport) return;
+
+  const progress = Math.min(Math.abs(deltaX) / Math.max(viewport.clientWidth * 0.42, 1), 1);
+  const direction = deltaX < 0 ? -1 : 1;
+  scene.classList.add("gesture-preview");
+  scene.classList.toggle("gesture-next", direction < 0);
+  scene.classList.toggle("gesture-previous", direction > 0);
+  scene.style.setProperty("--gesture-shift", `${(deltaX * 0.13).toFixed(1)}px`);
+  scene.style.setProperty("--gesture-rotate", `${(direction * progress * 8).toFixed(2)}deg`);
+  scene.style.setProperty("--gesture-depth", `${(-progress * 72).toFixed(1)}px`);
+}
+
 function escapeHtml(value) {
   return value.replace(/[&<>'"]/g, (character) => ({
     "&": "&amp;",
@@ -362,22 +393,26 @@ function goToScene(sceneId, options = {}) {
   if (!position || !world) return;
 
   const changed = activeScene !== sceneId;
-  const outgoingScene = document.querySelector(`#${activeScene} .scene-shell`);
-  const incomingScene = document.querySelector(`#${sceneId} .scene-shell`);
+  const outgoingScene = document.getElementById(activeScene);
+  const incomingScene = document.getElementById(sceneId);
   const transitionDirection = options.gestureDirection
     || (sceneOrder.indexOf(sceneId) > sceneOrder.indexOf(activeScene) ? "next" : "previous");
 
   if (changed && outgoingScene && incomingScene) {
     const direction = transitionDirection;
-    const transitionClasses = ["swipe-out-next", "swipe-out-previous", "swipe-in-next", "swipe-in-previous"];
-    document.querySelectorAll(".scene-shell").forEach((shell) => shell.classList.remove(...transitionClasses));
-    outgoingScene.classList.add(direction === "next" ? "swipe-out-next" : "swipe-out-previous");
-    incomingScene.classList.add(direction === "next" ? "swipe-in-next" : "swipe-in-previous");
+    clearGesturePreview();
+    scenes.forEach((scene) => scene.classList.remove(...pageTransitionClasses));
+    viewport.classList.remove("scene-turning", "turn-next", "turn-previous");
+    void incomingScene.offsetWidth;
+    outgoingScene.classList.add(direction === "next" ? "page-out-next" : "page-out-previous");
+    incomingScene.classList.add(direction === "next" ? "page-in-next" : "page-in-previous");
+    viewport.classList.add("scene-turning", direction === "next" ? "turn-next" : "turn-previous");
     window.clearTimeout(sceneTransitionTimer);
     sceneTransitionTimer = window.setTimeout(() => {
-      outgoingScene.classList.remove("swipe-out-next", "swipe-out-previous");
-      incomingScene.classList.remove("swipe-in-next", "swipe-in-previous");
-    }, 820);
+      outgoingScene.classList.remove(...pageTransitionClasses);
+      incomingScene.classList.remove(...pageTransitionClasses);
+      viewport.classList.remove("scene-turning", "turn-next", "turn-previous");
+    }, 1040);
   }
 
   activeScene = sceneId;
@@ -586,7 +621,10 @@ document.addEventListener("pointermove", (event) => {
   if (!touchStart || event.pointerId !== touchStart.pointerId) return;
   const deltaX = event.clientX - touchStart.x;
   const deltaY = event.clientY - touchStart.y;
-  if (Math.abs(deltaX) > 12 && Math.abs(deltaX) > Math.abs(deltaY)) document.body.classList.add("is-swiping");
+  if (Math.abs(deltaX) > 12 && Math.abs(deltaX) > Math.abs(deltaY)) {
+    document.body.classList.add("is-swiping");
+    showGesturePreview(deltaX);
+  }
 });
 
 function finishSwipe(event) {
@@ -594,14 +632,14 @@ function finishSwipe(event) {
 
   const gesture = touchStart;
   touchStart = null;
-  document.body.classList.remove("is-swiping");
+  clearGesturePreview();
   navigateBySwipe(event.clientX - gesture.x, event.clientY - gesture.y);
 }
 
 document.addEventListener("pointerup", finishSwipe);
 document.addEventListener("pointercancel", () => {
   touchStart = null;
-  document.body.classList.remove("is-swiping");
+  clearGesturePreview();
 });
 
 viewport.addEventListener("touchstart", (event) => {
