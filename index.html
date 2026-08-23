@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#dcecff" />
     <title>Shivani Paunikar | Data Engineering Portfolio</title>
     <meta
       name="description"
-      content="Search Shivani Paunikar's portfolio: Axon, Tucson Police Department, data engineering, AI tools, public-safety technology, patents, research, press, credentials, and community work."
+      content="Explore Shivani Paunikar's spatial portfolio: data engineering, AI tools, public-safety technology, research, patents, press, credentials, and community work."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,352 +15,309 @@
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=17" />
+    <link rel="stylesheet" href="styles.css?v=18" />
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#home" aria-label="Shivani Paunikar home">
-        <span class="brand-mark"></span>
-        <strong>Shivani</strong>
-      </a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-        <span>Menu</span>
+      <button class="brand scene-link" type="button" data-scene="home" aria-label="Go to home">
+        <span class="brand-mark" aria-hidden="true">SP</span>
+        <span>SHIVANI.PAUNIKAR</span>
       </button>
-      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-        <span class="nav-label">Portfolio sections</span>
-        <a href="#builder">Overview</a>
-        <a href="#systems">Systems</a>
-        <a href="#research">Research</a>
-        <a href="#impact">Impact</a>
-        <a href="#credentials">Credentials</a>
-        <a href="#personal">Shaay</a>
+
+      <nav class="desktop-nav" aria-label="Portfolio areas">
+        <button class="scene-link active" type="button" data-scene="home">Home</button>
+        <button class="scene-link" type="button" data-scene="systems">Systems</button>
+        <button class="scene-link" type="button" data-scene="research">Research</button>
+        <button class="scene-link" type="button" data-scene="impact">Impact</button>
+        <button class="scene-link" type="button" data-scene="credentials">Credentials</button>
+        <button class="scene-link" type="button" data-scene="personal">Shaay</button>
       </nav>
-      <div class="header-actions">
-        <a class="login-link" href="https://scholar.google.com/citations?user=-39c6YwAAAAJ&hl=en">Scholar</a>
-        <a class="header-cta" href="https://www.linkedin.com/in/shivani-paunikar/">Connect</a>
+
+      <div class="utility-nav">
+        <button class="map-toggle" type="button" aria-expanded="false" aria-controls="world-map">Map</button>
+        <button class="theme-toggle" type="button" aria-label="Change color theme">Theme[A]</button>
+        <button class="sound-toggle" type="button" aria-pressed="false">Sound[-]</button>
       </div>
     </header>
 
-    <main id="home">
-      <section class="hero">
-        <div class="sky-scene" aria-hidden="true">
-          <span class="star star-one"></span>
-          <span class="star star-two"></span>
-          <span class="star star-three"></span>
-          <span class="star star-four"></span>
-          <span class="star star-five"></span>
-          <span class="star star-six"></span>
-          <span class="star star-seven"></span>
-          <span class="star star-eight"></span>
-          <span class="star star-nine"></span>
-          <span class="star star-ten"></span>
-          <span class="comet comet-one"></span>
-          <span class="comet comet-two"></span>
-          <span class="ridge ridge-back"></span>
-          <span class="ridge ridge-mid"></span>
-          <span class="ridge ridge-front"></span>
-        </div>
-        <div class="hero-center">
-          <div class="profile-chip">
-            <img src="assets/shivani-paunikar-headshot.jpeg?v=13" alt="Shivani Paunikar" />
-            <div>
-              <strong>Shivani Paunikar</strong>
-              <span>Data Solutions Engineer II at Axon</span>
+    <main class="viewport" aria-live="polite">
+      <div class="world" id="world">
+        <section class="scene scene-home" id="home" data-col="0" data-row="0" aria-labelledby="home-title">
+          <div class="scene-grid" aria-hidden="true"></div>
+          <div class="scene-shell home-shell">
+            <div class="home-meta">
+              <p class="mono-label">Data &amp; AI Engineering</p>
+              <p>Building dependable systems.<br />Designing with clarity.</p>
             </div>
-          </div>
 
-          <h1>Explore Shivani's Work</h1>
-          <p class="hero-subtitle">
-            Explore data engineering, AI tools, public-safety technology, research, patents, press,
-            credentials, and the personal side behind the work.
-          </p>
-
-          <form class="search-card" id="portfolio-search" role="search">
-            <label class="sr-only" for="search-input">Search the portfolio</label>
-            <textarea
-              id="search-input"
-              rows="2"
-              placeholder="Ask about Axon, TPD, patents, Google Scholar, certifications, press, AI, SQL..."
-            ></textarea>
-            <div class="search-footer">
-              <button class="add-button" type="button" aria-label="Add a search idea">+</button>
-              <div class="search-mode">
-                <span>Portfolio</span>
-                <button type="submit">Show results</button>
+            <div class="profile-chip">
+              <img src="assets/shivani-paunikar-headshot.jpeg?v=13" alt="Shivani Paunikar" />
+              <div>
+                <strong>Shivani Paunikar</strong>
+                <span>Data Solutions Engineer II at Axon</span>
               </div>
             </div>
-          </form>
 
-          <div class="quick-prompts" aria-label="Suggested searches">
-            <button type="button" data-query="Axon and public safety">Axon</button>
-            <button type="button" data-query="patent and image forgery detection">Patent</button>
-            <button type="button" data-query="Google Scholar and research">Research</button>
-            <button type="button" data-query="certifications and judging">Credentials</button>
-          </div>
-
-          <div class="search-results" id="search-results" aria-live="polite">
-            <article>
-              <span>Try a search</span>
-              <h2>Ask the portfolio what you want to know.</h2>
-              <p>Example: "public safety", "AI", "patent", "books", "Times of India", or "Shaay".</p>
-            </article>
-          </div>
-
-          <article class="hero-preview" aria-label="Portfolio preview">
-            <div class="preview-topbar">
-              <span></span>
-              <span></span>
-              <span></span>
-              <strong>shivani.paunikar / portfolio</strong>
+            <div class="hero-object" aria-hidden="true">
+              <div class="data-loop loop-one"></div>
+              <div class="data-loop loop-two"></div>
+              <span class="object-tag tag-sql">SQL</span>
+              <span class="object-tag tag-ai">AI</span>
+              <span class="object-tag tag-etl">ETL</span>
+              <span class="object-tag tag-impact">IMPACT</span>
+              <div class="pipeline-core"><span></span><span></span><span></span></div>
             </div>
-            <div class="preview-body">
-              <div class="preview-card main-preview-card">
-                <span>Mission control</span>
-                <h2>Data systems, AI tools, research, and public impact in one place.</h2>
-                <p>
-                  A focused portfolio for the work behind Axon, former TPD data engineering,
-                  patents, publications, credentials, teaching, and community visibility.
-                </p>
-              </div>
-              <div class="preview-grid" aria-hidden="true">
-                <span>Axon</span>
-                <span>TPD</span>
-                <span>Patent</span>
-                <span>Scholar</span>
+
+            <div class="hero-copy">
+              <p class="mono-label accent-label">Mission-driven engineering</p>
+              <h1 id="home-title">I turn complex data into useful systems.</h1>
+              <p>
+                Data engineering, AI tools, research, and public-safety technology, brought together
+                with a developer's eye for polished experiences.
+              </p>
+              <div class="hero-actions">
+                <button class="primary-action scene-link" type="button" data-scene="systems">Explore the work</button>
+                <a href="https://www.linkedin.com/in/shivani-paunikar/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
               </div>
             </div>
-          </article>
-        </div>
-      </section>
 
-      <section class="proof-strip" aria-label="Portfolio highlights">
-        <span>Axon</span>
-        <span>Former TPD Data Engineer</span>
-        <span>Indian Patent 202541055731</span>
-        <span>Google Scholar</span>
-        <span>Global AI Tempe</span>
-        <span>Times of India</span>
-      </section>
-
-      <section class="builder-section" id="builder">
-        <div class="builder-copy">
-          <p class="eyebrow">Portfolio overview</p>
-          <h2>A focused view of my engineering work.</h2>
-          <p>
-            Explore the areas that shape my work: data infrastructure, AI workflows, public-impact
-            systems, research, and polished frontend presentation.
-          </p>
-          <div class="builder-list" role="tablist" aria-label="Portfolio layers">
-            <button class="builder-row active" type="button" role="tab" aria-selected="true" data-layer="data">
-              <strong>Data systems</strong>
-              <span>SQL, Snowflake, ETL, validation, analytics layers</span>
-            </button>
-            <button class="builder-row" type="button" role="tab" aria-selected="false" data-layer="ai">
-              <strong>AI tools</strong>
-              <span>LLM workflows, ML concepts, computer vision research</span>
-            </button>
-            <button class="builder-row" type="button" role="tab" aria-selected="false" data-layer="impact">
-              <strong>Public impact</strong>
-              <span>Axon, TPD, press, community, teaching AI</span>
-            </button>
-            <button class="builder-row" type="button" role="tab" aria-selected="false" data-layer="research">
-              <strong>Research and IP</strong>
-              <span>Patent, Scholar, Canada, UK, ISBN signals</span>
-            </button>
-          </div>
-        </div>
-
-        <article class="builder-visual" aria-live="polite">
-          <div class="visual-browser">
-            <div class="browser-top">
-              <span></span>
-              <span></span>
-              <span></span>
-              <strong id="layer-url">shivani.dev/data-systems</strong>
-            </div>
-            <div class="visual-canvas">
-              <div class="orbit orbit-one"></div>
-              <div class="orbit orbit-two"></div>
-              <div class="node node-left">SQL</div>
-              <div class="node node-center" id="layer-node">Data</div>
-              <div class="node node-right">ETL</div>
-              <div class="mini-card top-card"></div>
-              <div class="mini-card bottom-card"></div>
+            <div class="search-dock">
+              <form id="portfolio-search" role="search">
+                <label for="search-input">Search this world</label>
+                <div class="search-row">
+                  <input id="search-input" type="search" placeholder="Try Axon, patent, AI, press..." />
+                  <button type="submit" aria-label="Search portfolio">↗</button>
+                </div>
+              </form>
+              <div class="search-results" id="search-results" aria-live="polite"></div>
             </div>
           </div>
-          <div class="visual-copy">
-            <span id="layer-kicker">Data Engineering</span>
-            <h3 id="layer-title">Trusted pipelines for mission-driven teams.</h3>
-            <p id="layer-text">
-              Data workflows that turn raw operational signals into accurate, decision-ready layers.
-            </p>
+        </section>
+
+        <section class="scene scene-systems" id="systems" data-col="1" data-row="0" aria-labelledby="systems-title">
+          <div class="scene-grid" aria-hidden="true"></div>
+          <div class="scene-shell area-shell">
+            <div class="area-heading">
+              <p class="mono-label">Area 01 / Systems</p>
+              <h2 id="systems-title">Engineering that holds up in the real world.</h2>
+              <p>Reliable data layers, useful automation, and interfaces built for repeated use.</p>
+            </div>
+
+            <div class="systems-visual" aria-hidden="true">
+              <div class="terminal-window">
+                <div class="terminal-bar"><span></span><span></span><span></span><b>pipeline.status</b></div>
+                <div class="terminal-body">
+                  <p><span>01</span> ingest operational signals</p>
+                  <p><span>02</span> validate + transform</p>
+                  <p><span>03</span> publish trusted layers</p>
+                  <div class="status-line"><i></i> ALL SYSTEMS READY</div>
+                </div>
+              </div>
+              <div class="flow-node node-a">SQL</div>
+              <div class="flow-node node-b">ETL</div>
+              <div class="flow-node node-c">BI</div>
+            </div>
+
+            <div class="area-cards systems-cards">
+              <article class="area-card feature-card">
+                <span>Current role</span>
+                <h3>Data Solutions Engineer II at Axon</h3>
+                <p>Data systems for mission-driven public-safety technology, operational reporting, and trusted workflows.</p>
+              </article>
+              <article class="area-card">
+                <span>Past experience</span>
+                <h3>Data Engineer at Tucson Police Department</h3>
+                <p>Former TPD data engineer supporting analytics and backend workflows for operational clarity.</p>
+              </article>
+              <article class="area-card">
+                <span>Core stack</span>
+                <h3>SQL, Snowflake, ETL, Python, frontend</h3>
+                <p>Engineering across data quality, automation, analytics layers, and user-facing tools.</p>
+              </article>
+              <article class="area-card">
+                <span>AI tools</span>
+                <h3>Practical AI for real workflows</h3>
+                <p>LLM workflows, machine-learning concepts, and computer-vision research connected to useful outcomes.</p>
+              </article>
+            </div>
           </div>
-        </article>
-      </section>
+        </section>
 
-      <section class="section" id="systems">
-        <div class="section-heading">
-          <p class="eyebrow">Engineering focus</p>
-          <h2>Engineering focus across data, AI, and public impact.</h2>
-        </div>
-        <div class="card-grid">
-          <article class="signal-card feature-card">
-            <span>Current role</span>
-            <h3>Data Solutions Engineer II, Axon</h3>
-            <p>Data systems for mission-driven public-safety technology.</p>
-          </article>
-          <article class="signal-card">
-            <span>Past experience</span>
-            <h3>Data Engineer, Tucson Police Department</h3>
-            <p>Analytics and backend workflows for public-sector operational clarity.</p>
-          </article>
-          <article class="signal-card">
-            <span>Stack</span>
-            <h3>SQL, Snowflake, ETL, Python, frontend</h3>
-            <p>Engineering across data quality, automation, and user-facing tools.</p>
-          </article>
-          <article class="signal-card warm-card">
-            <span>AI tools</span>
-            <h3>Useful AI, not visual noise</h3>
-            <p>LLM workflows, ML concepts, and computer vision research applied to real systems.</p>
-          </article>
-        </div>
-      </section>
+        <section class="scene scene-research" id="research" data-col="2" data-row="0" aria-labelledby="research-title">
+          <div class="scene-grid" aria-hidden="true"></div>
+          <div class="scene-shell area-shell">
+            <div class="area-heading">
+              <p class="mono-label">Area 02 / Research &amp; IP</p>
+              <h2 id="research-title">Ideas documented, published, and protected.</h2>
+              <p>Research signals spanning computer vision, publications, patents, and international intellectual property.</p>
+              <a class="inline-link" href="https://scholar.google.com/citations?user=-39c6YwAAAAJ&hl=en" target="_blank" rel="noreferrer">Open Google Scholar ↗</a>
+            </div>
 
-      <section class="section research-section" id="research">
-        <div class="section-heading split">
-          <div>
-            <p class="eyebrow">Research & IP</p>
-            <h2>Academic, patent, publication, and international signals.</h2>
+            <div class="research-orbit" aria-hidden="true">
+              <div class="orbit-ring ring-one"></div>
+              <div class="orbit-ring ring-two"></div>
+              <div class="research-core">R<span>+</span>D</div>
+              <span class="orbit-label label-patent">PATENT</span>
+              <span class="orbit-label label-scholar">SCHOLAR</span>
+              <span class="orbit-label label-books">BOOKS</span>
+            </div>
+
+            <div class="area-cards research-cards">
+              <article class="area-card feature-card">
+                <span>Indian patent</span>
+                <h3>Application 202541055731</h3>
+                <p>An Intelligent System for Digital Image Forgery Detection Using Machine Learning and Artificial Intelligence Techniques.</p>
+              </article>
+              <article class="area-card">
+                <span>Canada</span>
+                <h3>Copyright Registration 1236755</h3>
+                <p>An international intellectual-property signal, presented without document downloads.</p>
+              </article>
+              <article class="area-card">
+                <span>United Kingdom</span>
+                <h3>UK Intellectual Property Office</h3>
+                <p>UK IPO recognition included among international affiliation signals.</p>
+              </article>
+              <article class="area-card">
+                <span>Published books</span>
+                <h3>ISBN portfolio</h3>
+                <p>978-93-7183-278-6 and 978-93-89476-76-7.</p>
+              </article>
+            </div>
           </div>
-          <a class="pill-link" href="https://scholar.google.com/citations?user=-39c6YwAAAAJ&hl=en">Open Google Scholar</a>
-        </div>
-        <div class="document-grid">
-          <article>
-            <span>Patent</span>
-            <h3>Indian Patent Application 202541055731</h3>
-            <p>An Intelligent System for Digital Image Forgery Detection Using Machine Learning and Artificial Intelligence Techniques.</p>
-          </article>
-          <article>
-            <span>Canada</span>
-            <h3>Copyright Registration 1236755</h3>
-            <p>International IP signal included without document downloads.</p>
-          </article>
-          <article>
-            <span>United Kingdom</span>
-            <h3>UK Intellectual Property Office</h3>
-            <p>UK IPO recognition included as part of international affiliation signals.</p>
-          </article>
-          <article>
-            <span>Books</span>
-            <h3>ISBN portfolio</h3>
-            <p>Published ebook identifiers 978-93-7183-278-6 and 978-93-89476-76-7.</p>
-          </article>
-        </div>
-      </section>
+        </section>
 
-      <section class="section impact-section" id="impact">
-        <div class="impact-intro">
-          <p class="eyebrow">Public visibility</p>
-          <h2>Press, teaching, and community work.</h2>
-          <p>External signals that connect my technical work with public visibility and community impact.</p>
-        </div>
-        <div class="impact-links">
-          <a href="https://timesofindia.indiatimes.com/city/nagpur/city-girl-shivanis-innovations-helping-tucson-usa-cops-crunch-data-criminals/articleshow/123289347.cms">
-            <span>Press</span>
-            <strong>Times of India feature</strong>
-            <p>Public-safety data innovation coverage.</p>
-          </a>
-          <a href="https://epaper.bhaskarhindi.com/c/77640431">
-            <span>Media</span>
-            <strong>Dainik Bhaskar / Bhaskar Hindi ePaper</strong>
-            <p>Regional media feature and visibility.</p>
-          </a>
-          <a href="https://www.cee.org/newsevents/press-releases/cee-offers-webinar-teaching-ai">
-            <span>Teaching AI</span>
-            <strong>CEE webinar</strong>
-            <p>AI education and outreach signal.</p>
-          </a>
-          <a href="https://globalai.community/chapters/tempe/">
-            <span>Community</span>
-            <strong>Global AI Community Tempe</strong>
-            <p>Chapter involvement and ecosystem building.</p>
-          </a>
-        </div>
-      </section>
+        <section class="scene scene-impact" id="impact" data-col="0" data-row="1" aria-labelledby="impact-title">
+          <div class="scene-grid" aria-hidden="true"></div>
+          <div class="scene-shell area-shell">
+            <div class="area-heading">
+              <p class="mono-label">Area 03 / Public Impact</p>
+              <h2 id="impact-title">Technical work that reaches beyond the codebase.</h2>
+              <p>Press, AI education, community leadership, and public-safety work connected to real people.</p>
+            </div>
 
-      <section class="section credentials-section" id="credentials">
-        <div class="section-heading">
-          <p class="eyebrow">Credentials</p>
-          <h2>Certifications, judging, and leadership signals.</h2>
-        </div>
-        <div class="credential-row">
-          <article>
-            <span>Licenses</span>
-            <h3>AWS, Agile, Jira, DevOps, Analytics</h3>
-            <p>LinkedIn certifications plus DataCamp credentials.</p>
-          </article>
-          <article>
-            <span>Judging</span>
-            <h3>Hackathons and Technovation</h3>
-            <p>Opportunity Hack, ASU Fall Hackathon, Summer Global Hackathon, and Silver Judge.</p>
-          </article>
-          <article>
-            <span>Community</span>
-            <h3>AI education and ecosystem work</h3>
-            <p>Webinars, chapter activity, and practical AI learning support.</p>
-          </article>
-        </div>
-      </section>
+            <div class="signal-tower" aria-hidden="true">
+              <div class="tower-mast"></div>
+              <div class="signal-wave wave-one"></div>
+              <div class="signal-wave wave-two"></div>
+              <div class="signal-wave wave-three"></div>
+              <span>PUBLIC SIGNAL</span>
+            </div>
 
-      <section class="section personal-section" id="personal">
-        <article class="personal-card">
-          <div>
-            <p class="eyebrow">Personal life</p>
-            <h2>Meet my companion Shaay.</h2>
-            <p>Outside work: curious, creative, and very much a dog person. Shaay brings mountain air, reset energy, and loyal company after intense engineering weeks.</p>
+            <div class="link-grid">
+              <a class="link-card" href="https://timesofindia.indiatimes.com/city/nagpur/city-girl-shivanis-innovations-helping-tucson-usa-cops-crunch-data-criminals/articleshow/123289347.cms" target="_blank" rel="noreferrer">
+                <span>Press / India</span>
+                <strong>Times of India feature</strong>
+                <p>City girl's innovations helping Tucson police crunch data.</p>
+                <i>↗</i>
+              </a>
+              <a class="link-card" href="https://epaper.bhaskarhindi.com/c/77640431" target="_blank" rel="noreferrer">
+                <span>Media</span>
+                <strong>Dainik Bhaskar</strong>
+                <p>Regional media feature and visibility.</p>
+                <i>↗</i>
+              </a>
+              <a class="link-card" href="https://www.cee.org/newsevents/press-releases/cee-offers-webinar-teaching-ai" target="_blank" rel="noreferrer">
+                <span>Teaching AI</span>
+                <strong>CEE webinar</strong>
+                <p>AI education and outreach.</p>
+                <i>↗</i>
+              </a>
+              <a class="link-card" href="https://globalai.community/chapters/tempe/" target="_blank" rel="noreferrer">
+                <span>Community</span>
+                <strong>Global AI Community Tempe</strong>
+                <p>Chapter leadership and ecosystem building.</p>
+                <i>↗</i>
+              </a>
+            </div>
           </div>
-          <img src="assets/dog.jpeg" alt="Shaay, Shivani Paunikar's dog, resting in the snow" />
-        </article>
-      </section>
+        </section>
 
-      <section class="closing-section" id="contact">
-        <span class="closing-mark" aria-hidden="true"></span>
-        <p class="eyebrow">Connect</p>
-        <h2>Let us build meaningful technical missions with clarity.</h2>
-        <p>
-          Data engineering, AI systems, research, and public-impact work presented in one focused
-          place.
-        </p>
-        <div class="cta-actions">
-          <a class="pill-link dark" href="https://www.linkedin.com/in/shivani-paunikar/">LinkedIn</a>
-          <a class="pill-link" href="https://scholar.google.com/citations?user=-39c6YwAAAAJ&hl=en">Scholar</a>
-          <a class="pill-link" href="https://timesofindia.indiatimes.com/city/nagpur/city-girl-shivanis-innovations-helping-tucson-usa-cops-crunch-data-criminals/articleshow/123289347.cms">Press</a>
-        </div>
-        <div class="closing-footer">
-          <p>
-            Shivani Paunikar builds data systems, AI tools, and public-safety technology with
-            research depth and frontend polish.
-          </p>
-          <nav aria-label="Closing links">
-            <a href="#systems">Systems</a>
-            <a href="#research">Research</a>
-            <a href="#impact">Impact</a>
-            <a href="#credentials">Credentials</a>
-          </nav>
-        </div>
-        <div class="closing-mountains" aria-hidden="true">
-          <span class="closing-ridge closing-ridge-back"></span>
-          <span class="closing-ridge closing-ridge-front"></span>
-        </div>
-      </section>
+        <section class="scene scene-credentials" id="credentials" data-col="1" data-row="1" aria-labelledby="credentials-title">
+          <div class="scene-grid" aria-hidden="true"></div>
+          <div class="scene-shell area-shell">
+            <div class="area-heading">
+              <p class="mono-label">Area 04 / Credentials</p>
+              <h2 id="credentials-title">Proof of range, learning, and leadership.</h2>
+              <p>Technical certifications, competition judging, and community work across engineering and AI.</p>
+              <a class="inline-link" href="https://www.linkedin.com/in/shivani-paunikar/" target="_blank" rel="noreferrer">View on LinkedIn ↗</a>
+            </div>
+
+            <div class="credential-stack" aria-hidden="true">
+              <div class="stack-card stack-back">VERIFY</div>
+              <div class="stack-card stack-mid">BUILD</div>
+              <div class="stack-card stack-front">LEAD</div>
+            </div>
+
+            <div class="credential-list">
+              <article>
+                <span>01</span>
+                <div><h3>Licenses &amp; certifications</h3><p>AWS, Agile, Jira, DevOps, Analytics, and DataCamp credentials.</p></div>
+              </article>
+              <article>
+                <span>02</span>
+                <div><h3>Competition judging</h3><p>Opportunity Hack, ASU Fall Hackathon, Summer Global Hackathon, and Technovation Silver Judge.</p></div>
+              </article>
+              <article>
+                <span>03</span>
+                <div><h3>Community leadership</h3><p>AI webinars, chapter involvement, practical learning support, and ecosystem work.</p></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="scene scene-personal" id="personal" data-col="2" data-row="1" aria-labelledby="personal-title">
+          <div class="scene-grid" aria-hidden="true"></div>
+          <div class="scene-shell personal-shell">
+            <div class="personal-copy">
+              <p class="mono-label">Area 05 / Outside Work</p>
+              <h2 id="personal-title">Meet my companion Shaay.</h2>
+              <p>
+                Outside work I stay curious, creative, and very much a dog person. Shaay brings
+                mountain air, reset energy, and loyal company after intense engineering weeks.
+              </p>
+              <div class="personal-actions">
+                <a href="https://www.linkedin.com/in/shivani-paunikar/" target="_blank" rel="noreferrer">Connect on LinkedIn ↗</a>
+                <button class="scene-link" type="button" data-scene="home">Return home</button>
+              </div>
+            </div>
+            <figure class="shaay-frame">
+              <img src="assets/dog.jpeg" alt="Shaay, Shivani Paunikar's dog, resting in the snow" />
+              <figcaption>SHAAY / MOUNTAIN MODE</figcaption>
+            </figure>
+            <div class="closing-note">
+              <span>Open to collaboration</span>
+              <strong>For meaningful technical missions where systems thinking meets human impact.</strong>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
 
-    <footer class="site-footer">
-      <p>Shivani Paunikar. Data engineering, AI systems, research, and public-impact technology.</p>
-      <a href="#home">Back to top</a>
+    <aside class="world-map" id="world-map" aria-label="Portfolio map" aria-hidden="true">
+      <div class="map-header">
+        <div><span>World map</span><strong>Choose an area</strong></div>
+        <button class="map-close" type="button" aria-label="Close map">×</button>
+      </div>
+      <div class="map-grid">
+        <button class="map-cell scene-link active" type="button" data-scene="home"><small>00</small><strong>Home</strong></button>
+        <button class="map-cell scene-link" type="button" data-scene="systems"><small>01</small><strong>Systems</strong></button>
+        <button class="map-cell scene-link" type="button" data-scene="research"><small>02</small><strong>Research</strong></button>
+        <button class="map-cell scene-link" type="button" data-scene="impact"><small>03</small><strong>Impact</strong></button>
+        <button class="map-cell scene-link" type="button" data-scene="credentials"><small>04</small><strong>Credentials</strong></button>
+        <button class="map-cell scene-link" type="button" data-scene="personal"><small>05</small><strong>Shaay</strong></button>
+      </div>
+      <p>Use arrow keys, swipe, or the navigation to move through the portfolio.</p>
+    </aside>
+    <div class="map-backdrop" aria-hidden="true"></div>
+
+    <footer class="hud">
+      <div class="hud-time"><span id="local-time">PHX --:--</span><span id="local-date">--</span></div>
+      <div class="hud-position"><span id="scene-index">AREA 00</span><strong id="scene-name">HOME</strong></div>
+      <div class="hud-coordinates"><span id="coordinates">0640 X 0360 Y</span><span class="globe" aria-hidden="true">◎</span></div>
     </footer>
 
-    <script src="script.js"></script>
+    <noscript>This portfolio needs JavaScript enabled for spatial navigation.</noscript>
+    <script src="script.js?v=18"></script>
   </body>
 </html>
