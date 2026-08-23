@@ -248,12 +248,14 @@ function createFloatingField() {
 
     if (event.pointerType === "touch") {
       window.clearTimeout(touchResetTimer);
+      heroObject?.classList.add("is-reacting");
       touchResetTimer = window.setTimeout(() => {
         pointer.active = false;
+        heroObject?.classList.remove("is-reacting");
         heroObject?.style.setProperty("--drift-x", "0px");
         heroObject?.style.setProperty("--drift-y", "0px");
         resetGel();
-      }, 480);
+      }, 260);
     }
   });
   homeScene.addEventListener("pointerleave", () => {
@@ -516,24 +518,45 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("pointerdown", (event) => {
-  if (event.pointerType === "touch") touchStart = { x: event.clientX, y: event.clientY };
+  if (mapPanel.classList.contains("open") || (event.pointerType === "mouse" && event.button !== 0)) return;
+  if (event.target.closest("button, a, input, textarea, select, label")) return;
+
+  touchStart = {
+    x: event.clientX,
+    y: event.clientY,
+    pointerId: event.pointerId,
+    startedAt: performance.now()
+  };
 });
 
-document.addEventListener("pointerup", (event) => {
-  if (!touchStart || event.pointerType !== "touch" || mapPanel.classList.contains("open")) return;
+document.addEventListener("pointermove", (event) => {
+  if (!touchStart || event.pointerId !== touchStart.pointerId) return;
   const deltaX = event.clientX - touchStart.x;
   const deltaY = event.clientY - touchStart.y;
-  touchStart = null;
-  if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < 65) return;
+  if (Math.abs(deltaX) > 12 && Math.abs(deltaX) > Math.abs(deltaY)) document.body.classList.add("is-swiping");
+});
 
-  const current = scenePositions[activeScene];
-  const horizontal = Math.abs(deltaX) > Math.abs(deltaY);
-  const wanted = {
-    col: current.col + (horizontal ? (deltaX < 0 ? 1 : -1) : 0),
-    row: current.row + (!horizontal ? (deltaY < 0 ? 1 : -1) : 0)
-  };
-  const target = Object.entries(scenePositions).find(([, position]) => position.col === wanted.col && position.row === wanted.row);
-  if (target) goToScene(target[0]);
+function finishSwipe(event) {
+  if (!touchStart || event.pointerId !== touchStart.pointerId) return;
+
+  const gesture = touchStart;
+  touchStart = null;
+  document.body.classList.remove("is-swiping");
+  if (mapPanel.classList.contains("open") || performance.now() - gesture.startedAt > 1400) return;
+
+  const deltaX = event.clientX - gesture.x;
+  const deltaY = event.clientY - gesture.y;
+  if (Math.abs(deltaX) < 55 || Math.abs(deltaX) < Math.abs(deltaY) * 1.15) return;
+
+  const currentIndex = sceneOrder.indexOf(activeScene);
+  const nextIndex = currentIndex + (deltaX < 0 ? 1 : -1);
+  if (sceneOrder[nextIndex]) goToScene(sceneOrder[nextIndex]);
+}
+
+document.addEventListener("pointerup", finishSwipe);
+document.addEventListener("pointercancel", () => {
+  touchStart = null;
+  document.body.classList.remove("is-swiping");
 });
 
 window.addEventListener("popstate", () => {
