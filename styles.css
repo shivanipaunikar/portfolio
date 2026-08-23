@@ -1141,7 +1141,7 @@ body.dark .gel-letter::after {
 }
 
 .shaay-frame.video-frame {
-  width: min(100%, 580px);
+  width: min(100%, 640px);
 }
 
 .shaay-frame::before {
@@ -1168,6 +1168,29 @@ body.dark .gel-letter::after {
   width: 100%;
   aspect-ratio: 16 / 9;
   background: #090c12;
+  object-fit: contain;
+}
+
+.shaay-media-pair {
+  display: grid;
+  height: 320px;
+  grid-template-columns: 1fr 1fr;
+  background: #090c12;
+}
+
+.shaay-media-pair img,
+.shaay-media-pair video {
+  width: 100%;
+  height: 320px;
+  aspect-ratio: auto;
+}
+
+.shaay-media-pair img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.shaay-media-pair video {
   object-fit: contain;
 }
 
@@ -1790,6 +1813,16 @@ noscript {
   .shaay-frame video {
     aspect-ratio: 9 / 13;
     object-fit: cover;
+  }
+
+  .shaay-media-pair {
+    display: block;
+    height: auto;
+  }
+
+  .shaay-media-pair img,
+  .shaay-media-pair video {
+    height: auto;
   }
 
   .visit-message {

@@ -9,6 +9,7 @@ const mapBackdrop = document.querySelector(".map-backdrop");
 const themeToggle = document.querySelector(".theme-toggle");
 const soundToggle = document.querySelector(".sound-toggle");
 const ambientAudio = document.querySelector("#ambient-audio");
+const shaayVideo = document.querySelector(".shaay-frame video");
 const sceneIndex = document.querySelector("#scene-index");
 const sceneName = document.querySelector("#scene-name");
 const coordinates = document.querySelector("#coordinates");
@@ -381,6 +382,16 @@ function goToScene(sceneId, options = {}) {
 
   activeScene = sceneId;
   world.style.transform = `translate3d(-${position.col * 100}vw, -${position.row * 50}%, 0)`;
+
+  if (shaayVideo) {
+    if (sceneId === "personal") {
+      shaayVideo.muted = true;
+      shaayVideo.play().catch(() => {});
+    } else {
+      shaayVideo.pause();
+      shaayVideo.currentTime = 0;
+    }
+  }
 
   sceneLinks.forEach((link) => {
     const isActive = link.dataset.scene === sceneId;
