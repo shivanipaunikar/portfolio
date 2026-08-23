@@ -350,6 +350,64 @@ body.dark .float-canvas {
   transition: transform 220ms ease-out;
 }
 
+.gel-word {
+  position: absolute;
+  inset: 8% -3% 5% 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0px, 0.2vw, 4px);
+  filter: drop-shadow(18px 24px 22px rgba(49, 91, 214, 0.22));
+  transform: translateY(-68px) rotate(-7deg) rotateX(8deg);
+  transform-style: preserve-3d;
+}
+
+.gel-letter {
+  --push-x: 0px;
+  --push-y: 0px;
+  --squash-x: 1;
+  --squash-y: 1;
+  --tilt: 0deg;
+  position: relative;
+  display: inline-block;
+  color: color-mix(in srgb, var(--blue) 76%, #d9e4ff);
+  font-family: var(--display);
+  font-size: clamp(94px, 11.7vw, 184px);
+  font-weight: 900;
+  letter-spacing: -0.08em;
+  line-height: 0.8;
+  -webkit-text-stroke: 2px rgba(19, 36, 122, 0.72);
+  text-shadow:
+    0 3px 0 rgba(216, 227, 255, 0.95),
+    0 8px 0 rgba(79, 95, 221, 0.9),
+    0 15px 18px rgba(31, 41, 137, 0.34);
+  transform: translate3d(var(--push-x), var(--push-y), 0) rotate(var(--tilt)) scaleX(var(--squash-x)) scaleY(var(--squash-y));
+  transform-origin: 50% 70%;
+  transition: transform 120ms cubic-bezier(0.2, 0.85, 0.25, 1.25);
+  animation: gelLetterFloat 4.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.gel-letter::after {
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  content: attr(data-letter);
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.42);
+  text-shadow: -6px -5px 8px rgba(255, 255, 255, 0.6);
+  transform: translateZ(14px) scale(0.96);
+}
+
+.gel-letter:nth-child(2) { animation-delay: -1.4s; }
+.gel-letter:nth-child(3) { animation-delay: -2.7s; }
+.gel-letter:nth-child(4) { animation-delay: -0.8s; }
+.gel-letter:nth-child(5) { animation-delay: -3.5s; }
+
+@keyframes gelLetterFloat {
+  0%, 100% { margin-top: 0; }
+  50% { margin-top: -14px; }
+}
+
 .data-loop {
   position: absolute;
   border: clamp(24px, 3.5vw, 54px) solid color-mix(in srgb, var(--blue) 82%, white);
@@ -1484,6 +1542,15 @@ noscript {
     width: 100%;
     min-height: 260px;
     transform: translate3d(var(--drift-x), var(--drift-y), 0);
+  }
+
+  .gel-word {
+    inset: 0;
+    transform: rotate(-4deg) scale(0.88);
+  }
+
+  .gel-letter {
+    font-size: clamp(72px, 20vw, 92px);
   }
 
   .data-loop {

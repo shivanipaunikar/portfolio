@@ -20,6 +20,7 @@ const searchResults = document.querySelector("#search-results");
 const floatCanvas = document.querySelector("#float-canvas");
 const homeScene = document.querySelector("#home");
 const heroObject = document.querySelector(".hero-object");
+const gelLetters = [...document.querySelectorAll(".gel-letter")];
 
 const sceneOrder = ["home", "systems", "research", "impact", "credentials", "personal"];
 const scenePositions = Object.fromEntries(
@@ -144,7 +145,6 @@ function createFloatingField() {
 
   const context = floatCanvas.getContext("2d");
   const labels = [
-    { text: "HELLO", x: 0.13, y: 0.72, color: "#ffd84f", size: 19 },
     { text: "AI", x: 0.76, y: 0.18, color: "#ff6dad", size: 16 },
     { text: "SQL", x: 0.39, y: 0.2, color: "#b9f779", size: 14 },
     { text: "</>", x: 0.86, y: 0.72, color: "#ffffff", size: 17 },
@@ -162,6 +162,36 @@ function createFloatingField() {
   let height = 0;
   let particles = [];
   let animationFrame;
+
+  function resetGel() {
+    gelLetters.forEach((letter) => {
+      letter.style.setProperty("--push-x", "0px");
+      letter.style.setProperty("--push-y", "0px");
+      letter.style.setProperty("--squash-x", "1");
+      letter.style.setProperty("--squash-y", "1");
+      letter.style.setProperty("--tilt", "0deg");
+    });
+  }
+
+  function reactGel(event, burst) {
+    gelLetters.forEach((letter) => {
+      const rect = letter.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = centerX - event.clientX;
+      const dy = centerY - event.clientY;
+      const distance = Math.max(Math.hypot(dx, dy), 1);
+      const radius = burst ? 250 : 190;
+      const influence = Math.max(0, 1 - distance / radius);
+      const force = influence * (burst ? 62 : 34);
+
+      letter.style.setProperty("--push-x", `${((dx / distance) * force).toFixed(1)}px`);
+      letter.style.setProperty("--push-y", `${((dy / distance) * force).toFixed(1)}px`);
+      letter.style.setProperty("--squash-x", (1 + influence * 0.13).toFixed(3));
+      letter.style.setProperty("--squash-y", (1 - influence * 0.12).toFixed(3));
+      letter.style.setProperty("--tilt", `${((dx / distance) * influence * 10).toFixed(1)}deg`);
+    });
+  }
 
   function roundedRect(x, y, rectWidth, rectHeight, radius) {
     const safeRadius = Math.min(radius, rectWidth / 2, rectHeight / 2);
@@ -206,6 +236,7 @@ function createFloatingField() {
     const driftY = ((pointer.y / Math.max(height, 1)) - 0.5) * 12;
     heroObject?.style.setProperty("--drift-x", `${driftX.toFixed(1)}px`);
     heroObject?.style.setProperty("--drift-y", `${driftY.toFixed(1)}px`);
+    reactGel(event, burst);
   }
 
   homeScene.addEventListener("pointermove", (event) => positionPointer(event));
@@ -214,6 +245,7 @@ function createFloatingField() {
     pointer.active = false;
     heroObject?.style.setProperty("--drift-x", "0px");
     heroObject?.style.setProperty("--drift-y", "0px");
+    resetGel();
   });
 
   function draw(time) {
