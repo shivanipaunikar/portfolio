@@ -505,7 +505,7 @@ mapBackdrop.addEventListener("click", closeMap);
 
 themeToggle.addEventListener("click", () => {
   const isDark = document.body.classList.toggle("dark");
-  themeToggle.textContent = isDark ? "Theme[D]" : "Theme[A]";
+  themeToggle.textContent = isDark ? "Theme[D]" : "Theme[L]";
   document.querySelector('meta[name="theme-color"]').setAttribute("content", isDark ? "#11151b" : "#dcecff");
 });
 
