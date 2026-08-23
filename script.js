@@ -162,6 +162,7 @@ function createFloatingField() {
   let height = 0;
   let particles = [];
   let animationFrame;
+  let touchResetTimer;
 
   function resetGel() {
     gelLetters.forEach((letter) => {
@@ -226,6 +227,8 @@ function createFloatingField() {
   }
 
   function positionPointer(event, burst = false) {
+    if (event.pointerType === "touch" && !burst) return;
+
     const rect = homeScene.getBoundingClientRect();
     pointer.x = event.clientX - rect.left;
     pointer.y = event.clientY - rect.top;
@@ -240,7 +243,19 @@ function createFloatingField() {
   }
 
   homeScene.addEventListener("pointermove", (event) => positionPointer(event));
-  homeScene.addEventListener("pointerdown", (event) => positionPointer(event, true));
+  homeScene.addEventListener("pointerdown", (event) => {
+    positionPointer(event, true);
+
+    if (event.pointerType === "touch") {
+      window.clearTimeout(touchResetTimer);
+      touchResetTimer = window.setTimeout(() => {
+        pointer.active = false;
+        heroObject?.style.setProperty("--drift-x", "0px");
+        heroObject?.style.setProperty("--drift-y", "0px");
+        resetGel();
+      }, 480);
+    }
+  });
   homeScene.addEventListener("pointerleave", () => {
     pointer.active = false;
     heroObject?.style.setProperty("--drift-x", "0px");

@@ -1,16 +1,16 @@
 :root {
-  --paper: #e7f1fb;
-  --paper-strong: #f5f8fb;
+  --paper: #d7e5f2;
+  --paper-strong: #edf3f8;
   --ink: #11151a;
-  --muted: #56616d;
-  --line: rgba(17, 21, 26, 0.16);
-  --line-strong: rgba(17, 21, 26, 0.28);
-  --blue: #6f9dff;
+  --muted: #485560;
+  --line: rgba(17, 21, 26, 0.19);
+  --line-strong: rgba(17, 21, 26, 0.32);
+  --blue: #628ff0;
   --blue-dark: #315bd6;
   --pink: #ff4f9a;
   --yellow: #ffd84f;
   --green: #a8f05a;
-  --violet: #9e72ff;
+  --violet: #8d67ec;
   --white: #ffffff;
   --header-h: 76px;
   --hud-h: 58px;
@@ -1547,10 +1547,12 @@ noscript {
   .gel-word {
     inset: 0;
     transform: rotate(-4deg) scale(0.88);
+    animation: gelWordMobileFloat 7s ease-in-out infinite;
   }
 
   .gel-letter {
     font-size: clamp(72px, 20vw, 92px);
+    animation: none;
   }
 
   .data-loop {
@@ -1733,6 +1735,11 @@ noscript {
     justify-self: end;
     padding: 0;
   }
+}
+
+@keyframes gelWordMobileFloat {
+  0%, 100% { transform: translateY(0) rotate(-4deg) scale(0.88); }
+  50% { transform: translateY(-6px) rotate(-3deg) scale(0.88); }
 }
 
 @media (max-height: 760px) and (min-width: 761px) {
