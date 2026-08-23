@@ -1,4 +1,5 @@
 const world = document.querySelector("#world");
+const viewport = document.querySelector(".viewport");
 const scenes = [...document.querySelectorAll(".scene")];
 const sceneLinks = [...document.querySelectorAll(".scene-link")];
 const mapPanel = document.querySelector("#world-map");
@@ -97,6 +98,12 @@ let activeScene = "home";
 let soundEnabled = false;
 let audioContext;
 let touchStart = null;
+let nativeTouchStart = null;
+let lastSwipeAt = 0;
+let wheelDelta = 0;
+let wheelLocked = false;
+let wheelResetTimer;
+let sceneTransitionTimer;
 
 function escapeHtml(value) {
   return value.replace(/[&<>'"]/g, (character) => ({
@@ -354,6 +361,24 @@ function goToScene(sceneId, options = {}) {
   if (!position || !world) return;
 
   const changed = activeScene !== sceneId;
+  const outgoingScene = document.querySelector(`#${activeScene} .scene-shell`);
+  const incomingScene = document.querySelector(`#${sceneId} .scene-shell`);
+  const transitionDirection = options.gestureDirection
+    || (sceneOrder.indexOf(sceneId) > sceneOrder.indexOf(activeScene) ? "next" : "previous");
+
+  if (changed && outgoingScene && incomingScene) {
+    const direction = transitionDirection;
+    const transitionClasses = ["swipe-out-next", "swipe-out-previous", "swipe-in-next", "swipe-in-previous"];
+    document.querySelectorAll(".scene-shell").forEach((shell) => shell.classList.remove(...transitionClasses));
+    outgoingScene.classList.add(direction === "next" ? "swipe-out-next" : "swipe-out-previous");
+    incomingScene.classList.add(direction === "next" ? "swipe-in-next" : "swipe-in-previous");
+    window.clearTimeout(sceneTransitionTimer);
+    sceneTransitionTimer = window.setTimeout(() => {
+      outgoingScene.classList.remove("swipe-out-next", "swipe-out-previous");
+      incomingScene.classList.remove("swipe-in-next", "swipe-in-previous");
+    }, 820);
+  }
+
   activeScene = sceneId;
   world.style.transform = `translate3d(-${position.col * 100}vw, -${position.row * 50}%, 0)`;
 
@@ -517,15 +542,32 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+function blocksSwipe(target) {
+  return Boolean(target?.closest?.("button, a, input, textarea, select, label"));
+}
+
+function navigateBySwipe(deltaX, deltaY) {
+  if (mapPanel.classList.contains("open")) return false;
+  if (Math.abs(deltaX) < 36 || Math.abs(deltaX) < Math.abs(deltaY) * 1.05) return false;
+  if (performance.now() - lastSwipeAt < 760) return false;
+
+  const currentIndex = sceneOrder.indexOf(activeScene);
+  const nextIndex = currentIndex + (deltaX < 0 ? 1 : -1);
+  if (!sceneOrder[nextIndex]) return false;
+
+  lastSwipeAt = performance.now();
+  goToScene(sceneOrder[nextIndex], { gestureDirection: deltaX < 0 ? "next" : "previous" });
+  return true;
+}
+
 document.addEventListener("pointerdown", (event) => {
   if (mapPanel.classList.contains("open") || (event.pointerType === "mouse" && event.button !== 0)) return;
-  if (event.target.closest("button, a, input, textarea, select, label")) return;
+  if (blocksSwipe(event.target)) return;
 
   touchStart = {
     x: event.clientX,
     y: event.clientY,
-    pointerId: event.pointerId,
-    startedAt: performance.now()
+    pointerId: event.pointerId
   };
 });
 
@@ -542,15 +584,7 @@ function finishSwipe(event) {
   const gesture = touchStart;
   touchStart = null;
   document.body.classList.remove("is-swiping");
-  if (mapPanel.classList.contains("open") || performance.now() - gesture.startedAt > 1400) return;
-
-  const deltaX = event.clientX - gesture.x;
-  const deltaY = event.clientY - gesture.y;
-  if (Math.abs(deltaX) < 55 || Math.abs(deltaX) < Math.abs(deltaY) * 1.15) return;
-
-  const currentIndex = sceneOrder.indexOf(activeScene);
-  const nextIndex = currentIndex + (deltaX < 0 ? 1 : -1);
-  if (sceneOrder[nextIndex]) goToScene(sceneOrder[nextIndex]);
+  navigateBySwipe(event.clientX - gesture.x, event.clientY - gesture.y);
 }
 
 document.addEventListener("pointerup", finishSwipe);
@@ -558,6 +592,49 @@ document.addEventListener("pointercancel", () => {
   touchStart = null;
   document.body.classList.remove("is-swiping");
 });
+
+viewport.addEventListener("touchstart", (event) => {
+  if (event.touches.length !== 1 || blocksSwipe(event.target)) {
+    nativeTouchStart = null;
+    return;
+  }
+
+  const touch = event.touches[0];
+  nativeTouchStart = { x: touch.clientX, y: touch.clientY };
+}, { passive: true });
+
+viewport.addEventListener("touchend", (event) => {
+  if (!nativeTouchStart || !event.changedTouches.length) return;
+  const gesture = nativeTouchStart;
+  const touch = event.changedTouches[0];
+  nativeTouchStart = null;
+  navigateBySwipe(touch.clientX - gesture.x, touch.clientY - gesture.y);
+}, { passive: true });
+
+viewport.addEventListener("touchcancel", () => {
+  nativeTouchStart = null;
+}, { passive: true });
+
+viewport.addEventListener("wheel", (event) => {
+  const horizontalDelta = Math.abs(event.deltaX) > Math.abs(event.deltaY) * 0.7
+    ? event.deltaX
+    : (event.shiftKey ? event.deltaY : 0);
+  if (!horizontalDelta) return;
+
+  event.preventDefault();
+  window.clearTimeout(wheelResetTimer);
+  wheelResetTimer = window.setTimeout(() => {
+    wheelDelta = 0;
+    wheelLocked = false;
+  }, 240);
+
+  if (wheelLocked) return;
+  wheelDelta += horizontalDelta;
+  if (Math.abs(wheelDelta) < 42) return;
+
+  wheelLocked = navigateBySwipe(-wheelDelta, 0);
+  wheelDelta = 0;
+}, { passive: false });
 
 window.addEventListener("popstate", () => {
   const sceneFromHash = location.hash.slice(1);
