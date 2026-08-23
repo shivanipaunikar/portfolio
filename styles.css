@@ -238,6 +238,21 @@ input:focus-visible {
   content: "";
 }
 
+.float-canvas {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.86;
+  pointer-events: none;
+}
+
+body.dark .float-canvas {
+  opacity: 0.72;
+}
+
 .scene-shell {
   position: relative;
   z-index: 2;
@@ -322,6 +337,8 @@ input:focus-visible {
 }
 
 .hero-object {
+  --drift-x: 0px;
+  --drift-y: 0px;
   position: relative;
   grid-column: 2;
   grid-row: 1 / 4;
@@ -329,7 +346,8 @@ input:focus-visible {
   align-self: center;
   perspective: 1000px;
   pointer-events: none;
-  transform: translateX(150px) scale(0.88);
+  transform: translate3d(calc(150px + var(--drift-x)), var(--drift-y), 0) scale(0.88);
+  transition: transform 220ms ease-out;
 }
 
 .data-loop {
@@ -1275,7 +1293,7 @@ noscript {
   .hero-object {
     grid-column: 2;
     grid-row: 1 / 4;
-    transform: translateX(34px) scale(0.92);
+    transform: translate3d(calc(34px + var(--drift-x)), var(--drift-y), 0) scale(0.92);
   }
 
   .hero-copy {
@@ -1376,7 +1394,7 @@ noscript {
 
   .theme-toggle,
   .sound-toggle {
-    display: none;
+    display: block;
   }
 
   .scene {
@@ -1463,7 +1481,7 @@ noscript {
     order: 4;
     width: 100%;
     min-height: 260px;
-    transform: none;
+    transform: translate3d(var(--drift-x), var(--drift-y), 0);
   }
 
   .data-loop {
@@ -1493,6 +1511,10 @@ noscript {
 
   .search-results {
     min-height: 70px;
+  }
+
+  .float-canvas {
+    opacity: 0.72;
   }
 
   .area-heading {

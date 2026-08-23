@@ -16,6 +16,9 @@ const searchForm = document.querySelector("#portfolio-search");
 const searchInput = document.querySelector("#search-input");
 const searchSubmit = searchForm.querySelector('button[type="submit"]');
 const searchResults = document.querySelector("#search-results");
+const floatCanvas = document.querySelector("#float-canvas");
+const homeScene = document.querySelector("#home");
+const heroObject = document.querySelector(".hero-object");
 
 const sceneOrder = ["home", "systems", "research", "impact", "credentials", "personal"];
 const scenePositions = Object.fromEntries(
@@ -91,6 +94,8 @@ const portfolioItems = [
 let activeScene = "home";
 let soundEnabled = false;
 let audioContext;
+let ambientMusic;
+let ambientTimer;
 let touchStart = null;
 
 function escapeHtml(value) {
@@ -112,12 +117,235 @@ function playNavigationTone() {
   oscillator.type = "sine";
   oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
   oscillator.frequency.exponentialRampToValueAtTime(620, audioContext.currentTime + 0.08);
-  gain.gain.setValueAtTime(0.035, audioContext.currentTime);
+  gain.gain.setValueAtTime(0.018, audioContext.currentTime);
   gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.12);
   oscillator.connect(gain);
   gain.connect(audioContext.destination);
   oscillator.start();
   oscillator.stop(audioContext.currentTime + 0.12);
+}
+
+async function startAmbientMusic() {
+  const AudioEngine = window.AudioContext || window.webkitAudioContext;
+  if (!AudioEngine || ambientMusic) return;
+
+  audioContext ||= new AudioEngine();
+  await audioContext.resume();
+
+  const now = audioContext.currentTime;
+  const master = audioContext.createGain();
+  const filter = audioContext.createBiquadFilter();
+  const oscillators = [];
+  const chord = [130.81, 164.81, 196, 261.63];
+
+  master.gain.setValueAtTime(0.001, now);
+  master.gain.exponentialRampToValueAtTime(0.085, now + 1.8);
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(920, now);
+  filter.Q.setValueAtTime(0.7, now);
+  filter.connect(master);
+  master.connect(audioContext.destination);
+
+  chord.forEach((frequency, index) => {
+    const oscillator = audioContext.createOscillator();
+    const voiceGain = audioContext.createGain();
+    oscillator.type = index % 2 ? "sine" : "triangle";
+    oscillator.frequency.setValueAtTime(frequency, now);
+    oscillator.detune.setValueAtTime(index % 2 ? 4 : -4, now);
+    voiceGain.gain.setValueAtTime(index === 3 ? 0.035 : 0.055, now);
+    oscillator.connect(voiceGain);
+    voiceGain.connect(filter);
+    oscillator.start();
+    oscillators.push(oscillator);
+  });
+
+  const lfo = audioContext.createOscillator();
+  const lfoGain = audioContext.createGain();
+  lfo.type = "sine";
+  lfo.frequency.setValueAtTime(0.11, now);
+  lfoGain.gain.setValueAtTime(0.009, now);
+  lfo.connect(lfoGain);
+  lfoGain.connect(master.gain);
+  lfo.start();
+
+  const notes = [523.25, 659.25, 783.99, 659.25, 587.33, 698.46, 880, 698.46];
+  let noteIndex = 0;
+  ambientTimer = window.setInterval(() => {
+    if (!soundEnabled || !audioContext) return;
+    const noteNow = audioContext.currentTime;
+    const note = audioContext.createOscillator();
+    const noteGain = audioContext.createGain();
+    note.type = "sine";
+    note.frequency.setValueAtTime(notes[noteIndex % notes.length], noteNow);
+    noteGain.gain.setValueAtTime(0.001, noteNow);
+    noteGain.gain.exponentialRampToValueAtTime(0.035, noteNow + 0.08);
+    noteGain.gain.exponentialRampToValueAtTime(0.001, noteNow + 1.1);
+    note.connect(noteGain);
+    noteGain.connect(master);
+    note.start();
+    note.stop(noteNow + 1.15);
+    noteIndex += 1;
+  }, 1450);
+
+  ambientMusic = { master, oscillators, lfo };
+}
+
+function stopAmbientMusic() {
+  if (!ambientMusic || !audioContext) return;
+
+  window.clearInterval(ambientTimer);
+  const stopAt = audioContext.currentTime + 0.7;
+  ambientMusic.master.gain.cancelScheduledValues(audioContext.currentTime);
+  ambientMusic.master.gain.setValueAtTime(Math.max(ambientMusic.master.gain.value, 0.001), audioContext.currentTime);
+  ambientMusic.master.gain.exponentialRampToValueAtTime(0.001, stopAt);
+  [...ambientMusic.oscillators, ambientMusic.lfo].forEach((oscillator) => oscillator.stop(stopAt + 0.05));
+  ambientMusic = null;
+}
+
+function createFloatingField() {
+  if (!floatCanvas || !homeScene) return;
+
+  const context = floatCanvas.getContext("2d");
+  const labels = [
+    { text: "HELLO", x: 0.13, y: 0.72, color: "#ffd84f", size: 19 },
+    { text: "AI", x: 0.76, y: 0.18, color: "#ff6dad", size: 16 },
+    { text: "SQL", x: 0.39, y: 0.2, color: "#b9f779", size: 14 },
+    { text: "</>", x: 0.86, y: 0.72, color: "#ffffff", size: 17 },
+    { text: "DATA", x: 0.91, y: 0.36, color: "#9eb9ff", size: 13 },
+    { text: "BUILD", x: 0.31, y: 0.84, color: "#ffffff", size: 13 },
+    { text: "✨", x: 0.58, y: 0.13, color: "#ffd84f", size: 22 },
+    { text: "💡", x: 0.67, y: 0.78, color: "#ffd84f", size: 21 },
+    { text: "⚡", x: 0.2, y: 0.35, color: "#ff6dad", size: 20 },
+    { text: "{ }", x: 0.47, y: 0.69, color: "#b9f779", size: 16 },
+    { text: "☁️", x: 0.83, y: 0.55, color: "#ffffff", size: 20 },
+    { text: ":)", x: 0.08, y: 0.48, color: "#9eb9ff", size: 17 }
+  ];
+  const pointer = { x: -1000, y: -1000, active: false, energy: 1 };
+  let width = 0;
+  let height = 0;
+  let particles = [];
+  let animationFrame;
+
+  function roundedRect(x, y, rectWidth, rectHeight, radius) {
+    const safeRadius = Math.min(radius, rectWidth / 2, rectHeight / 2);
+    context.beginPath();
+    context.moveTo(x + safeRadius, y);
+    context.arcTo(x + rectWidth, y, x + rectWidth, y + rectHeight, safeRadius);
+    context.arcTo(x + rectWidth, y + rectHeight, x, y + rectHeight, safeRadius);
+    context.arcTo(x, y + rectHeight, x, y, safeRadius);
+    context.arcTo(x, y, x + rectWidth, y, safeRadius);
+    context.closePath();
+  }
+
+  function resize() {
+    const rect = homeScene.getBoundingClientRect();
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    width = rect.width;
+    height = rect.height;
+    floatCanvas.width = Math.round(width * ratio);
+    floatCanvas.height = Math.round(height * ratio);
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    particles = labels.map((label, index) => ({
+      ...label,
+      anchorX: label.x * width,
+      anchorY: label.y * height,
+      x: label.x * width,
+      y: label.y * height,
+      vx: 0,
+      vy: 0,
+      phase: index * 0.78,
+      rotation: (index % 2 ? 1 : -1) * 0.045
+    }));
+  }
+
+  function positionPointer(event, burst = false) {
+    const rect = homeScene.getBoundingClientRect();
+    pointer.x = event.clientX - rect.left;
+    pointer.y = event.clientY - rect.top;
+    pointer.active = true;
+    pointer.energy = burst ? 2.7 : Math.max(pointer.energy, 1);
+
+    const driftX = ((pointer.x / Math.max(width, 1)) - 0.5) * 18;
+    const driftY = ((pointer.y / Math.max(height, 1)) - 0.5) * 12;
+    heroObject?.style.setProperty("--drift-x", `${driftX.toFixed(1)}px`);
+    heroObject?.style.setProperty("--drift-y", `${driftY.toFixed(1)}px`);
+  }
+
+  homeScene.addEventListener("pointermove", (event) => positionPointer(event));
+  homeScene.addEventListener("pointerdown", (event) => positionPointer(event, true));
+  homeScene.addEventListener("pointerleave", () => {
+    pointer.active = false;
+    heroObject?.style.setProperty("--drift-x", "0px");
+    heroObject?.style.setProperty("--drift-y", "0px");
+  });
+
+  function draw(time) {
+    context.clearRect(0, 0, width, height);
+    const mobileScale = width < 600 ? 0.82 : 1;
+    const radius = width < 600 ? 105 : 145;
+
+    particles.forEach((particle, index) => {
+      const targetX = particle.anchorX + Math.sin(time * 0.00055 + particle.phase) * (9 + index % 3 * 3);
+      const targetY = particle.anchorY + Math.cos(time * 0.00042 + particle.phase) * (8 + index % 4 * 2);
+      particle.vx += (targetX - particle.x) * 0.009;
+      particle.vy += (targetY - particle.y) * 0.009;
+
+      if (pointer.active) {
+        const dx = particle.x - pointer.x;
+        const dy = particle.y - pointer.y;
+        const distance = Math.max(Math.hypot(dx, dy), 1);
+        if (distance < radius) {
+          const force = (1 - distance / radius) * 2.15 * pointer.energy;
+          particle.vx += (dx / distance) * force;
+          particle.vy += (dy / distance) * force;
+          particle.rotation += (dx / radius) * 0.002;
+        }
+      }
+
+      particle.vx *= 0.925;
+      particle.vy *= 0.925;
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+
+      const fontSize = particle.size * mobileScale;
+      context.font = `700 ${fontSize}px "Geist Mono", monospace`;
+      const textWidth = context.measureText(particle.text).width;
+      const bubbleWidth = textWidth + 30 * mobileScale;
+      const bubbleHeight = fontSize + 22 * mobileScale;
+
+      context.save();
+      context.translate(particle.x, particle.y);
+      context.rotate(particle.rotation + Math.sin(time * 0.0003 + particle.phase) * 0.025);
+      context.shadowColor = "rgba(49, 91, 214, 0.18)";
+      context.shadowBlur = 18;
+      context.shadowOffsetY = 8;
+      roundedRect(-bubbleWidth / 2, -bubbleHeight / 2, bubbleWidth, bubbleHeight, bubbleHeight / 2);
+      context.fillStyle = `${particle.color}d9`;
+      context.fill();
+      context.shadowColor = "transparent";
+      context.lineWidth = 1.25;
+      context.strokeStyle = "rgba(17, 21, 26, 0.58)";
+      context.stroke();
+      context.fillStyle = "#11151a";
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.fillText(particle.text, 0, 1);
+      context.restore();
+    });
+
+    pointer.energy += (1 - pointer.energy) * 0.04;
+    animationFrame = window.requestAnimationFrame(draw);
+  }
+
+  const resizeObserver = new ResizeObserver(resize);
+  resizeObserver.observe(homeScene);
+  resize();
+  animationFrame = window.requestAnimationFrame(draw);
+
+  window.addEventListener("pagehide", () => {
+    resizeObserver.disconnect();
+    window.cancelAnimationFrame(animationFrame);
+  }, { once: true });
 }
 
 function closeMap() {
@@ -224,11 +452,25 @@ themeToggle.addEventListener("click", () => {
   document.querySelector('meta[name="theme-color"]').setAttribute("content", isDark ? "#11151b" : "#dcecff");
 });
 
-soundToggle.addEventListener("click", () => {
+soundToggle.addEventListener("click", async () => {
   soundEnabled = !soundEnabled;
-  soundToggle.textContent = soundEnabled ? "Sound[+]" : "Sound[-]";
   soundToggle.setAttribute("aria-pressed", String(soundEnabled));
-  playNavigationTone();
+  soundToggle.textContent = soundEnabled ? "Sound[+]" : "Sound[-]";
+  soundToggle.setAttribute("aria-label", soundEnabled ? "Turn ambient music off" : "Turn ambient music on");
+
+  if (soundEnabled) {
+    try {
+      await startAmbientMusic();
+      playNavigationTone();
+    } catch {
+      soundEnabled = false;
+      soundToggle.textContent = "Sound[-]";
+      soundToggle.setAttribute("aria-pressed", "false");
+      soundToggle.setAttribute("aria-label", "Ambient music unavailable");
+    }
+  } else {
+    stopAmbientMusic();
+  }
 });
 
 searchInput.addEventListener("input", () => renderSearch(searchInput.value));
@@ -312,5 +554,6 @@ window.addEventListener("popstate", () => {
 const initialScene = location.hash.slice(1);
 goToScene(scenePositions[initialScene] ? initialScene : "home", { fromHistory: true });
 renderSearch();
+createFloatingField();
 updateClock();
 setInterval(updateClock, 30000);
