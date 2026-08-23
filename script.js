@@ -126,6 +126,11 @@ function renderResults(query = "") {
 }
 
 if (menuToggle && nav) {
+  const closeMenu = () => {
+    nav.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+  };
+
   menuToggle.addEventListener("click", () => {
     const isOpen = nav.classList.toggle("open");
     menuToggle.setAttribute("aria-expanded", String(isOpen));
@@ -133,9 +138,23 @@ if (menuToggle && nav) {
 
   nav.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
-      nav.classList.remove("open");
-      menuToggle.setAttribute("aria-expanded", "false");
+      closeMenu();
     });
+  });
+
+  document.addEventListener("click", (event) => {
+    const clickedInsideMenu = nav.contains(event.target);
+    const clickedToggle = menuToggle.contains(event.target);
+
+    if (nav.classList.contains("open") && !clickedInsideMenu && !clickedToggle) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenu();
+    }
   });
 }
 

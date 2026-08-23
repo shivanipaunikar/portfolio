@@ -177,20 +177,19 @@ p {
 
 .menu-toggle {
   display: none;
-  width: 42px;
-  height: 42px;
+  min-width: 72px;
+  height: 40px;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 999px;
   background: #fff;
+  color: var(--ink);
+  font-weight: 780;
 }
 
 .menu-toggle span {
   display: block;
-  width: 18px;
-  height: 2px;
-  margin: 3px 0;
-  background: var(--ink);
+  font-size: 0.86rem;
 }
 
 main {
@@ -898,6 +897,7 @@ main {
 
   .site-header {
     grid-template-columns: auto auto;
+    justify-content: space-between;
     min-height: 64px;
     padding-inline: 16px;
   }
@@ -910,6 +910,7 @@ main {
     display: grid;
     position: relative;
     z-index: 51;
+    justify-self: end;
   }
 
   .site-nav {
