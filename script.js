@@ -154,7 +154,9 @@ function goToScene(sceneId, options = {}) {
   const index = sceneOrder.indexOf(sceneId);
   sceneIndex.textContent = `AREA ${String(index).padStart(2, "0")}`;
   sceneName.textContent = sceneId.toUpperCase();
-  document.title = `${sceneId === "home" ? "Shivani Paunikar" : sceneId[0].toUpperCase() + sceneId.slice(1)} | Shivani Paunikar`;
+  document.title = sceneId === "home"
+    ? "Shivani Paunikar | Data Engineering Portfolio"
+    : `${sceneId[0].toUpperCase() + sceneId.slice(1)} | Shivani Paunikar`;
 
   if (!options.fromHistory) {
     history.pushState({ scene: sceneId }, "", `#${sceneId}`);
