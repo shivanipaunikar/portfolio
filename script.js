@@ -117,7 +117,7 @@ function playNavigationTone() {
   oscillator.type = "sine";
   oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
   oscillator.frequency.exponentialRampToValueAtTime(620, audioContext.currentTime + 0.08);
-  gain.gain.setValueAtTime(0.018, audioContext.currentTime);
+  gain.gain.setValueAtTime(0.045, audioContext.currentTime);
   gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.12);
   oscillator.connect(gain);
   gain.connect(audioContext.destination);
@@ -125,12 +125,17 @@ function playNavigationTone() {
   oscillator.stop(audioContext.currentTime + 0.12);
 }
 
-async function startAmbientMusic() {
+function startAmbientMusic() {
   const AudioEngine = window.AudioContext || window.webkitAudioContext;
   if (!AudioEngine || ambientMusic) return;
 
   audioContext ||= new AudioEngine();
-  await audioContext.resume();
+  const resumePromise = audioContext.resume();
+
+  const unlockSource = audioContext.createBufferSource();
+  unlockSource.buffer = audioContext.createBuffer(1, 1, 22050);
+  unlockSource.connect(audioContext.destination);
+  unlockSource.start(0);
 
   const now = audioContext.currentTime;
   const master = audioContext.createGain();
@@ -139,7 +144,7 @@ async function startAmbientMusic() {
   const chord = [130.81, 164.81, 196, 261.63];
 
   master.gain.setValueAtTime(0.001, now);
-  master.gain.exponentialRampToValueAtTime(0.085, now + 1.8);
+  master.gain.exponentialRampToValueAtTime(0.13, now + 1.2);
   filter.type = "lowpass";
   filter.frequency.setValueAtTime(920, now);
   filter.Q.setValueAtTime(0.7, now);
@@ -168,6 +173,21 @@ async function startAmbientMusic() {
   lfoGain.connect(master.gain);
   lfo.start();
 
+  [523.25, 659.25, 783.99].forEach((frequency, index) => {
+    const welcomeNote = audioContext.createOscillator();
+    const welcomeGain = audioContext.createGain();
+    const noteStart = now + index * 0.16;
+    welcomeNote.type = "sine";
+    welcomeNote.frequency.setValueAtTime(frequency, noteStart);
+    welcomeGain.gain.setValueAtTime(0.001, noteStart);
+    welcomeGain.gain.exponentialRampToValueAtTime(0.075, noteStart + 0.04);
+    welcomeGain.gain.exponentialRampToValueAtTime(0.001, noteStart + 0.62);
+    welcomeNote.connect(welcomeGain);
+    welcomeGain.connect(master);
+    welcomeNote.start(noteStart);
+    welcomeNote.stop(noteStart + 0.65);
+  });
+
   const notes = [523.25, 659.25, 783.99, 659.25, 587.33, 698.46, 880, 698.46];
   let noteIndex = 0;
   ambientTimer = window.setInterval(() => {
@@ -188,6 +208,7 @@ async function startAmbientMusic() {
   }, 1450);
 
   ambientMusic = { master, oscillators, lfo };
+  return resumePromise;
 }
 
 function stopAmbientMusic() {
@@ -500,6 +521,12 @@ document.addEventListener("pointermove", (event) => {
   const x = String(Math.round(event.clientX)).padStart(4, "0");
   const y = String(Math.round(event.clientY)).padStart(4, "0");
   coordinates.textContent = `${x} X ${y} Y`;
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (soundEnabled && document.visibilityState === "visible" && audioContext?.state !== "running") {
+    audioContext.resume().catch(() => {});
+  }
 });
 
 document.addEventListener("keydown", (event) => {

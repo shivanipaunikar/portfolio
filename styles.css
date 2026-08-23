@@ -1454,8 +1454,10 @@ noscript {
 
   .hero-copy h1 {
     margin: 15px 0 12px;
-    font-size: clamp(42px, 13vw, 58px);
-    line-height: 0.94;
+    max-width: 320px;
+    font-size: clamp(34px, 9.8vw, 42px);
+    line-height: 1;
+    text-transform: none;
   }
 
   .hero-copy > p:not(.mono-label) {
