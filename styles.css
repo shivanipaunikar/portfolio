@@ -1474,6 +1474,8 @@ body.dark .gel-letter::after {
 }
 
 .travel-hub {
+  --hub-drift-x: 0px;
+  --hub-drift-y: 0px;
   position: absolute;
   z-index: 2;
   top: 45%;
@@ -1491,7 +1493,7 @@ body.dark .gel-letter::after {
     0 0 54px color-mix(in srgb, var(--pink) 24%, transparent);
   color: var(--ink);
   text-align: center;
-  transform: translate(-50%, -50%);
+  transform: translate(calc(-50% + var(--hub-drift-x)), calc(-50% + var(--hub-drift-y)));
   animation: travel-hub-breathe 4.6s ease-in-out infinite;
 }
 
@@ -1514,11 +1516,13 @@ body.dark .gel-letter::after {
 }
 
 @keyframes travel-hub-breathe {
-  0%, 100% { transform: translate(-50%, -50%) scale(0.97); }
-  50% { transform: translate(-50%, -50%) scale(1.04); }
+  0%, 100% { transform: translate(calc(-50% + var(--hub-drift-x)), calc(-50% + var(--hub-drift-y))) scale(0.97); }
+  50% { transform: translate(calc(-50% + var(--hub-drift-x)), calc(-50% + var(--hub-drift-y))) scale(1.04); }
 }
 
 .travel-pin {
+  --float-x: 0px;
+  --float-y: 0px;
   position: absolute;
   z-index: 4;
   top: var(--y);
@@ -1535,8 +1539,8 @@ body.dark .gel-letter::after {
     0 0 0 7px color-mix(in srgb, var(--pink) 10%, transparent),
     0 4px 14px rgba(0, 0, 0, 0.25);
   cursor: pointer;
-  transform: translate(-50%, -50%);
-  transition: transform 160ms ease, background 160ms ease;
+  transform: translate(calc(-50% + var(--float-x)), calc(-50% + var(--float-y)));
+  transition: background 160ms ease, box-shadow 160ms ease;
 }
 
 .travel-pin span {
@@ -1566,7 +1570,7 @@ body.dark .gel-letter::after {
     0 0 0 1px var(--ink),
     0 0 0 10px color-mix(in srgb, var(--yellow) 16%, transparent),
     0 0 24px color-mix(in srgb, var(--yellow) 64%, transparent);
-  transform: translate(-50%, -50%) scale(1.35);
+  transform: translate(calc(-50% + var(--float-x)), calc(-50% + var(--float-y))) scale(1.35);
 }
 
 .travel-pin:hover span,

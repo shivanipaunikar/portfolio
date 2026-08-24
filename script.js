@@ -31,6 +31,7 @@ const transitionLineTwo = document.querySelector("#transition-line-two");
 const travelPins = [...document.querySelectorAll(".travel-pin")];
 const travelMap = document.querySelector(".travel-map");
 const travelNetworkCanvas = document.querySelector(".travel-network-canvas");
+const travelHub = document.querySelector(".travel-hub");
 const travelPreview = document.querySelector(".travel-preview");
 const travelPhoto = document.querySelector("#travel-photo");
 const travelState = document.querySelector("#travel-state");
@@ -537,7 +538,8 @@ function createTravelNetwork() {
   function pinPosition(pin) {
     return {
       x: parseFloat(pin.style.getPropertyValue("--x")) * width / 100,
-      y: parseFloat(pin.style.getPropertyValue("--y")) * height / 100
+      y: parseFloat(pin.style.getPropertyValue("--y")) * height / 100,
+      phase: travelPins.indexOf(pin) * 0.83
     };
   }
 
@@ -573,10 +575,24 @@ function createTravelNetwork() {
     const satelliteColors = dark
       ? ["rgba(255, 89, 169, .6)", "rgba(255, 216, 79, .62)", "rgba(124, 164, 255, .62)", "rgba(255, 255, 255, .42)"]
       : ["rgba(238, 54, 143, .5)", "rgba(198, 151, 15, .5)", "rgba(49, 91, 214, .48)", "rgba(44, 54, 76, .34)"];
-    const hub = { x: width * 0.52, y: height * 0.45 };
+    const motionScale = width < 600 ? 0.72 : 1;
+    const hubDrift = {
+      x: Math.sin(time * 0.00042) * 5 * motionScale,
+      y: Math.cos(time * 0.00036) * 4 * motionScale
+    };
+    const hub = { x: width * 0.52 + hubDrift.x, y: height * 0.45 + hubDrift.y };
+    const floatingPoints = points.map((point, index) => {
+      const driftX = Math.sin(time * (0.00034 + index % 3 * 0.000025) + point.phase) * (4 + index % 4) * motionScale;
+      const driftY = Math.cos(time * (0.00029 + index % 2 * 0.000035) + point.phase) * (3 + index % 3) * motionScale;
+      travelPins[index].style.setProperty("--float-x", `${driftX.toFixed(2)}px`);
+      travelPins[index].style.setProperty("--float-y", `${driftY.toFixed(2)}px`);
+      return { ...point, x: point.x + driftX, y: point.y + driftY };
+    });
+    travelHub?.style.setProperty("--hub-drift-x", `${hubDrift.x.toFixed(2)}px`);
+    travelHub?.style.setProperty("--hub-drift-y", `${hubDrift.y.toFixed(2)}px`);
 
     context.lineWidth = 1;
-    points.forEach((point, index) => {
+    floatingPoints.forEach((point, index) => {
       context.beginPath();
       context.moveTo(hub.x, hub.y);
       context.quadraticCurveTo(
@@ -588,7 +604,7 @@ function createTravelNetwork() {
       context.strokeStyle = index % 5 === 0 ? hubColor : lineColor;
       context.stroke();
 
-      const neighbor = points[(index + 1) % points.length];
+      const neighbor = floatingPoints[(index + 1) % floatingPoints.length];
       if (Math.hypot(point.x - neighbor.x, point.y - neighbor.y) < width * 0.28) {
         context.beginPath();
         context.moveTo(point.x, point.y);
