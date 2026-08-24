@@ -232,6 +232,171 @@ body.is-swiping .viewport {
   user-select: none;
 }
 
+.innovation-transition {
+  position: absolute;
+  z-index: 42;
+  inset: 0;
+  overflow: hidden;
+  background: #07113f;
+  color: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateZ(120px) scale(1.08);
+  visibility: hidden;
+}
+
+.innovation-transition::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 25% 50%;
+  content: "";
+}
+
+.innovation-transition::after {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 0 120px rgba(2, 6, 28, 0.5);
+  content: "";
+}
+
+.innovation-transition.is-active {
+  visibility: visible;
+  animation: portalReveal 980ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+}
+
+#transition-canvas {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+}
+
+.innovation-copy {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  width: min(88vw, 880px);
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.innovation-copy > span {
+  display: inline-block;
+  margin-bottom: 18px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(7, 17, 63, 0.72);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.innovation-copy strong,
+.innovation-copy strong b {
+  display: block;
+}
+
+.innovation-copy strong {
+  font-size: clamp(46px, 7.4vw, 112px);
+  font-weight: 900;
+  line-height: 0.82;
+  text-transform: uppercase;
+  text-shadow: 0 12px 36px rgba(33, 102, 255, 0.4);
+}
+
+.innovation-copy strong b {
+  font-weight: inherit;
+}
+
+.innovation-copy strong b:last-child {
+  color: #9eeeff;
+}
+
+.is-active .innovation-copy > span {
+  animation: portalKicker 760ms 80ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.is-active .innovation-copy strong b:first-child {
+  animation: portalTypeNext 780ms 60ms cubic-bezier(0.18, 0.78, 0.2, 1) both;
+}
+
+.is-active .innovation-copy strong b:last-child {
+  animation: portalTypePrevious 780ms 110ms cubic-bezier(0.18, 0.78, 0.2, 1) both;
+}
+
+.portal-core {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: min(28vw, 360px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+.portal-core i {
+  position: absolute;
+  inset: 18%;
+  border: 2px solid #b8ff63;
+  border-radius: 50%;
+  box-shadow: 0 0 24px rgba(184, 255, 99, 0.5);
+  transform: rotateX(70deg);
+}
+
+.portal-core i:nth-child(2) {
+  inset: 28% 8%;
+  border-color: #7cecff;
+  transform: rotateY(70deg) rotateZ(24deg);
+}
+
+.portal-core i:nth-child(3) {
+  inset: 10% 30%;
+  border-color: #ff6db4;
+  transform: rotateY(64deg) rotateZ(-32deg);
+}
+
+.is-active .portal-core {
+  animation: portalCorePulse 980ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
+}
+
+@keyframes portalReveal {
+  0% { opacity: 0; transform: translateZ(120px) scale(1.12); }
+  18% { opacity: 1; }
+  68% { opacity: 1; transform: translateZ(0) scale(1); }
+  100% { opacity: 0; transform: translateZ(-160px) scale(0.92); }
+}
+
+@keyframes portalKicker {
+  0% { opacity: 0; transform: translateY(18px); }
+  35%, 72% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-12px); }
+}
+
+@keyframes portalTypeNext {
+  0% { opacity: 0; transform: translateX(12%) skewX(-8deg); }
+  32%, 72% { opacity: 1; transform: translateX(0) skewX(0); }
+  100% { opacity: 0; transform: translateX(-7%) skewX(5deg); }
+}
+
+@keyframes portalTypePrevious {
+  0% { opacity: 0; transform: translateX(-12%) skewX(8deg); }
+  32%, 72% { opacity: 1; transform: translateX(0) skewX(0); }
+  100% { opacity: 0; transform: translateX(7%) skewX(-5deg); }
+}
+
+@keyframes portalCorePulse {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.35) rotate(-24deg); }
+  42% { opacity: 0.82; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.8) rotate(46deg); }
+}
+
 .world {
   position: absolute;
   top: 0;
@@ -1665,6 +1830,28 @@ noscript {
 
   .viewport {
     perspective: 1100px;
+  }
+
+  .innovation-transition::before {
+    background-size: 50% 33.333%;
+  }
+
+  .innovation-copy {
+    width: calc(100vw - 36px);
+  }
+
+  .innovation-copy > span {
+    margin-bottom: 13px;
+    font-size: 9px;
+  }
+
+  .innovation-copy strong {
+    font-size: clamp(38px, 13vw, 52px);
+    line-height: 0.86;
+  }
+
+  .portal-core {
+    width: min(64vw, 260px);
   }
 
   .world {

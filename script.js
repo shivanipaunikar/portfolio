@@ -23,8 +23,21 @@ const floatCanvas = document.querySelector("#float-canvas");
 const homeScene = document.querySelector("#home");
 const heroObject = document.querySelector(".hero-object");
 const gelLetters = [...document.querySelectorAll(".gel-letter")];
+const transitionPortal = document.querySelector("#innovation-transition");
+const transitionCanvas = document.querySelector("#transition-canvas");
+const transitionKicker = document.querySelector("#transition-kicker");
+const transitionLineOne = document.querySelector("#transition-line-one");
+const transitionLineTwo = document.querySelector("#transition-line-two");
 
 const sceneOrder = ["home", "systems", "research", "impact", "credentials", "personal"];
+const transitionMessages = {
+  home: ["Return / Home", "Back to the", "core"],
+  systems: ["Area 01 / Systems", "Innovate with", "purpose"],
+  research: ["Area 02 / Research", "Ideas become", "evidence"],
+  impact: ["Area 03 / Impact", "Technology for", "people"],
+  credentials: ["Area 04 / Credentials", "Proof behind", "the work"],
+  personal: ["Area 05 / Shaay", "Make space", "for joy"]
+};
 const scenePositions = Object.fromEntries(
   scenes.map((scene) => [scene.id, { col: Number(scene.dataset.col), row: Number(scene.dataset.row) }])
 );
@@ -105,6 +118,8 @@ let wheelDelta = 0;
 let wheelLocked = false;
 let wheelResetTimer;
 let sceneTransitionTimer;
+let portalTransitionTimer;
+let portalAnimationFrame;
 
 const pageTransitionClasses = [
   "page-out-next",
@@ -145,6 +160,123 @@ function escapeHtml(value) {
     "'": "&#039;",
     '"': "&quot;"
   })[character]);
+}
+
+function createTransitionField() {
+  if (!transitionPortal || !transitionCanvas) return () => {};
+
+  const context = transitionCanvas.getContext("2d");
+  const colors = ["#7cecff", "#7ea2ff", "#a978ff", "#ff6db4", "#b8ff63"];
+  let width = 0;
+  let height = 0;
+  let streaks = [];
+  let lastTime = 0;
+
+  function resetStreak(streak, randomDepth = false) {
+    const angle = Math.random() * Math.PI * 2;
+    const spread = 0.08 + Math.random() * 0.92;
+    streak.x = Math.cos(angle) * spread;
+    streak.y = Math.sin(angle) * spread;
+    streak.z = randomDepth ? 0.12 + Math.random() * 0.88 : 1;
+    streak.previousZ = streak.z + 0.018;
+    streak.speed = 0.42 + Math.random() * 0.72;
+    streak.color = colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  function resize() {
+    const rect = transitionPortal.getBoundingClientRect();
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    width = rect.width;
+    height = rect.height;
+    transitionCanvas.width = Math.round(width * ratio);
+    transitionCanvas.height = Math.round(height * ratio);
+    transitionCanvas.style.width = `${width}px`;
+    transitionCanvas.style.height = `${height}px`;
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    const count = width < 760 ? 78 : 150;
+    streaks = Array.from({ length: count }, () => {
+      const streak = {};
+      resetStreak(streak, true);
+      return streak;
+    });
+  }
+
+  function project(streak, depth) {
+    const scale = 1 / Math.max(depth, 0.055);
+    return {
+      x: width / 2 + streak.x * width * 0.36 * scale,
+      y: height / 2 + streak.y * height * 0.42 * scale
+    };
+  }
+
+  function draw(time) {
+    if (!transitionPortal.classList.contains("is-active")) {
+      context.clearRect(0, 0, width, height);
+      portalAnimationFrame = null;
+      return;
+    }
+
+    const elapsed = Math.min((time - lastTime) / 1000, 0.04);
+    lastTime = time;
+    context.clearRect(0, 0, width, height);
+    context.globalCompositeOperation = "lighter";
+
+    streaks.forEach((streak) => {
+      streak.previousZ = streak.z;
+      streak.z -= streak.speed * elapsed;
+      if (streak.z <= 0.055) resetStreak(streak);
+
+      const head = project(streak, streak.z);
+      const tail = project(streak, Math.min(streak.previousZ + 0.075, 1.1));
+      const energy = Math.max(0, 1 - streak.z);
+      context.beginPath();
+      context.moveTo(tail.x, tail.y);
+      context.lineTo(head.x, head.y);
+      context.strokeStyle = streak.color;
+      context.globalAlpha = 0.2 + energy * 0.8;
+      context.lineWidth = 0.7 + energy * (width < 760 ? 2.1 : 3.2);
+      context.stroke();
+    });
+
+    context.globalAlpha = 1;
+    context.globalCompositeOperation = "source-over";
+    portalAnimationFrame = window.requestAnimationFrame(draw);
+  }
+
+  const resizeObserver = new ResizeObserver(resize);
+  resizeObserver.observe(transitionPortal);
+  resize();
+
+  window.addEventListener("pagehide", () => {
+    resizeObserver.disconnect();
+    if (portalAnimationFrame) window.cancelAnimationFrame(portalAnimationFrame);
+  }, { once: true });
+
+  return function start() {
+    lastTime = performance.now();
+    streaks.forEach((streak) => resetStreak(streak, true));
+    if (!portalAnimationFrame) portalAnimationFrame = window.requestAnimationFrame(draw);
+  };
+}
+
+const startTransitionField = createTransitionField();
+
+function playInnovationTransition(sceneId, direction) {
+  if (!transitionPortal || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const message = transitionMessages[sceneId] || transitionMessages.systems;
+  transitionKicker.textContent = message[0];
+  transitionLineOne.textContent = message[1];
+  transitionLineTwo.textContent = message[2];
+  transitionPortal.classList.remove("is-active", "portal-next", "portal-previous");
+  void transitionPortal.offsetWidth;
+  transitionPortal.classList.add("is-active", direction === "next" ? "portal-next" : "portal-previous");
+  startTransitionField();
+
+  window.clearTimeout(portalTransitionTimer);
+  portalTransitionTimer = window.setTimeout(() => {
+    transitionPortal.classList.remove("is-active", "portal-next", "portal-previous");
+  }, 980);
 }
 
 function playNavigationTone() {
@@ -400,6 +532,7 @@ function goToScene(sceneId, options = {}) {
 
   if (changed && outgoingScene && incomingScene) {
     const direction = transitionDirection;
+    playInnovationTransition(sceneId, direction);
     clearGesturePreview();
     scenes.forEach((scene) => scene.classList.remove(...pageTransitionClasses));
     viewport.classList.remove("scene-turning", "turn-next", "turn-previous");

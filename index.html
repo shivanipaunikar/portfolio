@@ -15,7 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=36" />
+    <link rel="stylesheet" href="styles.css?v=37" />
   </head>
   <body>
     <header class="site-header">
@@ -41,6 +41,14 @@
     </header>
 
     <main class="viewport" aria-live="polite">
+      <div class="innovation-transition" id="innovation-transition" aria-hidden="true">
+        <canvas id="transition-canvas"></canvas>
+        <div class="portal-core" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="innovation-copy">
+          <span id="transition-kicker">Area 01 / Systems</span>
+          <strong><b id="transition-line-one">Innovate with</b><b id="transition-line-two">purpose</b></strong>
+        </div>
+      </div>
       <div class="world" id="world">
         <section class="scene scene-home" id="home" data-col="0" data-row="0" aria-labelledby="home-title">
           <div class="scene-grid" aria-hidden="true"></div>
@@ -346,6 +354,6 @@
       playsinline
       aria-hidden="true"
     ></audio>
-    <script src="script.js?v=33"></script>
+    <script src="script.js?v=37"></script>
   </body>
 </html>
