@@ -28,15 +28,21 @@ const transitionCanvas = document.querySelector("#transition-canvas");
 const transitionKicker = document.querySelector("#transition-kicker");
 const transitionLineOne = document.querySelector("#transition-line-one");
 const transitionLineTwo = document.querySelector("#transition-line-two");
+const travelPins = [...document.querySelectorAll(".travel-pin")];
+const travelPreview = document.querySelector(".travel-preview");
+const travelPhoto = document.querySelector("#travel-photo");
+const travelState = document.querySelector("#travel-state");
+const travelPhotoNumber = document.querySelector("#travel-photo-number");
 
-const sceneOrder = ["home", "systems", "research", "impact", "credentials", "personal"];
+const sceneOrder = ["home", "systems", "research", "impact", "credentials", "travel", "personal"];
 const transitionMessages = {
   home: ["Return / Home", "Back to the", "core"],
   systems: ["Area 01 / Systems", "Innovate with", "purpose"],
   research: ["Area 02 / Research", "Ideas become", "evidence"],
   impact: ["Area 03 / Impact", "Technology for", "people"],
   credentials: ["Area 04 / Credentials", "Proof behind", "the work"],
-  personal: ["Area 05 / Shaay", "Make space", "for joy"]
+  travel: ["Area 05 / Travel", "Perspective through", "places"],
+  personal: ["Area 06 / Shaay", "Make space", "for joy"]
 };
 const scenePositions = Object.fromEntries(
   scenes.map((scene) => [scene.id, { col: Number(scene.dataset.col), row: Number(scene.dataset.row) }])
@@ -105,6 +111,13 @@ const portfolioItems = [
     text: "Mountain air, reset energy, and a loyal companion outside work.",
     scene: "personal",
     keywords: "shaay dog personal outside work companion"
+  },
+  {
+    tag: "Travel",
+    title: "Travel notes across 17 U.S. states",
+    text: "An interactive map of personal photographs from coastlines, cities, deserts, and mountains.",
+    scene: "travel",
+    keywords: "travel map states photography gallery new york california hawaii arizona"
   }
 ];
 
@@ -120,6 +133,7 @@ let wheelResetTimer;
 let sceneTransitionTimer;
 let portalTransitionTimer;
 let portalAnimationFrame;
+let travelSwapTimer;
 const sceneTransitionDuration = 1220;
 
 const pageTransitionClasses = [
@@ -521,6 +535,38 @@ function openMap() {
   mapClose.focus();
 }
 
+function selectTravelPin(pin) {
+  if (!pin || !travelPhoto || !travelState || !travelPhotoNumber) return;
+
+  const state = pin.dataset.state;
+  const image = pin.dataset.image;
+  const index = travelPins.indexOf(pin);
+  const alreadySelected = pin.classList.contains("active");
+
+  travelPins.forEach((item) => {
+    const isActive = item === pin;
+    item.classList.toggle("active", isActive);
+    item.setAttribute("aria-pressed", String(isActive));
+  });
+
+  travelState.textContent = state;
+  travelPhotoNumber.textContent = `${String(index + 1).padStart(2, "0")} / ${travelPins.length}`;
+  if (alreadySelected || travelPhoto.getAttribute("src") === image) return;
+
+  window.clearTimeout(travelSwapTimer);
+  travelPreview?.classList.add("is-changing");
+  const nextImage = new Image();
+  nextImage.src = image;
+  nextImage.onload = () => {
+    travelSwapTimer = window.setTimeout(() => {
+      travelPhoto.src = image;
+      travelPhoto.alt = `Shivani's travel photo from ${state}`;
+      travelPreview?.classList.remove("is-changing");
+    }, 90);
+  };
+  nextImage.onerror = () => travelPreview?.classList.remove("is-changing");
+}
+
 function goToScene(sceneId, options = {}) {
   const position = scenePositions[sceneId];
   if (!position || !world) return;
@@ -679,6 +725,14 @@ sceneLinks.forEach((link) => {
   link.addEventListener("click", () => goToScene(link.dataset.scene, {
     skipTransition: Boolean(link.closest(".world-map"))
   }));
+});
+
+travelPins.forEach((pin) => {
+  pin.setAttribute("aria-pressed", String(pin.dataset.state === "Arizona"));
+  pin.classList.toggle("active", pin.dataset.state === "Arizona");
+  pin.addEventListener("pointerenter", () => selectTravelPin(pin));
+  pin.addEventListener("focus", () => selectTravelPin(pin));
+  pin.addEventListener("click", () => selectTravelPin(pin));
 });
 
 mapToggle.addEventListener("click", () => {
