@@ -579,6 +579,19 @@ function updateScrollDrivenTransition() {
     Math.max(viewport.scrollTop / pageHeight, 0),
     sceneOrder.length - 1
   );
+  const globalProgress = rawPosition / Math.max(sceneOrder.length - 1, 1);
+  document.documentElement.style.setProperty("--scroll-rotation", `${(globalProgress * 1080).toFixed(1)}deg`);
+
+  scenes.forEach((scene, index) => {
+    const relativePosition = Math.max(-1, Math.min(1, rawPosition - index));
+    const distance = Math.abs(relativePosition);
+    scene.style.setProperty("--shell-y", `${(-relativePosition * 34).toFixed(1)}px`);
+    scene.style.setProperty("--shell-scale", (1 - distance * 0.025).toFixed(4));
+    scene.style.setProperty("--shell-opacity", (1 - distance * 0.18).toFixed(3));
+    scene.style.setProperty("--heading-y", `${(-relativePosition * 44).toFixed(1)}px`);
+    scene.style.setProperty("--visual-y", `${(relativePosition * 68).toFixed(1)}px`);
+    scene.style.setProperty("--content-y", `${(-relativePosition * 22).toFixed(1)}px`);
+  });
   const nearestIndex = Math.round(rawPosition);
   const nearestScene = sceneOrder[nearestIndex];
   if (nearestScene && nearestScene !== activeScene) {
@@ -606,6 +619,8 @@ function updateScrollDrivenTransition() {
   transitionPortal.style.setProperty("--scroll-visibility", visibility.toFixed(3));
   transitionPortal.style.setProperty("--scroll-shift", `${((0.5 - progress) * 34).toFixed(2)}%`);
   transitionPortal.style.setProperty("--scroll-scale", (0.985 + visibility * 0.015).toFixed(4));
+  transitionPortal.style.setProperty("--copy-y", `${((0.5 - progress) * 54).toFixed(1)}px`);
+  transitionPortal.style.setProperty("--core-turn", `${(progress * 96).toFixed(1)}deg`);
   transitionPortal.classList.add("is-scroll-active", "portal-next");
   startTransitionField();
 }

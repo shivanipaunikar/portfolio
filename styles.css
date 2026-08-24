@@ -305,6 +305,7 @@ body.dark .innovation-transition {
   width: min(88vw, 880px);
   text-align: center;
   transform: translate(-50%, -50%);
+  translate: 0 var(--copy-y, 0);
 }
 
 .innovation-copy > span {
@@ -360,6 +361,7 @@ body.dark .innovation-transition {
   width: min(28vw, 360px);
   aspect-ratio: 1;
   transform: translate(-50%, -50%);
+  rotate: var(--core-turn, 0deg);
 }
 
 .portal-core i {
@@ -573,6 +575,31 @@ body.dark .float-canvas {
   padding: clamp(24px, 4vw, 62px);
   backface-visibility: hidden;
   transform: translate3d(0, 0, 0);
+  translate: 0 var(--shell-y, 0);
+  scale: var(--shell-scale, 1);
+  opacity: var(--shell-opacity, 1);
+}
+
+.hero-copy,
+.area-heading,
+.personal-copy {
+  translate: 0 var(--heading-y, 0);
+}
+
+.hero-object,
+.systems-visual,
+.research-orbit,
+.signal-tower,
+.credential-stack,
+.shaay-frame {
+  translate: 0 var(--visual-y, 0);
+}
+
+.search-dock,
+.area-cards,
+.link-grid,
+.credential-list {
+  translate: 0 var(--content-y, 0);
 }
 
 .mono-label {
@@ -1654,6 +1681,11 @@ body.dark .gel-letter::after {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.globe {
+  display: inline-block;
+  rotate: var(--scroll-rotation, 0deg);
 }
 
 .hud-time span:last-child,
