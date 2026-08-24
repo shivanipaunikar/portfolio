@@ -36,6 +36,9 @@ const travelPreview = document.querySelector(".travel-preview");
 const travelPhoto = document.querySelector("#travel-photo");
 const travelState = document.querySelector("#travel-state");
 const travelPhotoNumber = document.querySelector("#travel-photo-number");
+const isAndroidDevice = /Android/i.test(navigator.userAgent);
+
+document.body.classList.toggle("android-device", isAndroidDevice);
 
 const sceneOrder = ["home", "systems", "research", "impact", "credentials", "travel", "personal"];
 const transitionMessages = {
@@ -138,6 +141,8 @@ let portalTransitionTimer;
 let portalAnimationFrame;
 let travelSwapTimer;
 const sceneTransitionDuration = 1220;
+let cachedPageHeight = 1;
+let cachedSceneStops = [];
 
 const pageTransitionClasses = [
   "page-out-next",
@@ -189,6 +194,7 @@ function createTransitionField() {
   let height = 0;
   let streaks = [];
   let lastTime = 0;
+  let lastDrawTime = 0;
 
   function resetStreak(streak, randomDepth = false) {
     const angle = Math.random() * Math.PI * 2;
@@ -203,7 +209,7 @@ function createTransitionField() {
 
   function resize() {
     const rect = transitionPortal.getBoundingClientRect();
-    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    const ratio = isAndroidDevice ? 1 : Math.min(window.devicePixelRatio || 1, 2);
     width = rect.width;
     height = rect.height;
     transitionCanvas.width = Math.round(width * ratio);
@@ -211,7 +217,7 @@ function createTransitionField() {
     transitionCanvas.style.width = `${width}px`;
     transitionCanvas.style.height = `${height}px`;
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    const count = width < 760 ? 78 : 150;
+    const count = isAndroidDevice ? 34 : width < 760 ? 78 : 150;
     streaks = Array.from({ length: count }, () => {
       const streak = {};
       resetStreak(streak, true);
@@ -233,6 +239,12 @@ function createTransitionField() {
       portalAnimationFrame = null;
       return;
     }
+
+    if (isAndroidDevice && time - lastDrawTime < 32) {
+      portalAnimationFrame = window.requestAnimationFrame(draw);
+      return;
+    }
+    lastDrawTime = time;
 
     const elapsed = Math.min((time - lastTime) / 1000, 0.04);
     lastTime = time;
@@ -753,12 +765,18 @@ function goToScene(sceneId, options = {}) {
   if (changed) playNavigationTone();
 }
 
+function refreshSceneMetrics() {
+  cachedPageHeight = Math.max(viewport?.clientHeight || 1, 1);
+  cachedSceneStops = scenes.map((scene) => scene.offsetTop);
+}
+
 function updateScrollDrivenTransition() {
   if (!viewport || !transitionPortal) return;
 
-  const pageHeight = Math.max(viewport.clientHeight, 1);
+  if (cachedSceneStops.length !== scenes.length) refreshSceneMetrics();
+  const pageHeight = cachedPageHeight;
   const scrollTop = viewport.scrollTop;
-  const sceneStops = scenes.map((scene) => scene.offsetTop);
+  const sceneStops = cachedSceneStops;
   const maxScroll = Math.max(viewport.scrollHeight - pageHeight, 1);
   const globalProgress = Math.min(Math.max(scrollTop / maxScroll, 0), 1);
   document.documentElement.style.setProperty("--scroll-rotation", `${(globalProgress * 1080).toFixed(1)}deg`);
@@ -774,6 +792,7 @@ function updateScrollDrivenTransition() {
   }
 
   scenes.forEach((scene, index) => {
+    if (isAndroidDevice && Math.abs(index - currentIndex) > 1) return;
     const relativePosition = Math.max(-1, Math.min(1, (scrollTop - sceneStops[index]) / pageHeight));
     const distance = Math.abs(relativePosition);
     scene.style.setProperty("--shell-y", `${(-relativePosition * 34).toFixed(1)}px`);
@@ -993,6 +1012,11 @@ window.addEventListener("popstate", () => {
 });
 
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+const sceneMetricsObserver = new ResizeObserver(refreshSceneMetrics);
+sceneMetricsObserver.observe(viewport);
+scenes.forEach((scene) => sceneMetricsObserver.observe(scene));
+window.addEventListener("pagehide", () => sceneMetricsObserver.disconnect(), { once: true });
+refreshSceneMetrics();
 history.replaceState({ scene: "home" }, "", `${location.pathname}${location.search}`);
 goToScene("home", { fromHistory: true });
 viewport.scrollTop = 0;
