@@ -211,7 +211,7 @@ function createTransitionField() {
   }
 
   function draw(time) {
-    if (!transitionPortal.classList.contains("is-active")) {
+    if (!transitionPortal.classList.contains("is-active") && !transitionPortal.classList.contains("is-scroll-active")) {
       context.clearRect(0, 0, width, height);
       portalAnimationFrame = null;
       return;
@@ -526,41 +526,14 @@ function goToScene(sceneId, options = {}) {
   if (!position || !world) return;
 
   const changed = activeScene !== sceneId;
-  const outgoingScene = document.getElementById(activeScene);
-  const incomingScene = document.getElementById(sceneId);
-  const transitionDirection = options.gestureDirection
-    || (sceneOrder.indexOf(sceneId) > sceneOrder.indexOf(activeScene) ? "next" : "previous");
-
-  if (changed && outgoingScene && incomingScene && !options.skipTransition) {
-    const direction = transitionDirection;
-    playInnovationTransition(sceneId, direction);
-    clearGesturePreview();
-    scenes.forEach((scene) => scene.classList.remove(...pageTransitionClasses));
-    viewport.classList.remove("scene-turning", "turn-next", "turn-previous");
-    void incomingScene.offsetWidth;
-    outgoingScene.classList.add(direction === "next" ? "page-out-next" : "page-out-previous");
-    incomingScene.classList.add(direction === "next" ? "page-in-next" : "page-in-previous");
-    viewport.classList.add("scene-turning", direction === "next" ? "turn-next" : "turn-previous");
-    window.clearTimeout(sceneTransitionTimer);
-    sceneTransitionTimer = window.setTimeout(() => {
-      outgoingScene.classList.remove(...pageTransitionClasses);
-      incomingScene.classList.remove(...pageTransitionClasses);
-      viewport.classList.remove("scene-turning", "turn-next", "turn-previous");
-    }, sceneTransitionDuration + 40);
-  } else if (changed && options.skipTransition) {
-    window.clearTimeout(portalTransitionTimer);
-    window.clearTimeout(sceneTransitionTimer);
-    transitionPortal?.classList.remove("is-active", "portal-next", "portal-previous");
-    scenes.forEach((scene) => scene.classList.remove(...pageTransitionClasses));
-    viewport.classList.remove("scene-turning", "turn-next", "turn-previous");
-    viewport.classList.add("map-jump");
-  }
 
   activeScene = sceneId;
   const verticalIndex = sceneOrder.indexOf(sceneId);
-  world.style.transform = `translate3d(0, -${verticalIndex * (100 / sceneOrder.length)}%, 0)`;
-  if (options.skipTransition) {
-    window.requestAnimationFrame(() => viewport.classList.remove("map-jump"));
+  if (!options.fromScroll) {
+    viewport.scrollTo({
+      top: verticalIndex * viewport.clientHeight,
+      behavior: options.skipTransition || options.fromHistory ? "auto" : "smooth"
+    });
   }
 
   if (shaayVideo) {
@@ -588,12 +561,53 @@ function goToScene(sceneId, options = {}) {
     ? "Shivani Paunikar | Data Engineering Portfolio"
     : `${sceneId[0].toUpperCase() + sceneId.slice(1)} | Shivani Paunikar`;
 
-  if (!options.fromHistory) {
+  if (options.fromScroll) {
+    history.replaceState({ scene: sceneId }, "", `#${sceneId}`);
+  } else if (!options.fromHistory) {
     history.pushState({ scene: sceneId }, "", `#${sceneId}`);
   }
 
   closeMap();
   if (changed) playNavigationTone();
+}
+
+function updateScrollDrivenTransition() {
+  if (!viewport || !transitionPortal) return;
+
+  const pageHeight = Math.max(viewport.clientHeight, 1);
+  const rawPosition = Math.min(
+    Math.max(viewport.scrollTop / pageHeight, 0),
+    sceneOrder.length - 1
+  );
+  const nearestIndex = Math.round(rawPosition);
+  const nearestScene = sceneOrder[nearestIndex];
+  if (nearestScene && nearestScene !== activeScene) {
+    goToScene(nearestScene, { fromScroll: true });
+  }
+
+  const lowerIndex = Math.floor(rawPosition);
+  const progress = rawPosition - lowerIndex;
+  const destination = sceneOrder[lowerIndex + 1];
+  const isBetweenScenes = Boolean(destination) && progress > 0.025 && progress < 0.975;
+
+  if (!isBetweenScenes || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    transitionPortal.classList.remove("is-scroll-active", "portal-next", "portal-previous");
+    transitionPortal.style.removeProperty("--scroll-visibility");
+    transitionPortal.style.removeProperty("--scroll-shift");
+    transitionPortal.style.removeProperty("--scroll-scale");
+    return;
+  }
+
+  const message = transitionMessages[destination];
+  const visibility = Math.pow(Math.sin(progress * Math.PI), 1.35);
+  transitionKicker.textContent = message[0];
+  transitionLineOne.textContent = message[1];
+  transitionLineTwo.textContent = message[2];
+  transitionPortal.style.setProperty("--scroll-visibility", visibility.toFixed(3));
+  transitionPortal.style.setProperty("--scroll-shift", `${((0.5 - progress) * 34).toFixed(2)}%`);
+  transitionPortal.style.setProperty("--scroll-scale", (0.985 + visibility * 0.015).toFixed(4));
+  transitionPortal.classList.add("is-scroll-active", "portal-next");
+  startTransitionField();
 }
 
 function renderSearch(query = "") {
@@ -734,109 +748,27 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-function blocksSwipe(target) {
-  return Boolean(target?.closest?.("button, a, input, textarea, select, label"));
-}
-
-function activeSceneCanScroll(deltaY) {
-  const scene = document.getElementById(activeScene);
+function nestedSceneCanScroll(target, deltaY) {
+  const scene = target?.closest?.(".scene");
   if (!scene || scene.scrollHeight <= scene.clientHeight + 2) return false;
   if (deltaY > 0) return scene.scrollTop < scene.scrollHeight - scene.clientHeight - 3;
   return scene.scrollTop > 3;
 }
 
-function navigateBySwipe(deltaX, deltaY) {
-  if (mapPanel.classList.contains("open")) return false;
-  if (Math.abs(deltaY) < 38 || Math.abs(deltaY) < Math.abs(deltaX) * 1.05) return false;
-  if (activeSceneCanScroll(-deltaY)) return false;
-  if (performance.now() - lastSwipeAt < sceneTransitionDuration) return false;
-
-  const currentIndex = sceneOrder.indexOf(activeScene);
-  const nextIndex = currentIndex + (deltaY < 0 ? 1 : -1);
-  if (!sceneOrder[nextIndex]) return false;
-
-  lastSwipeAt = performance.now();
-  goToScene(sceneOrder[nextIndex], { gestureDirection: deltaY < 0 ? "next" : "previous" });
-  return true;
-}
-
-document.addEventListener("pointerdown", (event) => {
-  if (mapPanel.classList.contains("open") || (event.pointerType === "mouse" && event.button !== 0)) return;
-  if (blocksSwipe(event.target)) return;
-
-  touchStart = {
-    x: event.clientX,
-    y: event.clientY,
-    pointerId: event.pointerId
-  };
-});
-
-document.addEventListener("pointermove", (event) => {
-  if (!touchStart || event.pointerId !== touchStart.pointerId) return;
-  const deltaX = event.clientX - touchStart.x;
-  const deltaY = event.clientY - touchStart.y;
-  if (Math.abs(deltaY) > 12 && Math.abs(deltaY) > Math.abs(deltaX) && !activeSceneCanScroll(-deltaY)) {
-    document.body.classList.add("is-swiping");
-    showGesturePreview(deltaY);
-  }
-});
-
-function finishSwipe(event) {
-  if (!touchStart || event.pointerId !== touchStart.pointerId) return;
-
-  const gesture = touchStart;
-  touchStart = null;
-  clearGesturePreview();
-  navigateBySwipe(event.clientX - gesture.x, event.clientY - gesture.y);
-}
-
-document.addEventListener("pointerup", finishSwipe);
-document.addEventListener("pointercancel", () => {
-  touchStart = null;
-  clearGesturePreview();
-});
-
-viewport.addEventListener("touchstart", (event) => {
-  if (event.touches.length !== 1 || blocksSwipe(event.target)) {
-    nativeTouchStart = null;
-    return;
-  }
-
-  const touch = event.touches[0];
-  nativeTouchStart = { x: touch.clientX, y: touch.clientY };
-}, { passive: true });
-
-viewport.addEventListener("touchend", (event) => {
-  if (!nativeTouchStart || !event.changedTouches.length) return;
-  const gesture = nativeTouchStart;
-  const touch = event.changedTouches[0];
-  nativeTouchStart = null;
-  navigateBySwipe(touch.clientX - gesture.x, touch.clientY - gesture.y);
-}, { passive: true });
-
-viewport.addEventListener("touchcancel", () => {
-  nativeTouchStart = null;
+let scrollUpdateFrame;
+viewport.addEventListener("scroll", () => {
+  if (scrollUpdateFrame) return;
+  scrollUpdateFrame = window.requestAnimationFrame(() => {
+    scrollUpdateFrame = null;
+    updateScrollDrivenTransition();
+  });
 }, { passive: true });
 
 viewport.addEventListener("wheel", (event) => {
-  const verticalDelta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) * 0.7
-    ? event.deltaY
-    : 0;
-  if (!verticalDelta || activeSceneCanScroll(verticalDelta)) return;
-
+  if (mapPanel.classList.contains("open")) return;
+  if (Math.abs(event.deltaY) < Math.abs(event.deltaX) || nestedSceneCanScroll(event.target, event.deltaY)) return;
   event.preventDefault();
-  window.clearTimeout(wheelResetTimer);
-  wheelResetTimer = window.setTimeout(() => {
-    wheelDelta = 0;
-    wheelLocked = false;
-  }, sceneTransitionDuration + 80);
-
-  if (wheelLocked) return;
-  wheelDelta += verticalDelta;
-  if (Math.abs(wheelDelta) < 48) return;
-
-  wheelLocked = navigateBySwipe(0, -wheelDelta);
-  wheelDelta = 0;
+  viewport.scrollTop += event.deltaY * 0.34;
 }, { passive: false });
 
 window.addEventListener("popstate", () => {
@@ -846,6 +778,7 @@ window.addEventListener("popstate", () => {
 
 const initialScene = location.hash.slice(1);
 goToScene(scenePositions[initialScene] ? initialScene : "home", { fromHistory: true });
+window.requestAnimationFrame(updateScrollDrivenTransition);
 renderSearch();
 createFloatingField();
 updateClock();
