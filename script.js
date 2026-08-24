@@ -29,6 +29,8 @@ const transitionKicker = document.querySelector("#transition-kicker");
 const transitionLineOne = document.querySelector("#transition-line-one");
 const transitionLineTwo = document.querySelector("#transition-line-two");
 const travelPins = [...document.querySelectorAll(".travel-pin")];
+const travelMap = document.querySelector(".travel-map");
+const travelNetworkCanvas = document.querySelector(".travel-network-canvas");
 const travelPreview = document.querySelector(".travel-preview");
 const travelPhoto = document.querySelector("#travel-photo");
 const travelState = document.querySelector("#travel-state");
@@ -520,6 +522,126 @@ function createFloatingField() {
   }, { once: true });
 }
 
+function createTravelNetwork() {
+  if (!travelMap || !travelNetworkCanvas || !travelPins.length) return;
+
+  const context = travelNetworkCanvas.getContext("2d");
+  const pointer = { x: -1000, y: -1000, active: false };
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let width = 0;
+  let height = 0;
+  let points = [];
+  let satellites = [];
+  let animationFrame;
+
+  function pinPosition(pin) {
+    return {
+      x: parseFloat(pin.style.getPropertyValue("--x")) * width / 100,
+      y: parseFloat(pin.style.getPropertyValue("--y")) * height / 100
+    };
+  }
+
+  function resize() {
+    const rect = travelMap.getBoundingClientRect();
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    width = rect.width;
+    height = rect.height;
+    travelNetworkCanvas.width = Math.round(width * ratio);
+    travelNetworkCanvas.height = Math.round(height * ratio);
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    points = travelPins.map(pinPosition);
+    satellites = Array.from({ length: width < 600 ? 54 : 92 }, (_, index) => {
+      const anchor = points[index % points.length];
+      const angle = index * 2.399;
+      const radius = 12 + ((index * 17) % 54);
+      return {
+        anchor,
+        x: anchor.x + Math.cos(angle) * radius,
+        y: anchor.y + Math.sin(angle) * radius * 0.64,
+        radius: 0.8 + (index % 4) * 0.42,
+        phase: index * 0.61,
+        colorIndex: index % 4
+      };
+    });
+  }
+
+  function draw(time = 0) {
+    context.clearRect(0, 0, width, height);
+    const dark = document.body.classList.contains("dark");
+    const lineColor = dark ? "rgba(202, 215, 255, 0.18)" : "rgba(35, 59, 110, 0.2)";
+    const hubColor = dark ? "rgba(114, 145, 255, 0.34)" : "rgba(53, 91, 214, 0.3)";
+    const satelliteColors = dark
+      ? ["rgba(255, 89, 169, .6)", "rgba(255, 216, 79, .62)", "rgba(124, 164, 255, .62)", "rgba(255, 255, 255, .42)"]
+      : ["rgba(238, 54, 143, .5)", "rgba(198, 151, 15, .5)", "rgba(49, 91, 214, .48)", "rgba(44, 54, 76, .34)"];
+    const hub = { x: width * 0.52, y: height * 0.45 };
+
+    context.lineWidth = 1;
+    points.forEach((point, index) => {
+      context.beginPath();
+      context.moveTo(hub.x, hub.y);
+      context.quadraticCurveTo(
+        (hub.x + point.x) / 2 + Math.sin(index * 1.7) * 18,
+        (hub.y + point.y) / 2 + Math.cos(index * 1.3) * 14,
+        point.x,
+        point.y
+      );
+      context.strokeStyle = index % 5 === 0 ? hubColor : lineColor;
+      context.stroke();
+
+      const neighbor = points[(index + 1) % points.length];
+      if (Math.hypot(point.x - neighbor.x, point.y - neighbor.y) < width * 0.28) {
+        context.beginPath();
+        context.moveTo(point.x, point.y);
+        context.lineTo(neighbor.x, neighbor.y);
+        context.strokeStyle = lineColor;
+        context.stroke();
+      }
+    });
+
+    satellites.forEach((dot) => {
+      let x = dot.x + Math.sin(time * 0.00045 + dot.phase) * 4;
+      let y = dot.y + Math.cos(time * 0.00038 + dot.phase) * 3;
+      if (pointer.active) {
+        const dx = x - pointer.x;
+        const dy = y - pointer.y;
+        const distance = Math.max(Math.hypot(dx, dy), 1);
+        if (distance < 76) {
+          const force = (1 - distance / 76) * 28;
+          x += dx / distance * force;
+          y += dy / distance * force;
+        }
+      }
+      context.beginPath();
+      context.arc(x, y, dot.radius, 0, Math.PI * 2);
+      context.fillStyle = satelliteColors[dot.colorIndex];
+      context.fill();
+    });
+
+    if (!reducedMotion) animationFrame = window.requestAnimationFrame(draw);
+  }
+
+  function updatePointer(event) {
+    const rect = travelMap.getBoundingClientRect();
+    pointer.x = event.clientX - rect.left;
+    pointer.y = event.clientY - rect.top;
+    pointer.active = true;
+  }
+
+  travelMap.addEventListener("pointermove", updatePointer);
+  travelMap.addEventListener("pointerdown", updatePointer);
+  travelMap.addEventListener("pointerleave", () => { pointer.active = false; });
+
+  const resizeObserver = new ResizeObserver(resize);
+  resizeObserver.observe(travelMap);
+  resize();
+  draw();
+
+  window.addEventListener("pagehide", () => {
+    resizeObserver.disconnect();
+    window.cancelAnimationFrame(animationFrame);
+  }, { once: true });
+}
+
 function closeMap() {
   mapPanel.classList.remove("open");
   mapBackdrop.classList.remove("open");
@@ -550,7 +672,7 @@ function selectTravelPin(pin) {
   });
 
   travelState.textContent = state;
-  travelPhotoNumber.textContent = `${String(index + 1).padStart(2, "0")} / ${travelPins.length}`;
+  travelPhotoNumber.textContent = `Frame ${String(index + 1).padStart(2, "0")}`;
   if (alreadySelected || travelPhoto.getAttribute("src") === image) return;
 
   window.clearTimeout(travelSwapTimer);
@@ -867,5 +989,6 @@ window.addEventListener("pageshow", (event) => {
 window.requestAnimationFrame(updateScrollDrivenTransition);
 renderSearch();
 createFloatingField();
+createTravelNetwork();
 updateClock();
 setInterval(updateClock, 30000);
