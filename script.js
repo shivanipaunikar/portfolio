@@ -528,10 +528,10 @@ function goToScene(sceneId, options = {}) {
   const changed = activeScene !== sceneId;
 
   activeScene = sceneId;
-  const verticalIndex = sceneOrder.indexOf(sceneId);
   if (!options.fromScroll) {
+    const targetScene = document.getElementById(sceneId);
     viewport.scrollTo({
-      top: verticalIndex * viewport.clientHeight,
+      top: targetScene?.offsetTop || 0,
       behavior: options.skipTransition || options.fromHistory ? "auto" : "smooth"
     });
   }
@@ -561,9 +561,7 @@ function goToScene(sceneId, options = {}) {
     ? "Shivani Paunikar | Data Engineering Portfolio"
     : `${sceneId[0].toUpperCase() + sceneId.slice(1)} | Shivani Paunikar`;
 
-  if (options.fromScroll) {
-    history.replaceState({ scene: sceneId }, "", `#${sceneId}`);
-  } else if (!options.fromHistory) {
+  if (!options.fromScroll && !options.fromHistory) {
     history.pushState({ scene: sceneId }, "", `#${sceneId}`);
   }
 
@@ -575,15 +573,24 @@ function updateScrollDrivenTransition() {
   if (!viewport || !transitionPortal) return;
 
   const pageHeight = Math.max(viewport.clientHeight, 1);
-  const rawPosition = Math.min(
-    Math.max(viewport.scrollTop / pageHeight, 0),
-    sceneOrder.length - 1
-  );
-  const globalProgress = rawPosition / Math.max(sceneOrder.length - 1, 1);
+  const scrollTop = viewport.scrollTop;
+  const sceneStops = scenes.map((scene) => scene.offsetTop);
+  const maxScroll = Math.max(viewport.scrollHeight - pageHeight, 1);
+  const globalProgress = Math.min(Math.max(scrollTop / maxScroll, 0), 1);
   document.documentElement.style.setProperty("--scroll-rotation", `${(globalProgress * 1080).toFixed(1)}deg`);
 
+  let currentIndex = 0;
+  const readingLine = scrollTop + pageHeight * 0.46;
+  sceneStops.forEach((stop, index) => {
+    if (readingLine >= stop) currentIndex = index;
+  });
+  const nearestScene = sceneOrder[currentIndex];
+  if (nearestScene && nearestScene !== activeScene) {
+    goToScene(nearestScene, { fromScroll: true });
+  }
+
   scenes.forEach((scene, index) => {
-    const relativePosition = Math.max(-1, Math.min(1, rawPosition - index));
+    const relativePosition = Math.max(-1, Math.min(1, (scrollTop - sceneStops[index]) / pageHeight));
     const distance = Math.abs(relativePosition);
     scene.style.setProperty("--shell-y", `${(-relativePosition * 34).toFixed(1)}px`);
     scene.style.setProperty("--shell-scale", (1 - distance * 0.025).toFixed(4));
@@ -592,15 +599,17 @@ function updateScrollDrivenTransition() {
     scene.style.setProperty("--visual-y", `${(relativePosition * 68).toFixed(1)}px`);
     scene.style.setProperty("--content-y", `${(-relativePosition * 22).toFixed(1)}px`);
   });
-  const nearestIndex = Math.round(rawPosition);
-  const nearestScene = sceneOrder[nearestIndex];
-  if (nearestScene && nearestScene !== activeScene) {
-    goToScene(nearestScene, { fromScroll: true });
-  }
-
-  const lowerIndex = Math.floor(rawPosition);
-  const progress = rawPosition - lowerIndex;
-  const destination = sceneOrder[lowerIndex + 1];
+  let lowerIndex = 0;
+  sceneStops.forEach((stop, index) => {
+    if (scrollTop >= stop) lowerIndex = index;
+  });
+  lowerIndex = Math.min(lowerIndex, sceneOrder.length - 2);
+  const sectionStart = sceneStops[lowerIndex];
+  const nextStart = sceneStops[lowerIndex + 1];
+  const transitionStart = Math.max(sectionStart, nextStart - pageHeight);
+  const transitionDistance = Math.max(nextStart - transitionStart, 1);
+  const progress = Math.min(Math.max((scrollTop - transitionStart) / transitionDistance, 0), 1);
+  const destination = lowerIndex < sceneOrder.length - 1 ? sceneOrder[lowerIndex + 1] : null;
   const isBetweenScenes = Boolean(destination) && progress > 0.025 && progress < 0.975;
 
   if (!isBetweenScenes || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -791,8 +800,16 @@ window.addEventListener("popstate", () => {
   goToScene(scenePositions[sceneFromHash] ? sceneFromHash : "home", { fromHistory: true });
 });
 
-const initialScene = location.hash.slice(1);
-goToScene(scenePositions[initialScene] ? initialScene : "home", { fromHistory: true });
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+history.replaceState({ scene: "home" }, "", `${location.pathname}${location.search}`);
+goToScene("home", { fromHistory: true });
+viewport.scrollTop = 0;
+window.addEventListener("pageshow", (event) => {
+  if (!event.persisted) return;
+  viewport.scrollTop = 0;
+  goToScene("home", { fromHistory: true, fromScroll: true });
+  updateScrollDrivenTransition();
+});
 window.requestAnimationFrame(updateScrollDrivenTransition);
 renderSearch();
 createFloatingField();
