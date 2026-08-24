@@ -205,9 +205,9 @@ input:focus-visible {
 }
 
 .viewport::before {
-  width: 34%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(3, 7, 18, 0.34) 48%, rgba(255, 255, 255, 0.18) 51%, transparent);
+  width: 100%;
+  height: 34%;
+  background: linear-gradient(180deg, transparent, rgba(3, 7, 18, 0.34) 48%, rgba(255, 255, 255, 0.18) 51%, transparent);
   filter: blur(1px);
 }
 
@@ -267,7 +267,7 @@ body.is-swiping .viewport {
 
 .innovation-transition.is-active {
   visibility: visible;
-  animation: portalReveal 980ms cubic-bezier(0.2, 0.72, 0.18, 1) both;
+  animation: portalReveal 1220ms cubic-bezier(0.22, 0.76, 0.18, 1) both;
 }
 
 #transition-canvas {
@@ -363,14 +363,14 @@ body.is-swiping .viewport {
 }
 
 .is-active .portal-core {
-  animation: portalCorePulse 980ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
+  animation: portalCorePulse 1220ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
 }
 
 @keyframes portalReveal {
-  0% { opacity: 0; transform: translateZ(120px) scale(1.12); }
+  0% { opacity: 0; transform: translate3d(0, 100%, 80px) scale(0.985); }
   18% { opacity: 1; }
-  68% { opacity: 1; transform: translateZ(0) scale(1); }
-  100% { opacity: 0; transform: translateZ(-160px) scale(0.92); }
+  32%, 68% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  100% { opacity: 0; transform: translate3d(0, -100%, -80px) scale(0.985); }
 }
 
 @keyframes portalKicker {
@@ -401,12 +401,16 @@ body.is-swiping .viewport {
   position: absolute;
   top: 0;
   left: 0;
-  width: 300vw;
-  height: 200%;
+  width: 100vw;
+  height: 600%;
   transform: translate3d(0, 0, 0);
-  transition: transform 940ms cubic-bezier(0.2, 0.76, 0.18, 1);
+  transition: transform 1220ms cubic-bezier(0.22, 0.78, 0.18, 1);
   transform-style: preserve-3d;
   will-change: transform;
+}
+
+.viewport.map-jump .world {
+  transition: none;
 }
 
 .scene.page-out-next .scene-shell,
@@ -420,67 +424,67 @@ body.is-swiping .viewport {
 }
 
 .scene.page-out-next .scene-shell {
-  transform-origin: left center;
-  animation: pageOutNext 940ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+  transform-origin: center top;
+  animation: pageOutNext 1220ms cubic-bezier(0.22, 0.78, 0.18, 1) both;
 }
 
 .scene.page-out-previous .scene-shell {
-  transform-origin: right center;
-  animation: pageOutPrevious 940ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+  transform-origin: center bottom;
+  animation: pageOutPrevious 1220ms cubic-bezier(0.22, 0.78, 0.18, 1) both;
 }
 
 .scene.page-in-next .scene-shell {
-  transform-origin: right center;
-  animation: pageInNext 940ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+  transform-origin: center bottom;
+  animation: pageInNext 1220ms cubic-bezier(0.22, 0.78, 0.18, 1) both;
 }
 
 .scene.page-in-previous .scene-shell {
-  transform-origin: left center;
-  animation: pageInPrevious 940ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+  transform-origin: center top;
+  animation: pageInPrevious 1220ms cubic-bezier(0.22, 0.78, 0.18, 1) both;
 }
 
 .scene.gesture-preview .scene-shell {
   transition: none;
-  transform: translate3d(var(--gesture-shift), 0, var(--gesture-depth)) rotateY(var(--gesture-rotate));
+  transform: translate3d(0, var(--gesture-shift), var(--gesture-depth)) rotateX(var(--gesture-rotate));
 }
 
-.scene.gesture-next .scene-shell { transform-origin: left center; }
-.scene.gesture-previous .scene-shell { transform-origin: right center; }
+.scene.gesture-next .scene-shell { transform-origin: center top; }
+.scene.gesture-previous .scene-shell { transform-origin: center bottom; }
 
 @keyframes pageOutNext {
-  0% { opacity: 1; filter: brightness(1); transform: translate3d(0, 0, 0) rotateY(0) scale(1); }
-  48% { opacity: 0.92; filter: brightness(0.88); transform: translate3d(-2.5%, 0, -80px) rotateY(-9deg) scale(0.988); }
-  100% { opacity: 0.46; filter: brightness(0.68); transform: translate3d(-7%, 0, -160px) rotateY(-19deg) scale(0.96); }
+  0% { opacity: 1; filter: brightness(1); transform: translate3d(0, 0, 0) rotateX(0) scale(1); }
+  48% { opacity: 0.9; filter: brightness(0.86); transform: translate3d(0, -7%, -70px) rotateX(3deg) scale(0.99); }
+  100% { opacity: 0.34; filter: brightness(0.65); transform: translate3d(0, -18%, -150px) rotateX(8deg) scale(0.97); }
 }
 
 @keyframes pageOutPrevious {
-  0% { opacity: 1; filter: brightness(1); transform: translate3d(0, 0, 0) rotateY(0) scale(1); }
-  48% { opacity: 0.92; filter: brightness(0.88); transform: translate3d(2.5%, 0, -80px) rotateY(9deg) scale(0.988); }
-  100% { opacity: 0.46; filter: brightness(0.68); transform: translate3d(7%, 0, -160px) rotateY(19deg) scale(0.96); }
+  0% { opacity: 1; filter: brightness(1); transform: translate3d(0, 0, 0) rotateX(0) scale(1); }
+  48% { opacity: 0.9; filter: brightness(0.86); transform: translate3d(0, 7%, -70px) rotateX(-3deg) scale(0.99); }
+  100% { opacity: 0.34; filter: brightness(0.65); transform: translate3d(0, 18%, -150px) rotateX(-8deg) scale(0.97); }
 }
 
 @keyframes pageInNext {
-  0% { opacity: 0.4; filter: brightness(0.7); transform: translate3d(8%, 0, -180px) rotateY(22deg) scale(0.95); }
-  55% { opacity: 0.94; filter: brightness(0.96); transform: translate3d(1.5%, 0, -34px) rotateY(5deg) scale(0.992); }
-  100% { opacity: 1; filter: brightness(1); transform: translate3d(0, 0, 0) rotateY(0) scale(1); }
+  0% { opacity: 0.34; filter: brightness(0.68); transform: translate3d(0, 18%, -160px) rotateX(-8deg) scale(0.97); }
+  55% { opacity: 0.94; filter: brightness(0.96); transform: translate3d(0, 3%, -28px) rotateX(-2deg) scale(0.995); }
+  100% { opacity: 1; filter: brightness(1); transform: translate3d(0, 0, 0) rotateX(0) scale(1); }
 }
 
 @keyframes pageInPrevious {
-  0% { opacity: 0.4; filter: brightness(0.7); transform: translate3d(-8%, 0, -180px) rotateY(-22deg) scale(0.95); }
-  55% { opacity: 0.94; filter: brightness(0.96); transform: translate3d(-1.5%, 0, -34px) rotateY(-5deg) scale(0.992); }
-  100% { opacity: 1; filter: brightness(1); transform: translate3d(0, 0, 0) rotateY(0) scale(1); }
+  0% { opacity: 0.34; filter: brightness(0.68); transform: translate3d(0, -18%, -160px) rotateX(8deg) scale(0.97); }
+  55% { opacity: 0.94; filter: brightness(0.96); transform: translate3d(0, -3%, -28px) rotateX(2deg) scale(0.995); }
+  100% { opacity: 1; filter: brightness(1); transform: translate3d(0, 0, 0) rotateX(0) scale(1); }
 }
 
 @keyframes foldSpineNext {
-  0% { opacity: 0; transform: translateX(250%) skewX(-10deg); }
+  0% { opacity: 0; transform: translateY(250%) skewY(-5deg); }
   24% { opacity: 0.72; }
-  100% { opacity: 0; transform: translateX(-110%) skewX(8deg); }
+  100% { opacity: 0; transform: translateY(-110%) skewY(4deg); }
 }
 
 @keyframes foldSpinePrevious {
-  0% { opacity: 0; transform: translateX(-110%) skewX(10deg); }
+  0% { opacity: 0; transform: translateY(-110%) skewY(5deg); }
   24% { opacity: 0.72; }
-  100% { opacity: 0; transform: translateX(250%) skewX(-8deg); }
+  100% { opacity: 0; transform: translateY(250%) skewY(-4deg); }
 }
 
 @keyframes pageFlash {
@@ -491,7 +495,7 @@ body.is-swiping .viewport {
 .scene {
   position: absolute;
   width: 100vw;
-  height: 50%;
+  height: calc(100% / 6);
   min-height: 0;
   overflow: hidden;
   background: var(--paper);
@@ -499,11 +503,13 @@ body.is-swiping .viewport {
   transform-style: preserve-3d;
 }
 
-.scene[data-col="0"] { left: 0; }
-.scene[data-col="1"] { left: 100vw; }
-.scene[data-col="2"] { left: 200vw; }
-.scene[data-row="0"] { top: 0; }
-.scene[data-row="1"] { top: 50%; }
+.scene[data-col] { left: 0; }
+#home { top: 0; }
+#systems { top: calc(100% / 6); }
+#research { top: calc(200% / 6); }
+#impact { top: calc(300% / 6); }
+#credentials { top: calc(400% / 6); }
+#personal { top: calc(500% / 6); }
 
 .scene-grid {
   position: absolute;
@@ -1855,37 +1861,38 @@ noscript {
   }
 
   .world {
-    transition-duration: 780ms;
+    transition-duration: 1220ms;
   }
 
   .viewport::before {
-    width: 48%;
+    width: 100%;
+    height: 42%;
   }
 
   .viewport.scene-turning::after,
   .viewport.scene-turning.turn-next::before,
   .viewport.scene-turning.turn-previous::before {
-    animation-duration: 780ms;
+    animation-duration: 1220ms;
   }
 
   .scene.page-out-next .scene-shell {
-    animation: pageOutNextMobile 780ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+    animation: pageOutNext 1220ms cubic-bezier(0.22, 0.78, 0.18, 1) both;
   }
 
   .scene.page-out-previous .scene-shell {
-    animation: pageOutPreviousMobile 780ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+    animation: pageOutPrevious 1220ms cubic-bezier(0.22, 0.78, 0.18, 1) both;
   }
 
   .scene.page-in-next .scene-shell {
-    animation: pageInNextMobile 780ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+    animation: pageInNext 1220ms cubic-bezier(0.22, 0.78, 0.18, 1) both;
   }
 
   .scene.page-in-previous .scene-shell {
-    animation: pageInPreviousMobile 780ms cubic-bezier(0.2, 0.76, 0.18, 1) both;
+    animation: pageInPrevious 1220ms cubic-bezier(0.22, 0.78, 0.18, 1) both;
   }
 
   .scene.gesture-preview .scene-shell {
-    transform: translate3d(var(--gesture-shift), 0, var(--gesture-depth)) rotateY(calc(var(--gesture-rotate) * 0.68));
+    transform: translate3d(0, var(--gesture-shift), var(--gesture-depth)) rotateX(calc(var(--gesture-rotate) * 0.68));
   }
 
   .scene-grid {

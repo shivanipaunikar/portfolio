@@ -120,6 +120,7 @@ let wheelResetTimer;
 let sceneTransitionTimer;
 let portalTransitionTimer;
 let portalAnimationFrame;
+const sceneTransitionDuration = 1220;
 
 const pageTransitionClasses = [
   "page-out-next",
@@ -138,17 +139,17 @@ function clearGesturePreview() {
   });
 }
 
-function showGesturePreview(deltaX) {
+function showGesturePreview(deltaY) {
   const scene = document.getElementById(activeScene);
   if (!scene || !viewport) return;
 
-  const progress = Math.min(Math.abs(deltaX) / Math.max(viewport.clientWidth * 0.42, 1), 1);
-  const direction = deltaX < 0 ? -1 : 1;
+  const progress = Math.min(Math.abs(deltaY) / Math.max(viewport.clientHeight * 0.32, 1), 1);
+  const direction = deltaY < 0 ? -1 : 1;
   scene.classList.add("gesture-preview");
   scene.classList.toggle("gesture-next", direction < 0);
   scene.classList.toggle("gesture-previous", direction > 0);
-  scene.style.setProperty("--gesture-shift", `${(deltaX * 0.13).toFixed(1)}px`);
-  scene.style.setProperty("--gesture-rotate", `${(direction * progress * 8).toFixed(2)}deg`);
+  scene.style.setProperty("--gesture-shift", `${(deltaY * 0.1).toFixed(1)}px`);
+  scene.style.setProperty("--gesture-rotate", `${(direction * progress * 3.5).toFixed(2)}deg`);
   scene.style.setProperty("--gesture-depth", `${(-progress * 72).toFixed(1)}px`);
 }
 
@@ -276,7 +277,7 @@ function playInnovationTransition(sceneId, direction) {
   window.clearTimeout(portalTransitionTimer);
   portalTransitionTimer = window.setTimeout(() => {
     transitionPortal.classList.remove("is-active", "portal-next", "portal-previous");
-  }, 980);
+  }, sceneTransitionDuration);
 }
 
 function playNavigationTone() {
@@ -530,7 +531,7 @@ function goToScene(sceneId, options = {}) {
   const transitionDirection = options.gestureDirection
     || (sceneOrder.indexOf(sceneId) > sceneOrder.indexOf(activeScene) ? "next" : "previous");
 
-  if (changed && outgoingScene && incomingScene) {
+  if (changed && outgoingScene && incomingScene && !options.skipTransition) {
     const direction = transitionDirection;
     playInnovationTransition(sceneId, direction);
     clearGesturePreview();
@@ -545,11 +546,22 @@ function goToScene(sceneId, options = {}) {
       outgoingScene.classList.remove(...pageTransitionClasses);
       incomingScene.classList.remove(...pageTransitionClasses);
       viewport.classList.remove("scene-turning", "turn-next", "turn-previous");
-    }, 1040);
+    }, sceneTransitionDuration + 40);
+  } else if (changed && options.skipTransition) {
+    window.clearTimeout(portalTransitionTimer);
+    window.clearTimeout(sceneTransitionTimer);
+    transitionPortal?.classList.remove("is-active", "portal-next", "portal-previous");
+    scenes.forEach((scene) => scene.classList.remove(...pageTransitionClasses));
+    viewport.classList.remove("scene-turning", "turn-next", "turn-previous");
+    viewport.classList.add("map-jump");
   }
 
   activeScene = sceneId;
-  world.style.transform = `translate3d(-${position.col * 100}vw, -${position.row * 50}%, 0)`;
+  const verticalIndex = sceneOrder.indexOf(sceneId);
+  world.style.transform = `translate3d(0, -${verticalIndex * (100 / sceneOrder.length)}%, 0)`;
+  if (options.skipTransition) {
+    window.requestAnimationFrame(() => viewport.classList.remove("map-jump"));
+  }
 
   if (shaayVideo) {
     if (sceneId === "personal") {
@@ -626,7 +638,9 @@ function updateClock() {
 }
 
 sceneLinks.forEach((link) => {
-  link.addEventListener("click", () => goToScene(link.dataset.scene));
+  link.addEventListener("click", () => goToScene(link.dataset.scene, {
+    skipTransition: Boolean(link.closest(".world-map"))
+  }));
 });
 
 mapToggle.addEventListener("click", () => {
@@ -706,18 +720,17 @@ document.addEventListener("keydown", (event) => {
 
   if (["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
 
-  const current = scenePositions[activeScene];
-  const target = Object.entries(scenePositions).find(([, position]) => {
-    if (event.key === "ArrowRight") return position.row === current.row && position.col === current.col + 1;
-    if (event.key === "ArrowLeft") return position.row === current.row && position.col === current.col - 1;
-    if (event.key === "ArrowDown") return position.col === current.col && position.row === current.row + 1;
-    if (event.key === "ArrowUp") return position.col === current.col && position.row === current.row - 1;
-    return false;
-  });
+  const currentIndex = sceneOrder.indexOf(activeScene);
+  const direction = event.key === "ArrowDown" || event.key === "PageDown"
+    ? 1
+    : event.key === "ArrowUp" || event.key === "PageUp"
+      ? -1
+      : 0;
+  const target = sceneOrder[currentIndex + direction];
 
-  if (target) {
+  if (direction && target) {
     event.preventDefault();
-    goToScene(target[0]);
+    goToScene(target, { gestureDirection: direction > 0 ? "next" : "previous" });
   }
 });
 
@@ -725,17 +738,25 @@ function blocksSwipe(target) {
   return Boolean(target?.closest?.("button, a, input, textarea, select, label"));
 }
 
+function activeSceneCanScroll(deltaY) {
+  const scene = document.getElementById(activeScene);
+  if (!scene || scene.scrollHeight <= scene.clientHeight + 2) return false;
+  if (deltaY > 0) return scene.scrollTop < scene.scrollHeight - scene.clientHeight - 3;
+  return scene.scrollTop > 3;
+}
+
 function navigateBySwipe(deltaX, deltaY) {
   if (mapPanel.classList.contains("open")) return false;
-  if (Math.abs(deltaX) < 36 || Math.abs(deltaX) < Math.abs(deltaY) * 1.05) return false;
-  if (performance.now() - lastSwipeAt < 760) return false;
+  if (Math.abs(deltaY) < 38 || Math.abs(deltaY) < Math.abs(deltaX) * 1.05) return false;
+  if (activeSceneCanScroll(-deltaY)) return false;
+  if (performance.now() - lastSwipeAt < sceneTransitionDuration) return false;
 
   const currentIndex = sceneOrder.indexOf(activeScene);
-  const nextIndex = currentIndex + (deltaX < 0 ? 1 : -1);
+  const nextIndex = currentIndex + (deltaY < 0 ? 1 : -1);
   if (!sceneOrder[nextIndex]) return false;
 
   lastSwipeAt = performance.now();
-  goToScene(sceneOrder[nextIndex], { gestureDirection: deltaX < 0 ? "next" : "previous" });
+  goToScene(sceneOrder[nextIndex], { gestureDirection: deltaY < 0 ? "next" : "previous" });
   return true;
 }
 
@@ -754,9 +775,9 @@ document.addEventListener("pointermove", (event) => {
   if (!touchStart || event.pointerId !== touchStart.pointerId) return;
   const deltaX = event.clientX - touchStart.x;
   const deltaY = event.clientY - touchStart.y;
-  if (Math.abs(deltaX) > 12 && Math.abs(deltaX) > Math.abs(deltaY)) {
+  if (Math.abs(deltaY) > 12 && Math.abs(deltaY) > Math.abs(deltaX) && !activeSceneCanScroll(-deltaY)) {
     document.body.classList.add("is-swiping");
-    showGesturePreview(deltaX);
+    showGesturePreview(deltaY);
   }
 });
 
@@ -798,23 +819,23 @@ viewport.addEventListener("touchcancel", () => {
 }, { passive: true });
 
 viewport.addEventListener("wheel", (event) => {
-  const horizontalDelta = Math.abs(event.deltaX) > Math.abs(event.deltaY) * 0.7
-    ? event.deltaX
-    : (event.shiftKey ? event.deltaY : 0);
-  if (!horizontalDelta) return;
+  const verticalDelta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) * 0.7
+    ? event.deltaY
+    : 0;
+  if (!verticalDelta || activeSceneCanScroll(verticalDelta)) return;
 
   event.preventDefault();
   window.clearTimeout(wheelResetTimer);
   wheelResetTimer = window.setTimeout(() => {
     wheelDelta = 0;
     wheelLocked = false;
-  }, 240);
+  }, sceneTransitionDuration + 80);
 
   if (wheelLocked) return;
-  wheelDelta += horizontalDelta;
-  if (Math.abs(wheelDelta) < 42) return;
+  wheelDelta += verticalDelta;
+  if (Math.abs(wheelDelta) < 48) return;
 
-  wheelLocked = navigateBySwipe(-wheelDelta, 0);
+  wheelLocked = navigateBySwipe(0, -wheelDelta);
   wheelDelta = 0;
 }, { passive: false });
 
