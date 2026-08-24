@@ -780,7 +780,7 @@ body.dark .gel-letter::after {
 .area-heading h2,
 .personal-copy h2 {
   margin: 20px 0 18px;
-  font-size: clamp(38px, 4.5vw, 72px);
+  font-size: clamp(34px, 4vw, 64px);
   font-weight: 800;
   line-height: 0.98;
   text-transform: uppercase;
@@ -1845,7 +1845,7 @@ noscript {
   .area-heading h2,
   .personal-copy h2 {
     margin: 14px 0 12px;
-    font-size: clamp(36px, 11vw, 52px);
+    font-size: clamp(32px, 9.5vw, 44px);
   }
 
   .area-heading > p:not(.mono-label),
@@ -2055,7 +2055,8 @@ noscript {
   .hero-actions { margin-top: 16px; }
   .hero-object { min-height: 360px; }
   .area-heading { padding-top: 2vh; }
-  .area-heading h2 { font-size: clamp(36px, 4vw, 58px); }
+  .area-heading h2,
+  .personal-copy h2 { font-size: clamp(32px, 3.6vw, 52px); }
   .systems-visual,
   .research-orbit,
   .signal-tower,
